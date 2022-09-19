@@ -1,0 +1,23 @@
+#checkout-btn {
+    color: white;
+    padding: 15px;
+    background-color: #f14c38;
+    width: fit-content;
+    border: none;
+    border-radius: 15px;
+}
+
+#proceed-checkout-container {
+    max-width: fit-content;
+}
+
+#proceed-checkout-container button {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+}
+
+#proceed-checkout-parent {
+    display: flex;
+    padding: 0px 12vw;
+    justify-content: right;
+}

@@ -1,0 +1,22 @@
+.coupon-title {
+    text-align: left;
+    color: #002966;
+    margin-top: 3vh;
+}
+
+.coupon-result-holder {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: left;
+    padding: 0vw;
+}
+
+.coupon-title h3 {
+    border-top: 3px solid #002966;
+    border-right: 3px solid #002966;
+    border-bottom: 3px solid #002966;
+    width: fit-content;
+    padding: 10px;
+    font-weight: 600;
+}

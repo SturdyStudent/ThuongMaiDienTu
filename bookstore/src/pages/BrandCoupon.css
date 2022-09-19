@@ -1,0 +1,25 @@
+.rounded-brand-avatar {
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+}
+
+.brand-coupon-container {
+    padding: 10px 10px;
+    width: 44%;
+    margin: 10px;
+    display: block;
+}
+
+.collect-btn button {
+    border: none;
+    padding: 15px 25px;
+    color: white;
+    border-radius: 40px;
+    font-weight: 600;
+    background: linear-gradient(to right, red, orange)
+}
+
+.rounded-brand-avatar img {
+    border-radius: 50%;
+}

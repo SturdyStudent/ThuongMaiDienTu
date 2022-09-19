@@ -1,0 +1,21 @@
+.result-holder {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: left;
+    padding: 0px 12vw;
+}
+
+.page-item-sort li {
+    background-color: #e8e2c1;
+    list-style-type: none;
+    padding: 4px 10px;
+    border-radius: 10px;
+    margin: 0px 2px;
+    font-weight: 700;
+    box-shadow: rgba(0, 0, 0, 0.15) 2.95px 2.95px 3.6px;
+}
+
+.page-item-sort {
+    display: flex;
+}

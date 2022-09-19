@@ -1,0 +1,52 @@
+#book-detail-summary {
+    display: flex;
+}
+
+#book-detail-summary div:nth-child(1) {
+    margin-right: 3vw;
+}
+
+.reader-thoughts {
+    text-align: left;
+}
+
+.book-detail-parent {
+    padding: 0px 12vw;
+}
+
+.btn-detail-service {
+    background-color: #ee2912;
+    font-weight: 600;
+    color: white;
+    border: none;
+    margin: 1vh;
+    padding: 10px;
+    border-radius: 30px;
+    width: 80%;
+}
+
+.btn-detail-service:hover {
+    background-color: orange;
+}
+
+.card-shadow {
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+    border: none;
+}
+
+#book-detail-cover {
+    width: 11vw;
+    height: 35vh;
+    min-width: 11vw;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+
+}
+
+.product-detail-card {
+    text-align: left;
+}
+
+#book-detail-cover img {
+    width: 100%;
+    height: 100%;
+}

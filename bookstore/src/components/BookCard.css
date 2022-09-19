@@ -1,0 +1,22 @@
+#cart-button {
+    border: none;
+    width: 100%;
+    border-radius: 20px;
+    background-color: #ef4f3a;
+    color: white;
+    font-weight: 600;
+
+    padding: 5px 25px;
+    font-size: small;
+}
+
+#card-parent,
+#card-parent ul li {
+    display: block;
+    background-color: #fffbf3;
+
+}
+
+#bookcard-img {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}

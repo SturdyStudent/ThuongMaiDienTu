@@ -1,0 +1,38 @@
+#result-sort-parent {
+    min-height: 15vh;
+    padding: 4px 12vw;
+
+}
+
+#select-sort {
+    padding: 3px;
+}
+
+#result-parent div:nth-child(1) {
+    margin-right: 10px;
+}
+
+#sort-container {
+    display: flex;
+}
+
+#result-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 3vh;
+}
+
+#result-container>div:nth-child(1) {
+    width: 60%;
+    text-align: left;
+}
+
+#pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.result-nav {
+    margin-top: 10px;
+}

@@ -1,0 +1,43 @@
+#login-section {
+    text-align: left;
+    margin: 0px 2vw;
+}
+
+.text-align-center {
+    text-align: center;
+}
+
+.padding-select {
+    padding: 5px;
+}
+
+.fontweight {
+    font-weight: 500;
+}
+
+.AnotherLoginMethod {
+    width: 280px;
+    height: 60px;
+}
+
+.margin-right {
+    margin-right: 4vw;
+}
+
+#register-section {
+    text-align: left;
+    margin: 0px 2vw;
+}
+
+.content-parent {
+    padding: 0px 12vw;
+}
+
+.checkout-login-input {
+    width: 80%;
+}
+
+.center-child-div {
+    width: 80%;
+    text-align: center;
+}

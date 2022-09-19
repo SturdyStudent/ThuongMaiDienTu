@@ -1,0 +1,36 @@
+.checkout-step-nav {
+    display: flex;
+    border-top: 2px solid #e2ddd1;
+    border-bottom: 2px solid #e2ddd1;
+    padding: 5px 0px;
+    padding-left: 10px;
+    height: fit-content;
+    align-items: center;
+    margin-bottom: 5vh;
+}
+
+.self-center-div {
+    margin: 0px auto;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+.checkout-step-container {
+    text-align: left;
+}
+
+.checkout-step-nav div,
+.checkout-step-nav>div div {
+    margin-right: 2vw;
+    font-weight: 600;
+}
+
+.display-flex {
+    display: flex;
+}
+
+.parent-body-padding {
+    padding: 0px 12vw;
+}
