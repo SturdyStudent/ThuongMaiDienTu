@@ -7,13 +7,36 @@ import Logo from '../assets/logo.png'
 import { Navigate } from 'react-router-dom'
 
 function Header() {
-    const isSupportPage = false;
+    const isSupportPage = true;
+    const isLoggedIn = true;
+    let onSelected = true;
+    let userNav = <>Đăng nhập</>;
     const [navigate, setNavigate] = useState();
-
+    const [userNavItems, setUserNavItems] = useState('');
+    if (isLoggedIn) {
+        userNav = <span onMouseOver={() => handleNavModal()}>Tài khoản <br /><span style={{ "color": "red", textDecoration: "underline" }}>Trần Thành Đạt</span></span>;
+    }
     if (navigate) {
         return <Navigate to="/results" />
     }
+    const handleNavModal = () => {
 
+        setUserNavItems(<div style={{ "position": "absolute" }} className='shadow bg-white mt-5 nav-header-modal' onMouseOver={() => { handleNavModal(); onselect = true }} onMouseLeave={() => { onSelected = false; handleRemoveNavModal(); }}>
+            <Link to={'/order/history'} style={{ "textDecoration": "none" }}>
+                <div className='text-start nav-header-item ps-3 pe-3 pt-2 pb-2'>Đơn hàng của tôi</div>
+            </Link>
+            <div className='text-start nav-header-item ps-3 pe-3 pt-2 pb-2'>Quản lí đổi trả</div>
+            <div className='text-start nav-header-item ps-3 pe-3 pt-2 pb-2'>Thông báo của tôi</div>
+            <div className='text-start nav-header-item ps-3 pe-3 pt-2 pb-2'>Tài khoản của tôi</div>
+            <div className='text-start nav-header-item ps-3 pe-3 pt-2 pb-2'>Đánh giá sản phẩm</div>
+        </div>)
+    }
+    const handleRemoveNavModal = () => {
+        console.log(onSelected);
+        if (!onSelected) {
+            setTimeout(() => setUserNavItems(''), 1000);
+        }
+    }
     return (
         <div>
             <nav class="navbar navbar-expand-lg navbar-dark static-top" id="header-bg">
@@ -32,15 +55,16 @@ function Header() {
                     </div>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ms-auto">
-                            <li class="nav-item">
+                            <li class="nav-item nav-header-menu" onMouseOver={() => handleNavModal()} onMouseMove={() => handleNavModal()} onMouseLeave={() => handleRemoveNavModal()}>
                                 <FontAwesomeIcon icon={faUser} color="red" />
-                                <a class="nav-link active" aria-current="page" href="/#" style={{ "fontWeight": "bold", "color": "black" }}>Đăng nhập</a>
+                                <a class="nav-link active" aria-current="page" href="/#" style={{ "fontWeight": "bold", "color": "black" }}>{userNav}</a>
                             </li>
-                            <li class="nav-item">
+                            {userNavItems}
+                            <li class="nav-item nav-header-menu">
                                 <FontAwesomeIcon icon={faHeart} color="red" />
                                 <a class="nav-link active" aria-current="page" href="/#" style={{ "fontWeight": "bold", "color": "black" }}>Whishlist</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item nav-header-menu">
                                 <FontAwesomeIcon icon={faCartShopping} color="red" />
                                 <a class="nav-link active" aria-current="page" href="/#" style={{ "fontWeight": "bold", "color": "black" }}>Giỏ hàng</a>
                             </li>

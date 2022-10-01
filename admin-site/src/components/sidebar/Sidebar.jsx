@@ -8,6 +8,7 @@ import InsertChartIcon from "@mui/icons-material/InsertChart";
 import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
+import StarIcon from '@mui/icons-material/Star';
 import SettingsSystemDaydreamOutlinedIcon from "@mui/icons-material/SettingsSystemDaydreamOutlined";
 import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
@@ -47,10 +48,12 @@ const Sidebar = () => {
               <span>Sản phẩm</span>
             </li>
           </Link>
-          <li>
-            <CreditCardIcon className="icon" />
-            <span>Đơn hàng</span>
-          </li>
+          <Link to="/orders" style={{ textDecoration: "none" }}>
+            <li>
+              <CreditCardIcon className="icon" />
+              <span>Đơn hàng</span>
+            </li>
+          </Link>
           <li>
             <LocalShippingIcon className="icon" />
             <span>Vận chuyển</span>
@@ -59,6 +62,12 @@ const Sidebar = () => {
             <li>
               <DiscountOutlinedIcon className="icon" />
               <span>Vouchers</span>
+            </li>
+          </Link>
+          <Link to="/ratings" style={{ textDecoration: "none" }}>
+            <li>
+              <StarIcon className="icon" />
+              <span>Đánh giá</span>
             </li>
           </Link>
           <p className="title">HỮU ÍCH</p>

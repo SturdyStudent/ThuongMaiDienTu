@@ -8,6 +8,9 @@ import CheckoutLogin from './pages/CheckoutLogin';
 import BookCheckout from './pages/BookCheckout';
 import CouponPage from './pages/CouponPage';
 import ProductFAQ from './pages/ProductFAQ';
+import ProtectedRoute from './ProtectedRoute';
+import OrderHistory from './pages/OrderHistory';
+import OrderView from './pages/OrderView';
 
 function App() {
   return (
@@ -21,9 +24,12 @@ function App() {
           <Route path="/checkout-login" element={<CheckoutLogin />}></Route>
           <Route path="/checkout" element={<BookCheckout />}></Route>
           <Route path="/checkout-payment" element={<CheckoutLogin />}></Route>
-          <Route path="/checkout-review" element={<CheckoutLogin />}></Route>
           <Route path='/coupons' element={<CouponPage />}></Route>
           <Route path='/faqs' element={<ProductFAQ />}></Route>
+          <Route path='/order'>
+            <Route path='view' element={<OrderView />}></Route>
+            <Route path='history' element={<OrderHistory />}></Route>
+          </Route>
         </Routes>
       </Router>
     </div>

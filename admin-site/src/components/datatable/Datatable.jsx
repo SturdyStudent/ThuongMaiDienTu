@@ -1,6 +1,6 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { userColumns, userRows, voucherColumns, voucherRows } from "../../datatablesource";
+import { orderColumns, orderRows, ratingColumns, ratingsRows, userColumns, userRows, voucherColumns, voucherRows } from "../../datatablesource";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
@@ -28,10 +28,24 @@ const Datatable = ({ objectName }) => {
     addAction = <Link to="/users/new" className="link">
       Thêm
     </Link>
-  } else if (objectName === 'Sản phẩm') {
-
+  } else if (objectName === 'Đánh giá') {
+    dataRows = ratingsRows;
+    dataColumns = ratingColumns;
+    editAction = <Link to="/ratings/edit" style={{ textDecoration: "none" }}>
+      <div className="viewButton">Xem</div>
+    </Link>;
+    addAction = <Link to="/ratings/new" className="link">
+      Thêm
+    </Link>
   } else if (objectName === 'Đơn hàng') {
-
+    dataRows = orderRows;
+    dataColumns = orderColumns;
+    editAction = <Link to="/orders/edit" style={{ textDecoration: "none" }}>
+      <div className="viewButton">Sửa</div>
+    </Link>;
+    addAction = <Link to="/orders/new" className="link">
+      Thêm
+    </Link>
   }
 
   const [data, setData] = useState(dataRows);

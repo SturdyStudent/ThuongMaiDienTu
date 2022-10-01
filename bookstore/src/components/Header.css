@@ -5,6 +5,41 @@
     border-bottom-right-radius: 40px;
 }
 
+.nav-header-item:hover {
+    background-color: #DCDCDC;
+    cursor: pointer;
+}
+
+.nav-header-item::before {
+    border-width: 9px;
+    border-style: solid;
+    border-color: transparent transparent rgb(255, 255, 255);
+    border-image: initial;
+    margin-left: -9px;
+    bottom: 100%;
+    left: 40%;
+    content: " ";
+    height: 0px;
+    width: 0px;
+    position: absolute;
+    pointer-events: none;
+}
+
+.nav-header-item::after {
+    content: " ";
+    background: transparent;
+    height: 20px;
+    width: 150px;
+    top: -20px;
+    left: calc(40% - 65px);
+    position: absolute;
+    display: inline-block;
+}
+
+.nav-header-item {
+    z-index: 100;
+}
+
 .search {
     width: 60%;
     display: flex;

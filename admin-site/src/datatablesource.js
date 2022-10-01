@@ -1,3 +1,4 @@
+import Switch from "react-switch";
 export const userColumns = [
   { field: "id", headerName: "ID", width: 70 },
   {
@@ -54,7 +55,38 @@ export const voucherColumns = [
   { field: "expireDate", headerName: "NGÀY HẾT HẠN", width: 150 },
   { field: "qtyLeft", headerName: "SỐ LƯỢNG CÒN LẠI", width: 160 }
 ];
-
+export const ratingColumns = [
+  { field: "id", headerName: "Id", width: 170 },
+  { field: "product", headerName: "Sản phẩm", width: 170 },
+  { field: "user", headerName: "Người viết", width: 170 },
+  { field: "rating", headerName: "Đánh giá", width: 170 },
+  { field: "status", headerName: "Trạng thái", width: 170 },
+  { field: "dateAdded", headerName: "Ngày thêm vào", width: 170 },
+]
+export const orderColumns = [
+  { field: "id", headerName: "Mã đơn hàng", width: 170 },
+  { field: "customerId", headerName: "Mã khách hàng", width: 170 },
+  { field: "orderDate", headerName: "Ngày đặt hàng", width: 170 },
+  { field: "totalCost", headerName: "Trị giá", width: 170 },
+  { field: "isDelivered", headerName: "Đã giao", width: 70 },
+  { field: "isPaid", headerName: "Đã thanh toán", width: 90 },
+  { field: "deliverDate", headerName: "Ngày giao hàng", width: 170 },
+  { field: "receiverName", headerName: "Tên người nhận", width: 170 },
+  { field: "receiverAddress", headerName: "Địa chỉ nhận", width: 300 },
+  { field: "receiverPhone", headerName: "Điện thoại nhận", width: 170 },
+  { field: "paymentMethod", headerName: "Hình thức thanh toán", width: 170 },
+  { field: "deliverMethod", headerName: "Hình thức giao hàng", width: 170 },
+  { field: "deliverMan", headerName: "Người giao hàng", width: 170 },
+  {
+    field: "isApproved", headerName: "Đã duyệt", width: 170, renderCell: (params) => {
+      return (
+        <div className={`cellWithStatus ${params.row.isApproved}`}>
+          {<Switch checked={params.row.isApproved} />}
+        </div>
+      );
+    },
+  },
+]
 //temporary data
 export const userRows = [
   {
@@ -148,3 +180,30 @@ export const voucherRows = [
     expireDate: "14/08/2021",
     qtyLeft: 35,
   }]
+export const ratingsRows = [
+  {
+    id: '87asf594s',
+    product: "Gấu bông màu hồng",
+    user: 'jasp2358asdf',
+    rating: 5,
+    status: 'Disable',
+    dateAdded: "14/08/2021",
+  }]
+export const orderRows = [
+  {
+    id: 'fahseyaasg',
+    customerId: 'asgdy89qtawg',
+    orderDate: "19/08/2022",
+    totalCost: '190.000đ',
+    isDelivered: true,
+    isPaid: false,
+    deliverDate: '20/09/2022',
+    receiverName: "Trịnh Công Núi",
+    receiverAddress: '109 đường Hoàng Thế Hiển, Phường 7, Quận Ba Đình, Hà Nội',
+    receiverPhone: '98329552543',
+    paymentMethod: 'Thanh toán tiền mặt khi nhận hàng',
+    deliverMethod: 'Giao hàng tiết kiệm',
+    deliverMan: 'Trần Ngọc Hoàng',
+    isApproved: true
+  }
+]
