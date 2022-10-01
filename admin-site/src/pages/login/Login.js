@@ -20,8 +20,7 @@ function PartnerLoginPage() {
     return <Navigate to={"/"} replace />
   }
   const handleSubmit = () => {
-    console.log("chưa xử lí login")
-    axios.get("http://localhost:3002/api/auth").then((res) => { console.log("đã vào api"); handleLogin(); });
+      handleLogin(); });
   }
   const handleLogin = (e) => {
     // axios.post(loginUrl, {
