@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import Logo from '../../assets/images/logo.png';
 import { Link, Navigate } from 'react-router-dom';
 import axios from 'axios'
@@ -20,7 +20,7 @@ function PartnerLoginPage() {
     return <Navigate to={"/"} replace />
   }
   const handleSubmit = () => {
-      handleLogin(); });
+      handleLogin();
   }
   const handleLogin = (e) => {
     // axios.post(loginUrl, {
@@ -77,4 +77,4 @@ function PartnerLoginPage() {
   )
 }
 
-export default PartnerLoginPage
+export default PartnerLoginPage;
