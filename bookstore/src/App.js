@@ -24,7 +24,7 @@ function App() {
           <Route path="/checkout-login" element={<CheckoutLogin />}></Route>
           <Route path="/checkout" element={<BookCheckout />}></Route>
           <Route path="/checkout-payment" element={<CheckoutLogin />}></Route>
-          <Route path='/coupons' element={<CouponPage />}></Route>
+          <Route path='/vouchers' element={<CouponPage />}></Route>
           <Route path='/faqs' element={<ProductFAQ />}></Route>
           <Route path='/order'>
             <Route path='view' element={<OrderView />}></Route>

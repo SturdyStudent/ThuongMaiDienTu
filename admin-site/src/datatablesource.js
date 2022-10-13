@@ -87,6 +87,24 @@ export const orderColumns = [
     },
   },
 ]
+
+export const bookColumns = [
+  { field: "id", headerName: "Mã sách", width: 170 },
+  { field: "bookName", headerName: "Tên sách", width: 170 },
+  { field: "bookPrice", headerName: "Gía bán", width: 170 },
+  { field: "bookDescription", headerName: "Mô tả Nội dung", width: 170 },
+  { field: "coverUrl", headerName: "Ảnh bìa", width: 70 },
+  { field: "updateDate", headerName: "Ngày cập nhật", width: 90 },
+  { field: "quantityLeft", headerName: "Số lượng tồn", width: 170 },
+  { field: "publisherId", headerName: "Mã nhà xuất bản", width: 170 },
+  { field: "categoryId", headerName: "Mã thể loại", width: 300 },
+  { field: "authorId", headerName: "Mã tác giả", width: 170 }
+  { field: "soldQty", headerName: "Số lượng bán", width: 300 },
+  { field: "pageViews", headerName: "Số lần xem", width: 170 }
+];
+export const categoryColumns = [];
+export const publisherColumns = [];
+export const authorColumns = [];
 //temporary data
 export const userRows = [
   {

@@ -1,6 +1,7 @@
 import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
 import Register from './pages/register/register'
+import VerifyOtp from "./pages/register/verifyOtp";
 import List from "./pages/list/userList";
 import Single from "./pages/single/Single";
 import New from "./pages/users/New";
@@ -14,6 +15,7 @@ import OrderEdit from './pages/order/Edit'
 import VoucherList from "./pages/list/voucherList";
 import RatingList from './pages/list/ratingList';
 import OrderList from './pages/list/orderList';
+import AuthorList from './pages/list/'
 import '../node_modules/bootstrap/dist/css/bootstrap.css'
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js";
@@ -33,6 +35,7 @@ function App() {
         <Routes>
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
+          <Route path="verify-otp" element={<VerifyOtp />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/">
               <Route index element={<Home />} />
@@ -91,9 +94,20 @@ function App() {
                   path="edit"
                   element={<OrderEdit inputs={userInputs} title="Sửa thông tin Đơn hàng" />}
                 />
+                <Route path='authors'>
+                  <Route index element={<OrderList />} />
+                  <Route path=":authorId" element={<Single />} />
+                  <Route
+                    path="new"
+                    element={<NewOrder />}
+                  />
+                  <Route
+                    path="edit"
+                    element={<OrderEdit inputs={userInputs} title="Sửa thông tin Đơn hàng" />}
+                  />
+                </Route>
               </Route>
             </Route>
-          </Route>
         </Routes>
       </BrowserRouter>
     </div>

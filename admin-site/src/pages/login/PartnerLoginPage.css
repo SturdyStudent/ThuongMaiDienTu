@@ -13,3 +13,15 @@
     background-size: 100% auto;
     background-attachment: fixed;
 }
+
+#btn-login {
+    background-color: #FF5F1F;
+}
+
+#btn-login:hover {
+    background-color: crimson;
+}
+
+#resend-otp-link:hover {
+    cursor: pointer;
+}

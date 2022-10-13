@@ -1,19 +1,15 @@
-const nodemailer = require("nodemailer");
-const smtpTransport = require("nodemailer-smtp-transport")
-
-let transporter = nodemailer.createTransport(smtpTransport({
-    service: "hotmail",
-    auth: {
-        user: process.env.EMAIL_SMTP_USERNAME,
-        pass: process.env.EMAIL_SMTP_PASSWORD
-    },
-}));
+const nodeoutlook = require("nodejs-nodemailer-outlook")
 
 exports.send = (from, to, subject, html) => {
-    return transporter.sendMail({
+    nodeoutlook.sendEmail({
+        auth: {
+            user: "powellbook@outlook.com",
+            pass: "AcerNitro5"
+        },
         from: from,
         to: to,
         subject: subject,
-        text: html
+        html: html,
+        onSuccess: () => console.log("Đã gửi email xác nhận")
     });
 }

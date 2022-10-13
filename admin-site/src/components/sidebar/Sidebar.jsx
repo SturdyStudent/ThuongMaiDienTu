@@ -4,6 +4,7 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import StoreIcon from "@mui/icons-material/Store";
+import BookIcon from '@mui/icons-material/Book';
 import InsertChartIcon from "@mui/icons-material/InsertChart";
 import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
@@ -14,6 +15,7 @@ import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import DiscountOutlinedIcon from '@mui/icons-material/DiscountOutlined';
 import Logo from '../../assets/images/logo.png'
+import DelayLink from '../../helpers/delayLink'
 import { Link } from "react-router-dom";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
@@ -44,8 +46,8 @@ const Sidebar = () => {
           </Link>
           <Link to="/products" style={{ textDecoration: "none" }}>
             <li>
-              <StoreIcon className="icon" />
-              <span>Sản phẩm</span>
+              <BookIcon className="icon" />
+              <span>Sách</span>
             </li>
           </Link>
           <Link to="/orders" style={{ textDecoration: "none" }}>
@@ -97,10 +99,12 @@ const Sidebar = () => {
             <AccountCircleOutlinedIcon className="icon" />
             <span>Thông tin cá nhân</span>
           </li>
-          <li>
-            <ExitToAppIcon className="icon" />
-            <span>Đăng xuất</span>
-          </li>
+          <DelayLink to={"/login"}>
+            <li onClick={() => { localStorage.setItem("loggedIn", false); }}>
+              <ExitToAppIcon className="icon" />
+              <span>Đăng xuất</span>
+            </li>
+          </DelayLink>
         </ul>
       </div>
       <div className="bottom">
