@@ -11,5 +11,5 @@ app.use(cookieParser());
 app.use(cors());
 app.use(cookieParser());
 
-app.use('/bok', bok);
+app.use('/book', bok);
 app.listen(process.env.PORT);

@@ -4,33 +4,41 @@ const sql = require('mssql');
 const config = require('./../dbConfig');
 const router = express.Router();
 
-// router.get('/book', BookController.bookList);
 
-// router.get('/books', async (req,res,next) => {
-//     try{
-//         await sql.connect("Server=DESKTOP-7CMNV94\\SQLEXPRESS;Database=FGO;Trusted_Connection=True;")
-//         var result = await sql.query('SELECT * FROM servantInfo', (err, result) =>{
-//         res.json(result[0]);
-//     });
-//     } catch(err)
-//     {
-//         res.status(404).send(err);
-//     }
-// });
-
-router.get('/books', (req,res) => {
+//---------Get all book list------------------
+router.get('/', (req,res) => {
     sql.connect(config, function (err) {
         if (err) console.log(err);
-        // create Request object
         var request = new sql.Request();
-        // query to the database and get the records
-        request.query('select * from dummy', function (err, recordsets) {
-            if (err) console.log(err)
-            // send records as a response
-            res.json(recordsets);
-            sql.close();
+        request.execute('SelectAllSach', function(err, result){
+            if (err) console.log(err);
+            res.json(result.recordset);
         });
     });
 });
+
+
+//-------------Post a book-------------------------
+router.post('/post', (req,res) => {
+    sql.connect(config, function(err){
+        if(err) console.log(err);
+        var request = new sql.Request();
+        request.input('TenSach', sql.NVarChar(50) ,req.body.TenSach);
+        request.input('GiaBan', sql.Int ,req.body.GiaBan);
+        request.input('MoTa', sql.NVarChar(MAX) ,req.body.MoTa);
+        request.input('AnhBia', sql.Image ,req.body.AnhBia);
+        request.input('NgayCapNhat', sql.Date ,req.body.NgayCapNhat);
+        request.input('SoLuongTon', sql.Int ,req.body.SoLuongTon);
+        request.input('MaNXB', sql.Int ,req.body.MaNXB);
+        request.input('MaChuDe', sql.Int, req.body.MaChuDe);
+        request.execute('InsertSach');
+    })
+})
+
+
+//-------------Put a book------------------------
+
+
+//-------------Delete a book----------------------
 
 module.exports = router;
