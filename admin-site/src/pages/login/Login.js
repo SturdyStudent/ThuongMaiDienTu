@@ -41,7 +41,10 @@ function PartnerLoginPage() {
       if (res.data.auth === true) {
         auth.login(() => {
           localStorage.setItem("loggedIn", true);
-          setTimeout(() => { setRedirect(true); setIsLoading(false) }, 800);
+          setTimeout(() => {
+            setRedirect(true);
+            setIsLoading(false)
+          }, 800);
         })
       }
     })
@@ -53,12 +56,12 @@ function PartnerLoginPage() {
       password: password
     }).then((res) => {
       localStorage.setItem('LOGIN_INFORMATION', JSON.stringify(res.data));
-      if (res.status === 200) {
-        document.cookie = `token=${res.data.data.token};SameSite=strict;Secure`;
-        adminAuthenticated();
-      } else {
-        setDisplayError("Nhập sai tên đăng nhập hoặc mật khẩu");
-      }
+      // if (res.status === 200) {
+      //   document.cookie = `token=${res.data.data.token};SameSite=strict;Secure`;
+      adminAuthenticated();
+      // } else {
+      //   setDisplayError("Nhập sai tên đăng nhập hoặc mật khẩu");
+      // }
     }).catch(err => {
       setIsLoading(false);
       if ((String)(err.response.data.message) === "Lỗi xác thực") {

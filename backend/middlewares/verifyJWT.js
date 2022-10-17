@@ -8,9 +8,11 @@ const verifyJWT = (req, res, next) => {
     } else {
         jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
             if (err) {
+                console.log("khách hàng không đăng nhập đã truy cập");
                 res.json({ auth: false, messages: "Bạn không có quyền truy cập nội dung này" })
             } else {
                 req.userId = decoded.id;
+                console.log("truy cập thành công");
                 next();
             }
         })

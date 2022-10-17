@@ -1,10 +1,45 @@
 import "./new.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
+import axios from 'axios'
 import Navbar from "../../components/navbar/Navbar";
-import Cover from '../../assets/images/bookCover.png'
-import SearchCustomer from '../../components/modal/SearchCustomerModal'
+import tokenData from '../../helpers/tokenData'
+import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
+import { useEffect, useRef, useState } from "react";
 
 const Edit = ({ title }) => {
+    const [bookName, setBookName] = useState();
+    const [bookPrice, setBookPrice] = useState();
+    const [bookDescription, setBookDescription] = useState();
+    const [coverUrl, setCoverUrl] = useState();
+    const [isbn, setIsbn] = useState();
+    const [quantityLeft, setQuantityLeft] = useState();
+    const [publisherId, setPublisherId] = useState();
+    const [categoryId, setCategoryId] = useState();
+    const [authorId, setAuthorId] = useState();
+    const [file, setFile] = useState("");
+
+    const changeBookName = e => setBookName(e.target.value);
+    const changeBookPrice = e => setBookPrice(e.target.value);
+    const changeBookDescription = e => setBookDescription(e.target.value)
+    const changeIsbn = e => setIsbn(e.target.value);
+    const changeQtyLeft = e => setQuantityLeft(e.target.value);
+    const changePublisher = e => setPublisherId(e.target.value);
+    const changeCategory = e => setCategoryId(e.target.value);
+    const changeAuthor = e => setAuthorId(e.target.value);
+
+
+    const focusField = useRef();
+    useEffect(() => {
+        focusField.current.focus();
+    }, []);
+
+    useEffect(() => {
+        axios.get('http://127.0.0.1:3002/api/book', tokenData).then(
+            data => {
+                console.log(data);
+            })
+            .catch(err => alert(err));
+    }, []);
 
     return (
         <>
@@ -15,112 +50,105 @@ const Edit = ({ title }) => {
                     <div className="top">
                         <h1>{title}</h1>
                     </div>
-                    <form>
-                        <div className="offset-md-2 shadow p-3 col-md-8 row" >
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control" placeholder="Nhập tên Khách hàng" aria-label="Recipient's username" aria-describedby="basic-addon2" />
-                                <div class="input-group-append">
-                                    <span class="input-group-text bg-primary text-white" id="basic-addon2">Tìm kiếm</span>
+                    <form >
+                        <div className="offset-md-2 shadow p-5 col-md-8 row" >
+                            <div className="d-flex row mb-4">
+                                <div className="me-4 fw-bold col-md-3">
+                                    <label>Tiêu đề</label>
                                 </div>
+                                <input className="p-1 col-md-7" ref={focusField} type={"text"} onChange={e => changeBookName(e)} placeholder="Nhập tựa đề sách"></input>
                             </div>
-                            <hr />
-                            <div class="blockquote-custom-icon bg-info shadow-sm"><i class="fa fa-quote-left text-white"></i></div>
-                            <div class=" pt-4">
-                                <div className='row'>
-                                    <div className='col-md-2 d-flex justify-content-center' >
-                                        <div className='book-detail-cover-view rounded-circle' style={{ width: "80px", height: "80px" }}>
-                                            <img className="rounded-circle" src={Cover} alt="..." />
-                                        </div>
-                                    </div>
-                                    <div className='col-md-4 text-start' >
-                                        <h5>Khách hàng</h5>
-                                        <div>Christine Ha</div>
-                                    </div>
-                                    <div className="col-md-6 text-start p-0">
-                                        <h5>Thông tin liên lạc</h5>
-                                        <div><b>Email:</b> christine143@gmail.com</div>
-                                        <div><b>Số điện thoại:</b> 0339532542</div>
-                                    </div>
+                            <div className="d-flex row mb-4">
+                                <div className="me-4 fw-bold col-md-3">
+                                    <label>Tác giả</label>
                                 </div>
-                                <div className="offset-6 col-md-6 mt-4">
-                                    <h5>Địa chỉ giao hàng</h5>
-                                    <p>109 Đường Đông Thạnh 5, Khu phố 2, Phường Tân Phong, Xã Dĩ An, Quận 12, Thành phố Vũng Tàu</p>
-                                </div>
+                                <select className="p-1 col-md-7" onChange={e => changeAuthor(e)}>
+                                    <option>Tô Hoài</option>
+                                </select>
                             </div>
-                        </div>
-                        <div className="offset-md-2 mt-4 shadow p-3 col-md-8 row" >
-                            <h5>Thêm sản phẩm</h5>
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control" placeholder="Nhập tên hoặc mã sản phẩm" aria-label="Recipient's username" aria-describedby="basic-addon2" />
-                                <div class="input-group-append">
-                                    <span class="input-group-text bg-primary text-white" id="basic-addon2">Tìm kiếm</span>
-                                </div>
-                            </div>
-                            <hr />
-                            <div class="blockquote-custom-icon bg-info shadow-sm"><i class="fa fa-quote-left text-white"></i></div>
-                            <div class=" pt-4">
-                                <div className='row'>
-                                    <div className='col-md-2 d-flex justify-content-center' >
-                                        <div className='book-detail-cover-view'>
-                                            <img src={Cover} alt="..." />
-                                        </div>
-                                    </div>
-                                    <div className='col-md-7 text-start' >
-                                        <h6 className='mt-2 fw-bold'>THE OUTSIDER</h6>
-                                        <div className='mt-2'>Cung cấp bởi: Tiki</div>
-                                        <div>1x 20.000đ</div>
-                                        <div className="d-flex flex-row">Số lượng: &nbsp;<span><input type={'number'} value={10} style={{ width: "70px" }}></input></span></div>
-                                        <div className="d-flex flex-row"><a href="/#" style={{ textDecoration: "none" }}>Xóa khỏi đơn hàng</a></div>
-                                    </div>
-                                    <div className="col-md-3 text-end fw-bold">
-                                        20.000đ
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="offset-md-2 mt-4 mb-4 shadow p-3 col-md-8" >
-                            <h5>Thanh toán</h5>
-                            <div className="row">
-                                <div class="col-md-3">
-                                    Mã giảm giá
+                            <div className="d-flex row mb-4">
+                                <div className="me-4 fw-bold col-md-3 d-flex">
+                                    <label>Ảnh bìa</label>
                                 </div>
                                 <div className="col-md-7">
-                                    <input type={'text'} value={'OFF-20%'} className='col-md-4' />
+                                    <div className="formInput mb-4" style={{ width: "40%" }}>
+                                        <input
+                                            type="file"
+                                            id="file"
+                                            onChange={(e) => setFile(e.target.files[0])}
+                                        />
+                                    </div>
+                                    <img
+                                        width={"100px"} height={"140px"}
+                                        src={
+                                            file
+                                                ? URL.createObjectURL(file)
+                                                : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+                                        }
+                                        alt=""
+                                    />
                                 </div>
-                                <div className="col-md-2 text-end">
-                                    -42.000đ
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div class="col-md-3">
-                                    Tạm tính
-                                </div>
-                                <div className="col-md-7">
-                                </div>
-                                <div className="col-md-2 text-end">
-                                    42.000đ
-                                </div>
-                            </div>
-                            <hr />
-                            <div className="row">
-                                <div class="col-md-3 fw-bold">
-                                    Tổng cộng
-                                </div>
-                                <div className="col-md-7">
-                                </div>
-                                <div className="col-md-2 fw-bold text-end">
-                                    82.000đ
-                                </div>
-                            </div>
 
+                            </div>
+                            <div className="d-flex row mb-4">
+                                <div className="me-4 fw-bold col-md-3">
+                                    <label>Mô tả</label>
+                                </div>
+                                <textarea className="p-1 col-md-7" onChange={e => changeBookDescription(e)} placeholder="Nhập mô tả sách"></textarea>
+                            </div>
+                            <div className="d-flex row mb-4">
+                                <div className="me-4 fw-bold col-md-3">
+                                    <label>Gía bán</label>
+                                </div>
+                                <input className="p-1 col-md-7" type={"number"} onChange={e => changeBookPrice(e)} placeholder="Nhập giá bán"></input>
+                            </div>
+                            <div className="d-flex row mb-4">
+                                <div className="me-4 fw-bold col-md-3">
+                                    <label>Ảnh bìa:</label>
+                                </div>
+                                <input className="p-1 col-md-7" type={"text"} placeholder="Nhập tựa đề sách"></input>
+                            </div>
+                            <div className="d-flex row mb-4">
+                                <div className="me-4 fw-bold col-md-3">
+                                    <label>Nhà xuất bản:</label>
+                                </div>
+                                <input className="p-1 col-md-7" type={"text"} onChange={e => changePublisher(e)} value={""} placeholder="Nhập tựa đề sách"></input>
+                            </div>
+                            <div className="d-flex row mb-4">
+                                <div className="me-4 fw-bold col-md-3">
+                                    <label>Thể loại</label>
+                                </div>
+                                <select className="p-1 col-md-7" onChange={e => changeCategory(e)}>
+                                    <option>Tô Hoài</option>
+                                </select>
+                            </div>
+                            <div className="d-flex row mb-4">
+                                <div className="me-4 fw-bold col-md-3">
+                                    <label>Nhà xuất bản</label>
+                                </div>
+                                <select className="p-1 col-md-7">
+                                    <option>Tô Hoài</option>
+                                </select>
+                            </div>
+                            <div className="d-flex row mb-4">
+                                <div className="me-4 fw-bold col-md-3">
+                                    <label>Mã ISBN:</label>
+                                </div>
+                                <input className="p-1 col-md-7" type={"number"} onChange={e => changeIsbn(e)} placeholder="Nhập tựa đề sách"></input>
+                            </div>
+                            <div className="d-flex row mb-4">
+                                <div className="me-4 fw-bold col-md-3">
+                                    <label>Số lượng tồn</label>
+                                </div>
+                                <input className="p-1 col-md-7" type={"number"} onChange={e => changeQtyLeft(e)} placeholder="Nhập tựa đề sách"></input>
+                            </div>
                         </div>
-                        <div className="col-md-12 text-center mb-5">
+                        <div className="col-md-12 text-center m-5">
                             <button type="button" className="btn btn-primary text-white p-2 ps-3 pe-3">Cập nhật</button>
                         </div>
                     </form>
                 </div>
-            </div>
-            <SearchCustomer />
+            </div >
         </>
 
     );

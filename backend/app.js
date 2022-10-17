@@ -18,11 +18,6 @@ if (process.env.NODE_ENV == "test") {
 
 mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser: true }).then(() => console.log('connected'));
 
-// const connection = mongoose.connection;
-// connection.once('open', () => {
-//     console.log("success@");
-// })
-
 app.get('/', (req, res) => {
     res.send('welcome');
 })

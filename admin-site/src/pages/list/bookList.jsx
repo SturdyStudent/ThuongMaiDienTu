@@ -9,7 +9,7 @@ const List = () => {
             <Sidebar />
             <div className="listContainer">
                 <Navbar />
-                <Datatable objectName={"Đơn hàng"} />
+                <Datatable objectName={"Sách"} />
             </div>
         </div>
     )

@@ -6,17 +6,14 @@ const { ObjectId } = require('mongodb')
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
-function BookData(data) {
-    this.id = data._id;
-    this.title = data.title;
-    this.description = data.description;
-    this.isbn = data.isbn;
+function OrderData(data) {
+    this.categoryName = data.categoryName;
 }
 
-exports.bookList = [
-    (req, res) => {
+exports.orderList = [
+    function (req, res) {
         try {
-            Book.find({ publisherId: req.body.admin._id }, "_id title description isbn createdAt").then((books) => {
+            Book.find({ admin: req.admin._id }, "_id title description isbn createdAt").then((books) => {
                 if (books.length > 0) {
                     return apiResponse.successResponseWithData(res, "Operation success", books);
                 } else {
@@ -30,7 +27,7 @@ exports.bookList = [
     }
 ];
 
-exports.bookCreate = [
+exports.orderCreate = [
     body("title").notEmpty().withMessage("Không được bỏ trống trường tựa đề"),
     body("price").notEmpty().withMessage("Không được bỏ trống trường giá sách"),
     body("description").notEmpty().withMessage("Không được bỏ trống trường miêu tả"),
@@ -40,6 +37,14 @@ exports.bookCreate = [
     body("categoryId").notEmpty().withMessage("Chưa chọn thể loại"),
     body("isbn").notEmpty().withMessage("Không được bỏ trống isbn"),
     sanitizeBody("*").escape(),
+    // body("title").escape(),
+    // body("price").escape(),
+    // body("description").escape(),
+    // body("coverImageUrl").escape(),
+    // body("quantityLeft").escape(),
+    // body("authorId").escape(),
+    // body("categoryId").escape(),
+    // body("isbn").escape(),
     (req, res) => {
         const publisherId = ObjectId(req.body.publisherId);
         try {
@@ -64,6 +69,7 @@ exports.bookCreate = [
                 return apiResponse.validationErrorWithData(res, "Lỗi xác thực", errors.array());
             }
             else {
+                //Save book.
                 book.save(function (err) {
                     if (err) { return apiResponse.ErrorResponse(res, err); }
                     let bookData = new BookData(book);
@@ -75,15 +81,5 @@ exports.bookCreate = [
         }
     }
 ];
-exports.bookDelete = [];
-exports.bookUpdate = [
-    body("title").notEmpty().withMessage("Không được bỏ trống trường tựa đề"),
-    body("price").notEmpty().withMessage("Không được bỏ trống trường giá sách"),
-    body("description").notEmpty().withMessage("Không được bỏ trống trường miêu tả"),
-    body("coverImageUrl").notEmpty().withMessage("Chưa chọn hình"),
-    body("quantityLeft").notEmpty().withMessage("Chưa có số lượng hàng tồn"),
-    body("authorId").notEmpty().withMessage("Chưa chọn tác giả"),
-    body("categoryId").notEmpty().withMessage("Chưa chọn thể loại"),
-    body("isbn").notEmpty().withMessage("Không được bỏ trống isbn"),
-    sanitizeBody("*").escape(),
-];
+exports.orderDelete = [];
+exports.orderUpdate = [];

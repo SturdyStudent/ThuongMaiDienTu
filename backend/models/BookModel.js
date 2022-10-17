@@ -12,7 +12,9 @@ var BookSchema = new Schema({
     authorId: { type: String, required: true },
     categoryId: { type: String, required: true },
     isbn: { type: String, required: true },
-    user: { type: Schema.ObjectId, ref: "User", required: true },
+    soldQty: { type: Number, required: true },
+    views: { type: Number, required: true },
+    admin: { type: Schema.ObjectId, ref: "Admin", required: true },
 }, { timestamps: true });
 
 module.exports = mongoose.model("Book", BookSchema);

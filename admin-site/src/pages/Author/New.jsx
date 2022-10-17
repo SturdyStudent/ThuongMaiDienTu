@@ -3,7 +3,7 @@ import Edit from './Edit'
 
 function New() {
     return (
-        <div><Edit title="Thêm Đơn hàng mới" /></div>
+        <div><Edit title="Thêm Tác giả mới" /></div>
     )
 }
 

@@ -94,17 +94,40 @@ export const bookColumns = [
   { field: "bookPrice", headerName: "Gía bán", width: 170 },
   { field: "bookDescription", headerName: "Mô tả Nội dung", width: 170 },
   { field: "coverUrl", headerName: "Ảnh bìa", width: 70 },
+  { field: "isbn", headerName: "Mã ISBN", width: 170 },
   { field: "updateDate", headerName: "Ngày cập nhật", width: 90 },
   { field: "quantityLeft", headerName: "Số lượng tồn", width: 170 },
   { field: "publisherId", headerName: "Mã nhà xuất bản", width: 170 },
   { field: "categoryId", headerName: "Mã thể loại", width: 300 },
-  { field: "authorId", headerName: "Mã tác giả", width: 170 }
+  { field: "authorId", headerName: "Mã tác giả", width: 170 },
   { field: "soldQty", headerName: "Số lượng bán", width: 300 },
   { field: "pageViews", headerName: "Số lần xem", width: 170 }
 ];
-export const categoryColumns = [];
-export const publisherColumns = [];
-export const authorColumns = [];
+export const categoryColumns = [
+  { field: "id", headerName: "Mã chủ đề", width: 170 },
+  { field: "categoryName", headerName: "Tên chủ đề", width: 170 }
+];
+
+export const publisherColumns = [
+  { field: "id", headerName: "Mã nhà xuất bản", width: 170 },
+  { field: "publisherName", headerName: "Tên nhà xuất bản", width: 170 }
+];
+
+export const authorColumns = [
+  { field: "id", headerName: "Mã tác giả", width: 170 },
+  { field: "authorName", headerName: "Tên tác giả", width: 170 },
+  { field: "biography", headerName: "Tiểu sử", width: 170 },
+  {
+    field: "authorImage", headerName: "Hình tác giả", width: 170,
+    renderCell: (params) => {
+      return (
+        <div className="cellWithImg">
+          <img className="cellImg" width={"100px"} height={"100px"} src={params.row.authorImage} alt="avatar" />
+        </div>
+      );
+    },
+  }
+];
 //temporary data
 export const userRows = [
   {
@@ -223,5 +246,44 @@ export const orderRows = [
     deliverMethod: 'Giao hàng tiết kiệm',
     deliverMan: 'Trần Ngọc Hoàng',
     isApproved: true
+  }
+]
+
+export const bookRows = [
+  {
+    id: "138fafa473a",
+    bookName: "Người Xứ Phản",
+    bookPrice: "200.000đ",
+    bookDescription: "Chí Phèo là một chàng trai mạnh mẽ và can đảm, vào một ngày nọ...",
+    coverUrl: 'cover.com/png/1',
+    updateDate: '22/10/2022',
+    quantityLeft: 12,
+    publisherId: "12wera-fasdg9as",
+    categoryId: "3ra09fa-fa-sfasfh",
+    authorId: "r890waerafafasf",
+    soldQty: 121,
+    pageViews: 1200
+  }
+]
+
+export const categoryRows = [
+  {
+    id: "qq90asffdaaaf",
+    categoryName: "Kinh dị"
+  }
+]
+
+export const publisherRows = [
+  {
+    id: "as7d0asfdasfda",
+    publisherName: "NXB Kim Đồng"
+  }
+]
+
+export const authorRows = [
+  {
+    id: "qwre09f8as-dfasfa",
+    authorName: "Can Tiểu Hy",
+    biography: "Đậu đại học kiến trúc với điểm số thủ khoa đầu vào, Can Tiểu Hy gây dựng sự nghiệp với một loạt các..."
   }
 ]

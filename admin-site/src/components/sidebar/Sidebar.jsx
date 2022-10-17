@@ -3,13 +3,15 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
-import StoreIcon from "@mui/icons-material/Store";
 import BookIcon from '@mui/icons-material/Book';
 import InsertChartIcon from "@mui/icons-material/InsertChart";
 import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import StarIcon from '@mui/icons-material/Star';
+import CategoryIcon from '@mui/icons-material/Category';
+import AttributionIcon from '@mui/icons-material/Attribution';
+import Face5Icon from '@mui/icons-material/Face5';
 import SettingsSystemDaydreamOutlinedIcon from "@mui/icons-material/SettingsSystemDaydreamOutlined";
 import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
@@ -44,7 +46,7 @@ const Sidebar = () => {
               <span>Người dùng</span>
             </li>
           </Link>
-          <Link to="/products" style={{ textDecoration: "none" }}>
+          <Link to="/books" style={{ textDecoration: "none" }}>
             <li>
               <BookIcon className="icon" />
               <span>Sách</span>
@@ -70,6 +72,24 @@ const Sidebar = () => {
             <li>
               <StarIcon className="icon" />
               <span>Đánh giá</span>
+            </li>
+          </Link>
+          <Link to="/categories" style={{ textDecoration: "none" }}>
+            <li>
+              <CategoryIcon className="icon" />
+              <span>Thể loại</span>
+            </li>
+          </Link>
+          <Link to="/authors" style={{ textDecoration: "none" }}>
+            <li>
+              <Face5Icon className="icon" />
+              <span>Tác giả</span>
+            </li>
+          </Link>
+          <Link to="/publishers" style={{ textDecoration: "none" }}>
+            <li>
+              <AttributionIcon className="icon" />
+              <span>Nhà xuất bản</span>
             </li>
           </Link>
           <p className="title">HỮU ÍCH</p>
