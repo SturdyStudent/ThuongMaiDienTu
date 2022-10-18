@@ -20,11 +20,7 @@ function PartnerLoginPage() {
     return <Navigate to={"/"} replace />
   }
   const handleSubmit = () => {
-<<<<<<< Updated upstream
-      handleLogin();
-=======
-      handleLogin(); 
->>>>>>> Stashed changes
+    handleLogin();
   }
   const handleLogin = (e) => {
     // axios.post(loginUrl, {
