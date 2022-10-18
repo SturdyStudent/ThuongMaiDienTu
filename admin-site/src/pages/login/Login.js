@@ -37,7 +37,7 @@ function PartnerLoginPage() {
     //     alert("Nhập sai tên đăng nhập hoặc mật khẩu");
     //   }
     // })
-    if (username == 'thanhdat' && password == 'thanhdat123') {
+    if (username == 'user' && password == 'user') {
       auth.login(() => {
         console.log("đã xử lí");
         setRedirect(true);
