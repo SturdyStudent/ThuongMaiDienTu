@@ -11,9 +11,9 @@ var app = express();
 
 app.use("/auth/", authRouter);
 // app.use("/book/", bookRouter);
-// app.use("/publisher/", publisherRouter);
-// app.use("/category", categoryRouter);
+app.use("/publisher/", publisherRouter);
+app.use("/category/", categoryRouter);
 // app.use("/rating/", ratingRouter);
-// app.use("/author/", authorRouter);
+app.use("/author/", authorRouter);
 
 module.exports = app;

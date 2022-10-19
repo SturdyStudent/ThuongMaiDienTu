@@ -1,11 +1,11 @@
-// var express = require("express");
-// const CategoryController = require("../controllers/CategoryController");
-// const verifyJWTMiddleware = require("../middlewares/verifyJWT");
+var express = require("express");
+const CategoryController = require("../controllers/CategoryController");
 
-// var router = express.Router();
+var router = express.Router();
 
-// router.post("/", CategoryController.categoryList);
-// router.post("/create", CategoryController.categoryCreate);
-// router.post("/update/:id", CategoryController.categoryUpdate);
-// router.post("/delete/:id", CategoryController.categoryDelete);
-// module.exports = router;
+router.get("/", CategoryController.categoryList);
+router.post("/create", CategoryController.categoryCreate);
+router.put("/update/:id", CategoryController.categoryUpdate);
+router.delete("/delete/:id", CategoryController.categoryDelete);
+
+module.exports = router;

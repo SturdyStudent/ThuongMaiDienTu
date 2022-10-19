@@ -1,9 +1,8 @@
-const Category = require("../models/categoryModel");
 const { body, validationResult } = require("express-validator");
 const { sanitizeBody } = require("express-validator");
 const apiResponse = require("../helpers/apiResponse");
-var mongoose = require("mongoose");
-var Schema = mongoose.Schema;
+const sql = require('mssql')
+const config = require("../dbConfig");
 
 function CategoryData(data) {
     this.categoryName = data.categoryName;
@@ -11,10 +10,17 @@ function CategoryData(data) {
 
 exports.categoryList = [
     function (req, res) {
+        let categories;
         try {
-            Category.find().then((categories) => {
-                return apiResponse.successResponseWithData(res, "Operation success", categories);
-            });
+            const waitPool = async () => {
+                let pool = await sql.connect(config);
+                categories = await pool.request()
+                    .execute('SelectAllChuDe');
+                return categories;
+            }
+            waitPool().then((result) => {
+                return apiResponse.successResponseWithData(res, "Lấy danh sách chủ đề thành công", result.recordsets[0]);
+            }).catch(err => { return apiResponse.ErrorResponse(res, err) });
         } catch (err) {
             return apiResponse.ErrorResponse(res, err);
         }
@@ -22,22 +28,25 @@ exports.categoryList = [
 ];
 
 exports.categoryCreate = [
+    body("TenChuDe").isLength({ min: 1 }).trim().withMessage("Tên thể loại không được bỏ trống."),
+    sanitizeBody("*").escape(),
     (req, res) => {
         try {
             const errors = validationResult(req);
-            var category = new Category(
-                {
-                    categoryName: req.body.categoryName,
-                });
             if (!errors.isEmpty()) {
                 return apiResponse.validationErrorWithData(res, "Lỗi xác thực", errors.array());
             }
             else {
-                category.save(function (err) {
-                    if (err) { return apiResponse.ErrorResponse(res, err); }
-                    let categoryData = new CategoryData(category);
-                    return apiResponse.successResponseWithData(res, "Thêm thể loại thành công.", categoryData);
-                });
+                const waitPool = async () => {
+                    let pool = await sql.connect(config);
+                    addedCategory = await pool.request()
+                        .input('TenChuDe', sql.NVarChar(50), req.body.TenChuDe)
+                        .execute('InsertChuDe');
+                    return addedCategory;
+                }
+                waitPool().then((data) => {
+                    return apiResponse.successResponseWithData(res, "Thêm chủ đề thành công", data.recordsets[0]);
+                }).catch(err => { return apiResponse.ErrorResponse(res, err) });
             }
         } catch (err) {
             return apiResponse.ErrorResponse(res, err);
@@ -46,23 +55,24 @@ exports.categoryCreate = [
 ];
 exports.categoryDelete = [
     function (req, res) {
-        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-            return apiResponse.validationErrorWithData(res, "Invalid Error.", "Invalid ID");
-        }
         try {
-            Category.findById(req.params.id, function (err, foundcategory) {
-                if (foundcategory === null) {
-                    return apiResponse.notFoundResponse(res, "Thể loại không tồn tại");
-                } else {
-                    Category.findByIdAndRemove(req.params.id, function (err) {
-                        if (err) {
-                            return apiResponse.ErrorResponse(res, err);
-                        } else {
-                            return apiResponse.successResponse(res, "Xóa nhà xuất bản thành công.");
-                        }
-                    });
+            let deletedCategory;
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+            }
+            else {
+                const waitPool = async () => {
+                    let pool = await sql.connect(config);
+                    deletedCategory = await pool.request()
+                        .input('MaChuDe', sql.Int, req.params.id)
+                        .execute('DeleteCD');
+                    return deletedCategory;
                 }
-            });
+                waitPool().then((data) => {
+                    return apiResponse.successResponseWithData(res, "xóa chủ đề thành công", data.recordsets[0]);
+                }).catch(err => { return apiResponse.ErrorResponse(res, err) });
+            }
         } catch (err) {
             //throw error in json response with status 500. 
             return apiResponse.ErrorResponse(res, err);
@@ -70,39 +80,27 @@ exports.categoryDelete = [
     }
 ];
 exports.categoryUpdate = [
-    body("categoryName").isLength({ min: 1 }).trim().withMessage("Tên nhà xuất bản không được bỏ trống."),
+    body("TenChuDe").isLength({ min: 1 }).trim().withMessage("Tên chủ đề không được bỏ trống."),
     sanitizeBody("*").escape(),
     (req, res) => {
         try {
+            let updatedCategory;
             const errors = validationResult(req);
-            var category = new Category(
-                {
-                    categoryName: req.body.categoryName,
-                    _id: req.params.id
-                });
-
             if (!errors.isEmpty()) {
                 return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
             }
             else {
-                if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-                    return apiResponse.validationErrorWithData(res, "Invalid Error.", "Invalid ID");
-                } else {
-                    Category.findById(req.params.id, function (err, foundcategory) {
-                        if (foundcategory === null) {
-                            return apiResponse.notFoundResponse(res, "Thể loại không tồn tại với id này");
-                        } else {
-                            Category.findByIdAndUpdate(req.params.id, category, {}, function (err) {
-                                if (err) {
-                                    return apiResponse.ErrorResponse(res, err);
-                                } else {
-                                    let categoryData = new CategoryData(category);
-                                    return apiResponse.successResponseWithData(res, "Cập nhật thể loại thành công.", categoryData);
-                                }
-                            })
-                        }
-                    });
+                const waitPool = async () => {
+                    let pool = await sql.connect(config);
+                    updatedCategory = await pool.request()
+                        .input('MaChuDe', sql.Int, req.params.id)
+                        .input('TenChuDe', sql.NVarChar(50), req.body.TenChuDe)
+                        .execute('UpdateChuDe');
+                    return updatedCategory;
                 }
+                waitPool().then((data) => {
+                    return apiResponse.successResponseWithData(res, "Sửa chủ đề thành công", data.recordsets[0]);
+                }).catch(err => { return apiResponse.ErrorResponse(res, err) });
             }
         } catch (err) {
             //throw error in json response with status 500. 
