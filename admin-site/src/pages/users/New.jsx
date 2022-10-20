@@ -3,9 +3,20 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useState } from "react";
+import axios from 'axios'
 
 const New = ({ inputs, title }) => {
-  const [file, setFile] = useState("");
+  const [file, setFile] = useState();
+  const [name, setName] = useState();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const data = new FormData();
+    data.append("name", name);
+    data.append("file", file);
+    axios.post('http://localhost:3002/api/upload', data)
+      .then((res) => console.log(res))
+  }
 
   return (
     <div className="new">
@@ -27,7 +38,7 @@ const New = ({ inputs, title }) => {
             />
           </div>
           <div className="right">
-            <form>
+            <form onSubmit={e => handleSubmit(e)} encType="multipart/form-data">
               <div className="formInput">
                 <label htmlFor="file">
                   Image: <DriveFolderUploadOutlinedIcon className="icon" />
@@ -35,17 +46,11 @@ const New = ({ inputs, title }) => {
                 <input
                   type="file"
                   id="file"
-                  onChange={(e) => setFile(e.target.files[0])}
+                  accept=".jpg"
+                  onChange={(e) => { setFile(e.target.files[0]); setName("book" + String(e.target.value).split('\\')[2]) }}
                   style={{ display: "none" }}
                 />
               </div>
-
-              {inputs.map((input) => (
-                <div className="formInput" key={input.id}>
-                  <label>{input.label}</label>
-                  <input type={input.type} placeholder={input.placeholder} />
-                </div>
-              ))}
               <button>Send</button>
             </form>
           </div>
