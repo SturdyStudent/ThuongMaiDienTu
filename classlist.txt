@@ -1,6 +1,0 @@
-self-center-div
-card-shadow
-space-between
-parent-body-padding
-padding-select
-margin-right
