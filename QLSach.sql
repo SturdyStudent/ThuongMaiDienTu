@@ -12,18 +12,14 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[ChuDe](
-	[MaChuDe] [int] IDENTITY(1,1) NOT NULL,
+	[MaChuDe] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	[TenChuDe] [nvarchar](50) NULL,
- CONSTRAINT [PK_ChuDe] PRIMARY KEY CLUSTERED 
-(
-	[MaChuDe] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
+)
 GO
 
 
 CREATE TABLE [dbo].[KhachHang](
-	[MaKH] [int] IDENTITY(1,1) NOT NULL,
+	[MaKH] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	[HoTen] [nvarchar](50) NULL,
 	[TaiKhoan] [nvarchar](50) NULL,
 	[MatKhau] [nvarchar](50) NULL,
@@ -32,58 +28,42 @@ CREATE TABLE [dbo].[KhachHang](
 	[DienThoai] [nvarchar](20) NULL,
 	[GioiTinh] [nvarchar](3) NULL,
 	[NgaySinh] [date] NULL,
- CONSTRAINT [PK_KhachHang] PRIMARY KEY CLUSTERED 
-(
-	[MaKH] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+)
 GO
 
 
 CREATE TABLE [dbo].[NhanVien](
-	[MaNV] [int] IDENTITY(1,1) NOT NULL,
+	[MaNV] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	[HoTenNV] [nvarchar](50) NULL,
 	[Tuoi] [tinyint] NULL,
 	[NgaySinh] [date] NULL,
 	[GioiTinh] [varchar](3) NULL,
 	[Sdt] [nvarchar](50) NULL,
 	[DiaChi] [nvarchar](50) NULL,
-PRIMARY KEY CLUSTERED 
-(
-	[MaNV] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
+)
 GO
 
 CREATE TABLE [dbo].[NXB](
-	[MaNXB] [int] IDENTITY(1,1) NOT NULL,
+	[MaNXB] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	[TenNXB] [nvarchar](50) NULL,
 	[Diachi] [nvarchar](50) NULL,
 	[DienThoai] [nvarchar](50) NULL,
-PRIMARY KEY CLUSTERED 
-(
-	[MaNXB] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
+)
 GO
 
 CREATE TABLE [dbo].[TacGia](
-	[MaTacGia] [int] IDENTITY(1,1) NOT NULL,
+	[MaTacGia] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	[TenTacGia] [nvarchar](50) NULL,
 	[HinhTacGia] [nvarchar](max),
 	[DiaChi] [nvarchar](50) NULL,
 	[TieuSu] [nvarchar](max) NULL,
 	[DienThoai] [nvarchar](50) NULL,
-PRIMARY KEY CLUSTERED 
-(
-	[MaTacGia] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+)
 GO
 
 
 CREATE TABLE [dbo].[Sach](
-	[MaSach] [int] IDENTITY(1,1) NOT NULL,
+	[MaSach] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	[TenSach] [nvarchar](50) NULL,
 	[GiaBan] [nvarchar](50) NULL,
 	[MoTa] [nvarchar](max) NULL,
@@ -93,11 +73,7 @@ CREATE TABLE [dbo].[Sach](
 	[MaNXB] [int] NULL,
 	[MaChuDe] [int] NULL,
 	[MaTacGia] [int] NULL,
-PRIMARY KEY CLUSTERED 
-(
-	[MaSach] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+)
 GO
 
 ALTER TABLE [dbo].[Sach]  WITH CHECK ADD  CONSTRAINT [FK_Sach_ChuDe] FOREIGN KEY([MaChuDe])
@@ -122,18 +98,20 @@ ALTER TABLE [dbo].[Sach] CHECK CONSTRAINT [FK_Sach_TacGia]
 GO
 
 CREATE TABLE [dbo].[DonHang](
-	[MaDonHang] [int] IDENTITY(1,1) NOT NULL,
+	[MaDonHang] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	[DaThanhToan] [bit] NULL,
 	[TinhTrangGiaoHang] [bit] NULL,
 	[NgayDat] [date] NULL,
 	[NgayGiao] [date] NULL,
 	[MaKH] [int] NULL,
+	[TenNguoiNhan] [nvarchar](50) NULL,
+	[DienThoaiNguoiNhan] [nvarchar](50) NULL,
+	[DiaChiGiao] [nvarchar](50) NULL,
+	[HinhThucThanhToan] [nvarchar](20) NULL,
+	[HinhThucGiaoHang] [nvarchar](20) NULL,
+	[CodeVoucher] [nvarchar](max) NULL,
 	[ThanhTien] [money] NULL,
-PRIMARY KEY CLUSTERED 
-(
-	[MaDonHang] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
+)
 GO
 
 ALTER TABLE [dbo].[DonHang]  WITH CHECK ADD  CONSTRAINT [FK_DonHang_KhachHang] FOREIGN KEY([MaKH])
@@ -144,16 +122,12 @@ ALTER TABLE [dbo].[DonHang] CHECK CONSTRAINT [FK_DonHang_KhachHang]
 GO
 
 CREATE TABLE ChiTietDonHang(
-	[MaCTDH] [int] IDENTITY(1,1) NOT NULL,
+	[MaCTDH] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	[MaDonHang] [int] NOT NULL,
 	[MaSach] [int] NULL,
 	[SoLuong] [int] NULL,
 	[DonGia] [money] NULL,
- CONSTRAINT [PK_ChiTietDonHang] PRIMARY KEY CLUSTERED 
-(
-	[MaCTDH] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
+)
 GO
 
 ALTER TABLE [dbo].[ChiTietDonHang]  WITH CHECK ADD  CONSTRAINT [FK_ChiTietDonHang_DonHang] FOREIGN KEY([MaDonHang])
@@ -173,15 +147,11 @@ GO
 
 
 CREATE TABLE [dbo].[GiaoHang](
-	[MaGH] [int] IDENTITY(1,1) NOT NULL,
+	[MaGH] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	[MaNV] [int] NULL,
 	[MaDonHang] [int] NULL,
 	[NgayGiao] [date] NULL,
- CONSTRAINT [PK_GiaoHang] PRIMARY KEY CLUSTERED 
-(
-	[MaGH] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
+)
 GO
 
 ALTER TABLE [dbo].[GiaoHang]  WITH CHECK ADD  CONSTRAINT [FK_GiaoHang_DonHang] FOREIGN KEY([MaDonHang])
@@ -200,25 +170,13 @@ GO
 
 
 CREATE TABLE [dbo].[Voucher](
-	[IDVoucher] [int] IDENTITY(1,1) NOT NULL,
+	[IDVoucher] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	[CodeVoucher] [nvarchar](max) NULL,
-	[MaDonHang] [int] NULL,
 	[NgayBatDau] [date] NULL,
 	[NgayKetThuc] [date] NULL,
 	[TriGiaGiam] [money] NULL,
 	[DieuKienVoucher] [nvarchar](50) NULL,
 	[SoLuong] [bigint] NULL,
 	[HieuLuc] [bit] NULL,
-PRIMARY KEY CLUSTERED 
-(
-	[IDVoucher] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-
-ALTER TABLE [dbo].[Voucher]  WITH CHECK ADD  CONSTRAINT [FK_Voucher_DonHang] FOREIGN KEY([MaDonHang])
-REFERENCES [dbo].[DonHang] ([MaDonHang])
-GO
-
-ALTER TABLE [dbo].[Voucher] CHECK CONSTRAINT [FK_Voucher_DonHang]
+)
 GO
