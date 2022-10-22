@@ -3,6 +3,8 @@ import { useState } from "react";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import Switch from 'react-switch'
+import { Row,Col } from "react-bootstrap";
+import Container from 'react-bootstrap/Container'
 
 const Edit = ({ title }) => {
     const [active, setActive] = useState(true);
@@ -13,10 +15,22 @@ const Edit = ({ title }) => {
     }
 
     return (
+        <>
+        <Container fluid>
+      <Row>
+        <Col>    
+          <Navbar />   
+        </Col>
+      </Row>
+      <Row>
+      <Col xs={2} md={2}>
+                  <Sidebar />
+        </Col>
+        <Col xs={10} md={10}>
         <div className="new">
-            <Sidebar />
+            {/* <Sidebar /> */}
             <div className="newContainer">
-                <Navbar />
+                {/* <Navbar /> */}
                 <div className="top">
                     <h1>{title}</h1>
                 </div>
@@ -72,6 +86,11 @@ const Edit = ({ title }) => {
                 </form>
             </div>
         </div>
+        </Col>
+      </Row>
+      </Container>
+      </>
+        
     );
 };
 

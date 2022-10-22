@@ -14,30 +14,32 @@ const Navbar = () => {
   return (
     <Container fluid id="navbar">
       <Row>
-        <Col>
-          <div>
+        <Col xs={2} md={2}>
+          <div class="navbar-logo">
             <Link to="/" style={{ textDecoration: "none" }}>
               <img src={Logo} alt="..." height="60" />
             </Link>
           </div>
         </Col>
-        <Col>
-        <input type="text" placeholder="Search..."/>
-            <SearchOutlinedIcon/>
+        <Col xs={9} md={9} id="search-bar">
+        <input type="text" placeholder="Search..." />
+            <SearchOutlinedIcon fontSize="large"/>
         </Col>
-        <Col>
+        <Col xs={1} md={1} id="nav-dark-icon">
           <Row>
               <Col>
-              <DarkModeOutlinedIcon
-              onClick={() => dispatch({ type: "TOGGLE" })}/>
-              <NotificationsNoneOutlinedIcon/>
+              <DarkModeOutlinedIcon fontSize="medium"
+              onClick={() => dispatch({ type: "TOGGLE" })}/>             
+              </Col>
+              <Col>
+              <NotificationsNoneOutlinedIcon fontSize="medium"/>
               </Col>
           </Row>
         </Col>
       </Row>
     </Container>
     // <div className="navbar">
-    //   <div className="wrapper">
+    //   <div className="wrapper"> 
     //     <div></div>
     //     <div className="search">
     //       <input type="text" placeholder="Search..." />

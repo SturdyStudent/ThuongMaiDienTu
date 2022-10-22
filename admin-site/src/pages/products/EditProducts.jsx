@@ -1,0 +1,77 @@
+import "./Products.scss";
+import Sidebar from "../../components/sidebar/Sidebar";
+import Navbar from "../../components/navbar/Navbar";
+import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
+import { useState } from "react";
+import Container from 'react-bootstrap/Container'
+import { Row,Col } from "react-bootstrap";
+
+const EditProducts = ({ inputs, title }) => {
+  const [file, setFile] = useState("");
+
+  return (
+    <>
+    <Container fluid>
+  <Row>
+    <Col>    
+      <Navbar />   
+    </Col>
+  </Row>
+  <Row>
+  <Col xs={2} md={2}>
+              <Sidebar />
+    </Col>
+    <Col xs={10} md={10}>
+    <div className="new">
+     
+     <div className="newContainer">
+       
+       <div className="top">
+         <h1>{title}</h1>
+       </div>
+       <div className="bottom">
+         <div className="left">
+           <img
+             src={
+               file
+                 ? URL.createObjectURL(file)
+                 : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+             }
+             alt=""
+           />
+         </div>
+         <div className="right">
+           <form>
+             <div className="formInput">
+               <label htmlFor="file">
+                 Chọn hình: <DriveFolderUploadOutlinedIcon className="icon" />
+               </label>
+               <input
+                 type="file"
+                 id="file"
+                 onChange={(e) => setFile(e.target.files[0])}
+                 style={{ display: "none" }}
+               />
+             </div>
+
+             {inputs.map((input) => (
+               <div className="formInput" key={input.id}>
+                 <label>{input.label}</label>
+                 <input type={input.type} placeholder={input.placeholder} />
+               </div>
+             ))}
+             <button>Hoàn Tất</button>
+           </form>
+         </div>
+       </div>
+     </div>
+   </div>
+    </Col>
+  </Row>
+  </Container>
+  </>
+   
+  );
+};
+
+export default EditProducts;

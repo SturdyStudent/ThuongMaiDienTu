@@ -20,7 +20,7 @@ function PartnerLoginPage() {
     return <Navigate to={"/"} replace />
   }
   const handleSubmit = () => {
-    handleLogin();
+      handleLogin();
   }
   const handleLogin = (e) => {
     // axios.post(loginUrl, {

@@ -1,6 +1,9 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { orderColumns, orderRows, ratingColumns, ratingsRows, userColumns, userRows, voucherColumns, voucherRows } from "../../datatablesource";
+import { orderColumns, orderRows, ratingColumns, ratingsRows, userColumns, userRows, voucherColumns, voucherRows,
+  authorColumns,authorRows,NXBColumns
+  ,NXBRows,ProductsColumns,ProductsRows } from "../../datatablesource";
+
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
@@ -46,8 +49,35 @@ const Datatable = ({ objectName }) => {
     addAction = <Link to="/orders/new" className="link">
       Thêm
     </Link>
+  }else if (objectName === 'Tác Giả') {
+    dataRows = authorRows;
+    dataColumns = authorColumns;
+    editAction = <Link to="/authors/EditAuthors" style={{ textDecoration: "none" }}>
+      <div className="viewButton">Sửa</div>
+    </Link>;
+    addAction = <Link to="/authors/NewAuthors" className="link">
+      Thêm
+    </Link>
+  }else if (objectName === 'Nhà Xuất Bản') {
+    dataRows = NXBRows;
+    dataColumns = NXBColumns;
+    editAction = <Link to="/publisher/EditNXB" style={{ textDecoration: "none" }}>
+      <div className="viewButton">Sửa</div>
+    </Link>;
+    addAction = <Link to="/publisher/NewNXB" className="link">
+      Thêm
+    </Link>
+    
+  }else if (objectName === 'Sách') {
+    dataRows = ProductsRows;
+    dataColumns = ProductsColumns;
+    editAction = <Link to="/products/EditProducts" style={{ textDecoration: "none" }}>
+      <div className="viewButton">Sửa</div>
+    </Link>;
+    addAction = <Link to="/products/NewProducts" className="link">
+      Thêm
+    </Link>
   }
-
   const [data, setData] = useState(dataRows);
 
   const handleDelete = (id) => {
