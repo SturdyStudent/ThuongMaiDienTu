@@ -41,7 +41,7 @@ export default function SearchModal() {
                 </div>
 
                 <div>
-                    <button className='back-notification-btn' onClick={(e) => handleRedirect(e)}>Lưu dánh giá</button>
+                    <button className='back-notification-btn' onClick={(e) => handleRedirect(e)}>Lưu</button>
                 </div>
             </div>
         </div>

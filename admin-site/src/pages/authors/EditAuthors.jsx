@@ -1,14 +1,14 @@
-import "./new.scss";
+import "./NewAuthors.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useState } from "react";
 import Container from 'react-bootstrap/Container'
 import { Row,Col } from "react-bootstrap";
+import CountrySelector from "../../countryselector"
 
-const New = ({ inputs, title }) => {
+const EditAuthors = ({ inputs, title }) => {
   const [file, setFile] = useState("");
-
   return (
     <>
     <Container fluid>
@@ -57,10 +57,16 @@ const New = ({ inputs, title }) => {
              {inputs.map((input) => (
                <div className="formInput" key={input.id}>
                  <label>{input.label}</label>
-                 <input type={input.type} placeholder={input.placeholder} />
-               </div>
+                 <input type={input.type} placeholder={input.placeholder} />         
+               </div>               
+                  
              ))}
-             <button>Send</button>
+                  <div className="country-select">
+                  <CountrySelector> </CountrySelector>
+                  </div>
+           
+            
+             <button>Cập nhật</button>
            </form>
          </div>
        </div>
@@ -74,4 +80,4 @@ const New = ({ inputs, title }) => {
   );
 };
 
-export default New;
+export default EditAuthors;

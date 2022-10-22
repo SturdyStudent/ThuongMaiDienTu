@@ -1,4 +1,4 @@
-import "./new.scss";
+import "./NewNXB.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
@@ -6,7 +6,7 @@ import { useState } from "react";
 import Container from 'react-bootstrap/Container'
 import { Row,Col } from "react-bootstrap";
 
-const New = ({ inputs, title }) => {
+const NewNXB = ({ inputs, title }) => {
   const [file, setFile] = useState("");
 
   return (
@@ -22,8 +22,7 @@ const New = ({ inputs, title }) => {
               <Sidebar />
     </Col>
     <Col xs={10} md={10}>
-    <div className="new">
-     
+    <div className="new"> 
      <div className="newContainer">
        
        <div className="top">
@@ -74,4 +73,4 @@ const New = ({ inputs, title }) => {
   );
 };
 
-export default New;
+export default NewNXB;

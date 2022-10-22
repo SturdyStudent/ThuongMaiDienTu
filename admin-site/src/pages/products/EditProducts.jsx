@@ -1,4 +1,4 @@
-import "./new.scss";
+import "./Products.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
@@ -6,7 +6,7 @@ import { useState } from "react";
 import Container from 'react-bootstrap/Container'
 import { Row,Col } from "react-bootstrap";
 
-const New = ({ inputs, title }) => {
+const EditProducts = ({ inputs, title }) => {
   const [file, setFile] = useState("");
 
   return (
@@ -44,7 +44,7 @@ const New = ({ inputs, title }) => {
            <form>
              <div className="formInput">
                <label htmlFor="file">
-                 Image: <DriveFolderUploadOutlinedIcon className="icon" />
+                 Chọn hình: <DriveFolderUploadOutlinedIcon className="icon" />
                </label>
                <input
                  type="file"
@@ -60,7 +60,7 @@ const New = ({ inputs, title }) => {
                  <input type={input.type} placeholder={input.placeholder} />
                </div>
              ))}
-             <button>Send</button>
+             <button>Hoàn Tất</button>
            </form>
          </div>
        </div>
@@ -74,4 +74,4 @@ const New = ({ inputs, title }) => {
   );
 };
 
-export default New;
+export default EditProducts;

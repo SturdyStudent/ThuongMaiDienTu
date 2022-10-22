@@ -1,3 +1,4 @@
+
 export const userInputs = [
     {
       id: 1,
@@ -41,37 +42,90 @@ export const userInputs = [
       placeholder: "USA",
     },
   ];
+  export const authorInputs = [
+    {
+      id: 1,
+      label: "tên tác giả",
+      type: "text",
+      placeholder: "john_doe",
+    },
+    {
+      id:2,
+      label: "Tiểu Sử",
+      type: "textarea",
+      placeholder: ""      
+    },
+    {
+      id:3,
+      label: "Ngày Sinh",
+      type: "date",
+      placeholder: "mm/dd/yyyy"
+    },
+    {
+      id:4,
+      label:"Điện Thoại",
+      type:"number",
+      placeholder:"phone number"
+    }
+     
+  ];
+ export const NXBInputs =[
+
+  {
+    id:1,
+    label:"Tên Nhà Xuất Bản",
+    type:"text",
+    placeholder:""
+
+  },
+  {
+    id:2,
+    label:"Địa Chỉ",
+    type:"address",
+    placeholder:"địa chỉ"
+
+  },
+  {
+    id:3,
+    label:"Điện Thoại",
+    type:"number",
+    placeholder:"phone number"
+
+  }
+ ];
   
   export const productInputs = [
     {
       id: 1,
-      label: "Title",
+      label: "Tên Sách",
       type: "text",
-      placeholder: "Apple Macbook Pro",
+      placeholder: "",
     },
     {
       id: 2,
-      label: "Description",
+      label: "Giá Bán",
       type: "text",
-      placeholder: "Description",
+      placeholder: "VND",
     },
     {
       id: 3,
-      label: "Category",
+      label: "Mô Tả",
       type: "text",
-      placeholder: "Computers",
+      placeholder: "",
     },
     {
       id: 4,
-      label: "Price",
-      type: "text",
-      placeholder: "100",
+      label: "Ngày Cập Nhật",
+      type: "tdate",
+      placeholder: "mm/dd/yyyy"
     },
     {
       id: 5,
-      label: "Stock",
-      type: "text",
-      placeholder: "in stock",
-    },
+      label: "Số Lượng Tồn",
+      type: "number",
+      placeholder: ""
+    }
   ];
+
+  
   

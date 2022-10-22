@@ -1,10 +1,10 @@
-import "./list.scss"
+import "./Products.scss"
 import Sidebar from "../../components/sidebar/Sidebar"
 import Navbar from "../../components/navbar/Navbar"
 import Datatable from "../../components/datatable/Datatable"
 import Container from 'react-bootstrap/Container'
 import { Row,Col } from "react-bootstrap";
-const List = () => {
+const Products = () => {
     return (
         <>
         <Container fluid>
@@ -18,7 +18,7 @@ const List = () => {
                   <Sidebar />
         </Col>
         <Col xs={10} md={10}>
-      <Datatable objectName={"Đơn hàng"} />
+      <Datatable objectName={"Sách"} />
         </Col>
       </Row>
       </Container>
@@ -26,4 +26,4 @@ const List = () => {
     )
 }
 
-export default List
+export default Products

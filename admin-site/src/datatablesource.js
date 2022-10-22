@@ -200,10 +200,68 @@ export const orderRows = [
     deliverDate: '20/09/2022',
     receiverName: "Trịnh Công Núi",
     receiverAddress: '109 đường Hoàng Thế Hiển, Phường 7, Quận Ba Đình, Hà Nội',
-    receiverPhone: '98329552543',
     paymentMethod: 'Thanh toán tiền mặt khi nhận hàng',
     deliverMethod: 'Giao hàng tiết kiệm',
     deliverMan: 'Trần Ngọc Hoàng',
     isApproved: true
+  }
+]
+
+
+//Tác Giả
+export const  authorColumns = [
+  {field: "id", headerName: "CODE",  width: 170},
+  {field: "authorName", headerName: "Name", width: 200},
+  {field: "authorBackground", headerName: "Background", width: 300}
+]
+export const authorRows = [
+  {
+    id: 1,
+    authorName: "Tacaiga",
+    authorBackground: "Backkground"
+  }
+]
+
+
+//Nhà Xuất Bản
+export const  NXBColumns = [
+  {field: "id", headerName: "CODE",  width: 170},
+  {field: "NXBName", headerName: "Name", width: 200},
+  {field: "NXBAddress", headerName: "Address", width: 300}
+]
+export const NXBRows = [
+  {
+    id: 1,
+    NXBName: "Hồ Chí Minh",
+    NXBAddress: "Address"
+  }
+]
+
+
+//Sản Phẩm
+export const  ProductsColumns = [
+  {field: "id", headerName: "Mã Sách",  width: 170},
+  {field: "ProductsName", headerName: "Tên Sách", width: 200},
+  {field: "Price", headerName: "Giá Bán", width: 300},
+
+  {field: "Description", headerName: "Mô Tả",  width: 170},
+  {field: "ProductsCover", headerName: "Ảnh Bìa", width: 200},
+  {field: "UpdateDate", headerName: "Ngày Cập Nhật", width: 300},
+
+  {field: "Stock", headerName: "Số Lượng Tồn",  width: 170},
+  {field: "NXB_ID", headerName: "Mã Nhà Xuất Bản", width: 200},
+  {field: "Title_ID", headerName: "Mã Chủ Đề", width: 300}
+]
+export const ProductsRows = [
+  {
+    id: 1,
+    ProductsName: "Tacaiga",
+    Price: "Backkground",
+    Description: "",
+    ProductsCover:"",
+    UpdateDate: "",
+    Stock: "",
+    NXB_ID: "",
+    Title_ID: ""
   }
 ]
