@@ -5,19 +5,9 @@ import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUpload
 import { useState } from "react";
 import Container from 'react-bootstrap/Container'
 import { Row,Col } from "react-bootstrap";
-import axios from "axios"
-const New = ({ inputs, title }) => {
-  const [file, setFile] = useState();
-  const [name, setName] = useState();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const data = new FormData();
-    data.append("name", name);
-    data.append("file", file);
-    axios.post('http://localhost:3002/api/upload', data)
-      .then((res) => console.log(res))
-  }
+const New = ({ inputs, title }) => {
+  const [file, setFile] = useState("");
 
   return (
     <>

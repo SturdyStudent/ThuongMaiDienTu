@@ -4,8 +4,6 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import StoreIcon from "@mui/icons-material/Store";
-import CorporateFareOutlinedIcon from "@mui/icons-material/CorporateFareOutlinedIcon"
-import ImportContactsOutlinedIcon from "@mui/icons-material/ImportContactsOut"
 import InsertChartIcon from "@mui/icons-material/InsertChart";
 import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
@@ -13,9 +11,8 @@ import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import StarIcon from '@mui/icons-material/Star';
 import DiscountOutlinedIcon from '@mui/icons-material/DiscountOutlined';
 import { Link } from "react-router-dom";
-import { DarkModeContext } from "../../context/darkModeContext";
-import { useContext } from "react";
-import { Nav } from "react-bootstrap";
+import ImportContactsOutlinedIcon from '@mui/icons-material/ImportContactsOutlined';
+import CorporateFareOutlinedIcon from '@mui/icons-material/CorporateFareOutlined';
 
 const Sidebar = () => {
   return (
@@ -181,94 +178,7 @@ const Sidebar = () => {
 )
 };
 
-// const Sidebar = () => {
-//   const { dispatch } = useContext(DarkModeContext);
-//   return (
-// <div className="sidebar">
-//   <div className="top">
-//     <Link to="/" style={{ textDecoration: "none" }}>
-//       <img src={Logo} alt="..." height="60" />
-//     </Link>
-//   </div>
-//   <hr />
-//   <div className="center">
-//     <ul>
-//       <p className="title">CHÍNH</p>
-//       <li>
-//         <DashboardIcon className="icon" />
-//         <span>Dashboard</span>
-//       </li>
-//       <p className="title">DANH SÁCH</p>
-//       <Link to="/users" style={{ textDecoration: "none" }}>
-//         <li>
-//           <PersonOutlineIcon className="icon" />
-//           <span>Người dùng</span>
-//         </li>
-//       </Link>
-//       <Link to="/products" style={{ textDecoration: "none" }}>
-//         <li>
-//           <StoreIcon className="icon" />
-//           <span>Sản phẩm</span>
-//         </li>
-//       </Link>
-//       <Link to="/orders" style={{ textDecoration: "none" }}>
-//         <li>
-//           <CreditCardIcon className="icon" />
-//           <span>Đơn hàng</span>
-//         </li>
-//       </Link>
-//       <li>
-//         <LocalShippingIcon className="icon" />
-//         <span>Vận chuyển</span>
-//       </li>
-//       <Link to="/vouchers" style={{ textDecoration: "none" }}>
-//         <li>
-//           <DiscountOutlinedIcon className="icon" />
-//           <span>Vouchers</span>
-//         </li>
-//       </Link>
-//       <Link to="/ratings" style={{ textDecoration: "none" }}>
-//         <li>
-//           <StarIcon className="icon" />
-//           <span>Đánh giá</span>
-//         </li>
-//       </Link>
-//       <p className="title">HỮU ÍCH</p>
-//       <li>
-//         <InsertChartIcon className="icon" />
-//         <span>Thống kê</span>
-//       </li>
-//       <li>
-//         <NotificationsNoneIcon className="icon" />
-//         <span>Thông báo</span>
-//       </li>
-//       <p className="title">DỊCH VỤ</p>
-//       <li>
-//         <SettingsSystemDaydreamOutlinedIcon className="icon" />
-//         <span>Sức khỏe hệ thống</span>
-//       </li>
-//       <li>
-//         <PsychologyOutlinedIcon className="icon" />
-//         <span>Logs</span>
-//       </li>
-//       <li>
-//         <SettingsApplicationsIcon className="icon" />
-//         <span>Cài đặt</span>
-//       </li>
-//       <p className="title">NGƯỜI DÙNG</p>
-//       <li>
-//         <AccountCircleOutlinedIcon className="icon" />
-//         <span>Thông tin cá nhân</span>
-//       </li>
-//       <li>
-//         <ExitToAppIcon className="icon" />
-//         <span>Đăng xuất</span>
-//       </li>
-//     </ul>
-//   </div>
-
-
-{/* <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
+      {/* <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
   
   <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
     <svg class="bi me-2" width="40" height="32"></svg>
@@ -337,35 +247,32 @@ const Sidebar = () => {
   );
 }; */}
 
-const Side = props => {
-
-
+{/* const Side = props => {
   return (
-    <>
-
-      <Nav className="col-md-3 d-none d-md-block bg-light sidebar"
-        activeKey="/home"
-        onSelect={selectedKey => alert(`selected ${selectedKey}`)}
-      >
-        <div className="sidebar-sticky"></div>
-        <Nav.Item>
-          <Nav.Link href="/home">Active</Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link eventKey="link-1">Link</Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link eventKey="link-2">Link</Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link eventKey="disabled" disabled>
-            Disabled
+      <>
+        <Nav className="flex-column">
+          <Nav.Link id='item'>
+            Đơn hàng
           </Nav.Link>
-        </Nav.Item>
-      </Nav>
+          <Nav.Link id='item'>
+            Nhân viên
+          </Nav.Link>
+          <Nav.Link id='item'>
+            Sách
+          </Nav.Link>
+          <Nav.Link id='item'>
+            Tác giả
+          </Nav.Link>
+          <Nav.Link id='item'>
+            Nhà xuất bản
+          </Nav.Link>
+          <Nav.Link id='item'>
+            Thống kê
+          </Nav.Link>
+        </Nav>
+      </>
+      );
+}; */}
+export default Sidebar;
 
-    </>
-  );
-};
-export default Side;
-
+  
