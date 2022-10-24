@@ -221,3 +221,63 @@ CREATE PROCEDURE [dbo].[DeleteKH]
 AS
 	Delete from KhachHang where MaKH = @MaKH;
 GO
+-------------------Sách-----------------------------
+CREATE PROCEDURE [dbo].[SelectSachById]
+	@MaSach int
+AS
+	SELECT * from Sach
+	WHERE @MaSach = MaSach
+GO
+
+CREATE PROCEDURE [dbo].[SelectAllSach]
+AS
+	SELECT * from Sach
+GO
+
+CREATE PROCEDURE [dbo].[InsertSach]
+@TenSach	nvarchar(50),
+@GiaBan	int,
+@MoTa nvarchar(MAX),
+@AnhBia	nvarchar(MAX),
+@NgayCapNhat date,
+@SoLuongTon int,
+@MaNXB	int,
+@MaChuDe int,
+@MaTacGia int
+AS
+	INSERT INTO Sach(TenSach, GiaBan, MoTa,AnhBia,NgayCapNhat,SoLuongTon,MaNXB,MaChuDe, MaTacGia)
+VALUES (@TenSach, @GiaBan, @MoTa,@AnhBia,@NgayCapNhat,@SoLuongTon,@MaNXB,@MaChuDe, @MaTacGia);
+GO
+
+CREATE PROCEDURE [dbo].[UpdateSach]
+(@MaSach int,
+@TenSach nvarchar(50),
+@GiaBan nvarchar(50),
+@MoTa nvarchar(MAX),
+@AnhBia nvarchar(MAX),
+@NgayCapNhat date,
+@SoLuongTon int,
+@MaNXB int,
+@MaChuDe int,
+@MaTacGia int)
+
+AS
+	UPDATE Sach
+	SET
+		TenSach = @TenSach,
+		GiaBan = @GiaBan,
+		MoTa = @MoTa,
+		AnhBia = @AnhBia,
+		NgayCapNhat = @NgayCapNhat,
+		SoLuongTon = @SoLuongTon,
+		MaNXB = @MaNXB,
+		MaChuDe = @MaChuDe,
+		MaTacGia = @MaTacGia
+	WHERE MaSach = @MaSach
+GO
+
+CREATE PROCEDURE [dbo].[DeleteSach]
+	@MaSach int
+AS
+	Delete from Sach where MaSach = @MaSach;
+GO
