@@ -111,7 +111,7 @@ AS
 	INSERT INTO TacGia(TenTacGia, HinhTacGia, DiaChi, TieuSu, DienThoai)
 	Values(@TenTacGia, @HinhTacGia, @DiaChi, @TieuSu, @DienThoai);
 GO
-exec InsertTacGia @TenTacGia='dau ma', @HinhTacGia='vaichuong', @DiaChi='tx43', @TieuSu ='CO cai eo',@DienThoai=0339531453
+
 CREATE PROCEDURE [dbo].[UpdateTacGia]
 (@MaTacGia int,
 @TenTacGia nvarchar(50),
