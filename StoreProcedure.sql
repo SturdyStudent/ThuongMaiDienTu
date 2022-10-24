@@ -1,4 +1,31 @@
-﻿-------------------Đăng nhập/ Đăng kí-----------------------------
+-------------------Đăng nhập/ Đăng kí Nhân viên-----------------------------
+CREATE PROC [dbo].[DangNhapNhanVien]
+@Email nvarchar(50),
+@MatKhau nvarchar(50)
+AS
+BEGIN
+	SET NOCOUNT ON;
+	SELECT TaiKhoan, Email
+	FROM NhanVien
+	WHERE Email = @Email AND MatKhau = @MatKhau
+END
+go
+
+CREATE PROCEDURE [dbo].[InsertKhachHang]
+@HoTen	nvarchar(50),
+@TaiKhoan	nvarchar(50),
+@MatKhau nvarchar(50),
+@Email	nvarchar(50),
+@DiaChi nvarchar(MAX),
+@DienThoai nvarchar(20),
+@GioiTinh nvarchar(3),
+@NgaySinh date
+
+AS
+	INSERT INTO KhachHang(HoTen, TaiKhoan, MatKhau,Email,DiaChi,DienThoai,GioiTinh,NgaySinh)
+VALUES (@HoTen, @TaiKhoan, @MatKhau,@Email,@DiaChi,@DienThoai,@GioiTinh,@NgaySinh);
+GO
+-------------------Đăng nhập/ Đăng kí khách hàng-----------------------------
 CREATE PROC [dbo].[DangNhapKhachHang]
 @Email nvarchar(50),
 @MatKhau nvarchar(50)
@@ -26,6 +53,13 @@ AS
 VALUES (@HoTen, @TaiKhoan, @MatKhau,@Email,@DiaChi,@DienThoai,@GioiTinh,@NgaySinh);
 GO
 -------------------Chủ đề-----------------------------
+CREATE PROCEDURE [dbo].[SelectChuDeById]
+	@MaChuDe int
+AS
+	Select * FROM ChuDe
+	WHERE MaChuDe = @MaChuDe
+GO
+
 CREATE PROCEDURE [dbo].[SelectAllChuDe]
 AS
 	Select * FROM ChuDe
@@ -55,6 +89,13 @@ AS
 GO
 
 -------------------Tác giả-----------------------------
+CREATE PROCEDURE [dbo].[SelectTacGiaById]
+	@MaTacGia int
+AS
+	Select * FROM TacGia
+	WHERE MaTacGia = @MaTacGia
+GO
+
 CREATE PROCEDURE [dbo].[SelectAllTacGia]
 AS
 	Select * FROM TacGia
@@ -70,7 +111,7 @@ AS
 	INSERT INTO TacGia(TenTacGia, HinhTacGia, DiaChi, TieuSu, DienThoai)
 	Values(@TenTacGia, @HinhTacGia, @DiaChi, @TieuSu, @DienThoai);
 GO
-
+exec InsertTacGia @TenTacGia='dau ma', @HinhTacGia='vaichuong', @DiaChi='tx43', @TieuSu ='CO cai eo',@DienThoai=0339531453
 CREATE PROCEDURE [dbo].[UpdateTacGia]
 (@MaTacGia int,
 @TenTacGia nvarchar(50),
@@ -95,6 +136,13 @@ AS
 	Delete from TacGia where TacGia.MaTacGia = @MaTacGia;
 GO
 -------------------Nhà Xuất bản-----------------------------
+CREATE PROCEDURE [dbo].[SelectNXBById]
+	@MaNXB int
+AS
+	Select * FROM NXB
+	WHERE MaNXB = @MaNXB
+GO
+
 CREATE PROCEDURE [dbo].[SelectAllNXB]
 AS
 	SELECT * from NXB
@@ -131,6 +179,13 @@ AS
 	Delete from NXB where NXB.MaNXB = @MaNXB;
 GO
 -------------------Khách hàng-----------------------------
+CREATE PROCEDURE [dbo].[SelectKhachHangById]
+	@MaKH INT
+AS
+SELECT * FROM KhachHang
+WHERE MaKH = @MaKH
+GO
+
 CREATE PROCEDURE [dbo].[SelectAllKhachHang]
 AS
 SELECT * FROM KhachHang
