@@ -35,9 +35,8 @@ GO
 CREATE TABLE [dbo].[NhanVien](
 	[MaNV] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	[HoTenNV] [nvarchar](50) NULL,
-	[Tuoi] [tinyint] NULL,
 	[NgaySinh] [date] NULL,
-	[GioiTinh] [varchar](3) NULL,
+	[GioiTinh] [nvarchar](3) NULL,
 	[Sdt] [nvarchar](50) NULL,
 	[DiaChi] [nvarchar](50) NULL,
 )
@@ -97,6 +96,20 @@ GO
 ALTER TABLE [dbo].[Sach] CHECK CONSTRAINT [FK_Sach_TacGia]
 GO
 
+
+CREATE TABLE [dbo].[Voucher](
+	[IDVoucher] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	[CodeVoucher] [nvarchar](max) NULL,
+	[NgayBatDau] [date] NULL,
+	[NgayKetThuc] [date] NULL,
+	[TriGiaGiam] [money] NULL,
+	[DieuKienVoucher] [nvarchar](50) NULL,
+	[SoLuong] [bigint] NULL,
+	[HieuLuc] [bit] NULL,
+)
+GO
+
+
 CREATE TABLE [dbo].[DonHang](
 	[MaDonHang] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	[DaThanhToan] [bit] NULL,
@@ -109,12 +122,17 @@ CREATE TABLE [dbo].[DonHang](
 	[DiaChiGiao] [nvarchar](50) NULL,
 	[HinhThucThanhToan] [nvarchar](20) NULL,
 	[HinhThucGiaoHang] [nvarchar](20) NULL,
-	[CodeVoucher] [nvarchar](max) NULL,
+	[IDVoucher] [int] NULL,
 	[ThanhTien] [money] NULL,
 )
 GO
 
-ALTER TABLE [dbo].[DonHang]  WITH CHECK ADD  CONSTRAINT [FK_DonHang_KhachHang] FOREIGN KEY([MaKH])
+ALTER TABLE [dbo].[DonHang] ADD  CONSTRAINT [FK_DonHang_Voucher] FOREIGN KEY([IDVoucher])
+REFERENCES [dbo].[Voucher] ([IDVoucher])
+
+ALTER TABLE [dbo].[DonHang] CHECK CONSTRAINT [FK_DonHang_Voucher]
+
+ALTER TABLE [dbo].[DonHang] ADD  CONSTRAINT [FK_DonHang_KhachHang] FOREIGN KEY([MaKH])
 REFERENCES [dbo].[KhachHang] ([MaKH])
 GO
 
@@ -154,14 +172,14 @@ CREATE TABLE [dbo].[GiaoHang](
 )
 GO
 
-ALTER TABLE [dbo].[GiaoHang]  WITH CHECK ADD  CONSTRAINT [FK_GiaoHang_DonHang] FOREIGN KEY([MaDonHang])
+ALTER TABLE [dbo].[GiaoHang] ADD  CONSTRAINT [FK_GiaoHang_DonHang] FOREIGN KEY([MaDonHang])
 REFERENCES [dbo].[DonHang] ([MaDonHang])
 GO
 
 ALTER TABLE [dbo].[GiaoHang] CHECK CONSTRAINT [FK_GiaoHang_DonHang]
 GO
 
-ALTER TABLE [dbo].[GiaoHang]  WITH CHECK ADD  CONSTRAINT [FK_GiaoHang_NhanVien] FOREIGN KEY([MaNV])
+ALTER TABLE [dbo].[GiaoHang] ADD  CONSTRAINT [FK_GiaoHang_NhanVien] FOREIGN KEY([MaNV])
 REFERENCES [dbo].[NhanVien] ([MaNV])
 GO
 
@@ -169,14 +187,4 @@ ALTER TABLE [dbo].[GiaoHang] CHECK CONSTRAINT [FK_GiaoHang_NhanVien]
 GO
 
 
-CREATE TABLE [dbo].[Voucher](
-	[IDVoucher] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
-	[CodeVoucher] [nvarchar](max) NULL,
-	[NgayBatDau] [date] NULL,
-	[NgayKetThuc] [date] NULL,
-	[TriGiaGiam] [money] NULL,
-	[DieuKienVoucher] [nvarchar](50) NULL,
-	[SoLuong] [bigint] NULL,
-	[HieuLuc] [bit] NULL,
-)
-GO
+
