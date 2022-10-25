@@ -31,18 +31,10 @@ import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js";
 import ProtectedRoute from "./ProtectedRoute";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { productInputs, userInputs, authorInputs, NXBInputs } from "./formSource";
 import "./style/dark.scss";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
-import NewAuthors from "./pages/authors/NewAuthors.jsx";
-import EditAuthors from "./pages/authors/EditAuthors.jsx";
-import Authors from "./pages/authors/authors.jsx";
-import SingleAuthors from "./pages/single/SingleAuthors.jsx"
-import SingleNXB from "./pages/single/SingleNXB"
-import NXB from "./pages/publisher/nxb.jsx";
-import EditNXB from "./pages/publisher/EditNXB.jsx"
-import NewNXB from "./pages/publisher/NewNXB.jsx"
+
 function App() {
   const { darkMode } = useContext(DarkModeContext);
 
@@ -52,30 +44,6 @@ function App() {
         <Routes>
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
-          <Route path="authors">
-            <Route index element={<Authors />} />
-            <Route path=":authorsId" element={<SingleAuthors />} />
-            <Route
-              path="NewAuthors"
-              element={<NewAuthors inputs={authorInputs} title="Thêm tác giả" />}
-            />
-            <Route
-              path="EditAuthors"
-              element={<EditAuthors inputs={authorInputs} title="Sửa thông tin tác giả" />}
-            />
-          </Route>
-          <Route path="publisher">
-            <Route index element={<NXB />} />
-            <Route path=":NXBId" element={<SingleNXB />} />
-            <Route
-              path="NewNXB"
-              element={<NewNXB inputs={NXBInputs} title="Thêm Nhà Xuất Bản" />}
-            />
-            <Route
-              path="EditNXB"
-              element={<EditNXB inputs={NXBInputs} title="Sửa thông tin nhà xuất bản" />}
-            />
-          </Route>
           <Route element={<ProtectedRoute />}>
             <Route path="/">
               <Route index element={<Home />} />
@@ -84,11 +52,11 @@ function App() {
                 <Route path=":userId" element={<Single />} />
                 <Route
                   path="new"
-                  element={<New inputs={userInputs} title="Thêm người dùng" />}
+                  element={<New title="Thêm người dùng" />}
                 />
                 <Route
                   path="edit"
-                  element={<UserEdit inputs={userInputs} title="Sửa thông tin người dùng" />}
+                  element={<UserEdit title="Sửa thông tin người dùng" />}
                 />
               </Route>
               <Route path="vouchers">
@@ -99,7 +67,7 @@ function App() {
                 />
                 <Route
                   path="edit"
-                  element={<VoucherEdit inputs={userInputs} title="Sửa thông tin voucher" />}
+                  element={<VoucherEdit title="Sửa thông tin voucher" />}
                 />
               </Route>
               <Route path='ratings'>
@@ -110,7 +78,7 @@ function App() {
                 />
                 <Route
                   path="edit"
-                  element={<RatingEdit inputs={userInputs} title="Sửa thông tin Rating" />}
+                  element={<RatingEdit title="Sửa thông tin Rating" />}
                 />
               </Route>
               <Route path='orders'>
@@ -122,7 +90,7 @@ function App() {
                 />
                 <Route
                   path="edit"
-                  element={<OrderEdit inputs={userInputs} title="Sửa thông tin Đơn hàng" />}
+                  element={<OrderEdit title="Sửa thông tin Đơn hàng" />}
                 />
               </Route>
               <Route path='authors'>
@@ -134,7 +102,7 @@ function App() {
                 />
                 <Route
                   path="edit"
-                  element={<AuthorEdit inputs={userInputs} title="Sửa thông tin Tác giả" />}
+                  element={<AuthorEdit title="Sửa thông tin Tác giả" />}
                 />
               </Route>
               <Route path='categories'>
@@ -145,7 +113,7 @@ function App() {
                 />
                 <Route
                   path="edit"
-                  element={<CategoryEdit inputs={userInputs} title="Sửa thông tin Thể loại" />}
+                  element={<CategoryEdit title="Sửa thông tin Thể loại" />}
                 />
               </Route>
               <Route path='books'>
@@ -156,7 +124,7 @@ function App() {
                 />
                 <Route
                   path="edit"
-                  element={<BookEdit inputs={userInputs} title="Sửa thông tin Sách" />}
+                  element={<BookEdit title="Sửa thông tin Sách" />}
                 />
               </Route>
               <Route path='publishers'>
@@ -167,7 +135,7 @@ function App() {
                 />
                 <Route
                   path="edit"
-                  element={<PublisherEdit inputs={userInputs} title="Sửa thông tin Nhà xuất bản" />}
+                  element={<PublisherEdit title="Sửa thông tin Nhà xuất bản" />}
                 />
               </Route>
             </Route>
