@@ -20,7 +20,7 @@ const Datatable = ({ objectName }) => {
       Thêm
     </Link>
   } else if (objectName === 'Người dùng') {
-    dataRows = userRows;
+    dataRows = [];
     dataColumns = userColumns;
     editAction = <Link to="/users/test" style={{ textDecoration: "none" }}>
       <div className="viewButton">Xem</div>

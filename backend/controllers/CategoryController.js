@@ -4,10 +4,6 @@ const apiResponse = require("../helpers/apiResponse");
 const sql = require('mssql')
 const config = require("../dbConfig");
 
-function CategoryData(data) {
-    this.categoryName = data.categoryName;
-}
-
 exports.categoryList = [
     function (req, res) {
         let categories;
@@ -16,6 +12,26 @@ exports.categoryList = [
                 let pool = await sql.connect(config);
                 categories = await pool.request()
                     .execute('SelectAllChuDe');
+                return categories;
+            }
+            waitPool().then((result) => {
+                return apiResponse.successResponseWithData(res, "Lấy danh sách chủ đề thành công", result.recordsets[0]);
+            }).catch(err => { return apiResponse.ErrorResponse(res, err) });
+        } catch (err) {
+            return apiResponse.ErrorResponse(res, err);
+        }
+    }
+];
+
+exports.categoryListById = [
+    function (req, res) {
+        let categories;
+        try {
+            const waitPool = async () => {
+                let pool = await sql.connect(config);
+                categories = await pool.request()
+                    .input("MaChuDe", sql.Int, req.params.id)
+                    .execute('SelectChuDeById');
                 return categories;
             }
             waitPool().then((result) => {

@@ -1,41 +1,21 @@
 import Switch from "react-switch";
-export const userColumns = [
-  { field: "id", headerName: "ID", width: 70 },
-  {
-    field: "user",
-    headerName: "User",
-    width: 230,
-    renderCell: (params) => {
-      return (
-        <div className="cellWithImg">
-          <img className="cellImg" src={params.row.img} alt="avatar" />
-          {params.row.username}
-        </div>
-      );
-    },
-  },
-  {
-    field: "email",
-    headerName: "Email",
-    width: 230,
-  },
+import { format } from 'date-fns'
 
+export const userColumns = [
+  { field: "id", headerName: "id", width: 170 },
+  { field: "HoTen", headerName: "Họ tên", width: 170 },
+  { field: "TaiKhoan", headerName: "Tài khoản", width: 170 },
+  { field: "Email", headerName: "Email", width: 170 },
+  { field: "DiaChi", headerName: "Địa chỉ", width: 170 },
+  { field: "DienThoai", headerName: "Điện thoại", width: 170 },
+  { field: "GioiTinh", headerName: "Giới tính", width: 100 },
   {
-    field: "age",
-    headerName: "Age",
-    width: 100,
-  },
-  {
-    field: "status",
-    headerName: "Status",
-    width: 160,
-    renderCell: (params) => {
+    field: "NgaySinh", headerName: "Ngày sinh", width: 170, renderCell: (params) => {
+      let birthday = format(new Date(params.row.NgaySinh), 'dd/MM/yyyy');
       return (
-        <div className={`cellWithStatus ${params.row.status}`}>
-          {params.row.status}
-        </div>
-      );
-    },
+        <div>{birthday}</div>
+      )
+    }
   },
 ];
 
@@ -87,89 +67,60 @@ export const orderColumns = [
     },
   },
 ]
-//temporary data
-export const userRows = [
+
+export const bookColumns = [
+  { field: "id", headerName: "Mã sách", width: 170 },
+  { field: "TenSach", headerName: "Tên sách", width: 170 },
+  { field: "GiaBan", headerName: "Gía bán", width: 170 },
+  { field: "MoTa", headerName: "Mô tả Nội dung", width: 170 },
   {
-    id: 1,
-    username: "Snow",
-    img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    status: "active",
-    email: "1snow@gmail.com",
-    age: 35,
+    field: "AnhBia", headerName: "Ảnh bìa", width: 70,
+    renderCell: (params) => {
+      return (
+        <div className="p-2 text-center d-flex justify-content-center">
+          <div style={{ width: "fitContent" }}>
+            <img width={"35px"} height={"50px"} src={`http://127.0.0.1:3002/public/${params.row.AnhBia}`} alt="avatar" />
+          </div>
+        </div >
+      );
+    },
   },
-  {
-    id: 2,
-    username: "Jamie Lannister",
-    img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    email: "2snow@gmail.com",
-    status: "passive",
-    age: 42,
-  },
-  {
-    id: 3,
-    username: "Lannister",
-    img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    email: "3snow@gmail.com",
-    status: "pending",
-    age: 45,
-  },
-  {
-    id: 4,
-    username: "Stark",
-    img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    email: "4snow@gmail.com",
-    status: "active",
-    age: 16,
-  },
-  {
-    id: 5,
-    username: "Targaryen",
-    img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    email: "5snow@gmail.com",
-    status: "passive",
-    age: 22,
-  },
-  {
-    id: 6,
-    username: "Melisandre",
-    img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    email: "6snow@gmail.com",
-    status: "active",
-    age: 15,
-  },
-  {
-    id: 7,
-    username: "Clifford",
-    img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    email: "7snow@gmail.com",
-    status: "passive",
-    age: 44,
-  },
-  {
-    id: 8,
-    username: "Frances",
-    img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    email: "8snow@gmail.com",
-    status: "active",
-    age: 36,
-  },
-  {
-    id: 9,
-    username: "Roxie",
-    img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    email: "snow@gmail.com",
-    status: "pending",
-    age: 65,
-  },
-  {
-    id: 10,
-    username: "Roxie",
-    img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    email: "snow@gmail.com",
-    status: "active",
-    age: 65,
-  },
+  { field: "NgayCapNhat", headerName: "Ngày cập nhật", width: 90 },
+  { field: "SoLuongTon", headerName: "Số lượng tồn", width: 170 },
+  { field: "MaNXB", headerName: "Mã nhà xuất bản", width: 170 },
+  { field: "MaChuDe", headerName: "Mã thể loại", width: 300 },
+  { field: "MaTacGia", headerName: "Mã tác giả", width: 170 },
 ];
+export const categoryColumns = [
+  { field: "id", headerName: "Mã chủ đề", width: 170 },
+  { field: "TenChuDe", headerName: "Tên chủ đề", width: 170 }
+];
+
+export const publisherColumns = [
+  { field: "id", headerName: "Mã nhà xuất bản", width: 170 },
+  { field: "TenNXB", headerName: "Tên nhà xuất bản", width: 170 },
+  { field: "Diachi", headerName: "Địa chỉ", width: 170 },
+  { field: "DienThoai", headerName: "Điện thoại", width: 170 }
+];
+
+export const authorColumns = [
+  { field: "id", headerName: "Mã tác giả", width: 170 },
+  { field: "TenTacGia", headerName: "Tên tác giả", width: 170 },
+  { field: "DiaChi", headerName: "Địa chỉ", width: 170 },
+  { field: "TieuSu", headerName: "Tiểu sử", width: 170 },
+  { field: "DienThoai", headerName: "Điện thoại", width: 170 },
+  {
+    field: "HinhTacGia", headerName: "Hình tác giả", width: 170,
+    renderCell: (params) => {
+      return (
+        <div className="cellWithImg">
+          <img className="cellImg" width={"100px"} height={"100px"} src={params.row.authorImage} alt="avatar" />
+        </div>
+      );
+    },
+  }
+];
+//temporary data
 //temporary data
 export const voucherRows = [
   {
@@ -205,5 +156,44 @@ export const orderRows = [
     deliverMethod: 'Giao hàng tiết kiệm',
     deliverMan: 'Trần Ngọc Hoàng',
     isApproved: true
+  }
+]
+
+export const bookRows = [
+  {
+    id: "138fafa473a",
+    bookName: "Người Xứ Phản",
+    bookPrice: "200.000đ",
+    bookDescription: "Chí Phèo là một chàng trai mạnh mẽ và can đảm, vào một ngày nọ...",
+    coverUrl: 'cover.com/png/1',
+    updateDate: '22/10/2022',
+    quantityLeft: 12,
+    publisherId: "12wera-fasdg9as",
+    categoryId: "3ra09fa-fa-sfasfh",
+    authorId: "r890waerafafasf",
+    soldQty: 121,
+    pageViews: 1200
+  }
+]
+
+export const categoryRows = [
+  {
+    id: "qq90asffdaaaf",
+    categoryName: "Kinh dị"
+  }
+]
+
+export const publisherRows = [
+  {
+    id: "as7d0asfdasfda",
+    publisherName: "NXB Kim Đồng"
+  }
+]
+
+export const authorRows = [
+  {
+    id: "qwre09f8as-dfasfa",
+    authorName: "Can Tiểu Hy",
+    biography: "Đậu đại học kiến trúc với điểm số thủ khoa đầu vào, Can Tiểu Hy gây dựng sự nghiệp với một loạt các..."
   }
 ]

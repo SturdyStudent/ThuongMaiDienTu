@@ -23,6 +23,26 @@ exports.publisherList = [
     }
 ];
 
+exports.publisherListById = [
+    function (req, res) {
+        let publishers;
+        try {
+            const waitPool = async () => {
+                let pool = await sql.connect(config);
+                publishers = await pool.request()
+                    .input('MaNXB', sql.Int, req.params.id)
+                    .execute('SelectNXBById');
+                return publishers;
+            }
+            waitPool().then((result) => {
+                return apiResponse.successResponseWithData(res, "Lấy danh sách nhà xuất bản thành công", result.recordsets[0]);
+            }).catch(err => { return apiResponse.ErrorResponse(res, err) });
+        } catch (err) {
+            return apiResponse.ErrorResponse(res, err);
+        }
+    }
+];
+
 exports.publisherCreate = [
     body("TenNXB").isLength({ min: 1 }).trim().withMessage("Tên nhà xuất bản không được bỏ trống."),
     body("DiaChi").isLength({ min: 1 }).trim().withMessage("Địa chỉ không được để trống."),
@@ -100,7 +120,7 @@ exports.publisherUpdate = [
                         return updatedPublisher;
                     }
                     waitPool().then((data) => {
-                        return apiResponse.successResponseWithData(res, "Sửa chủ đề thành công", data.recordsets[0]);
+                        return apiResponse.successResponseWithData(res, "Sửa nhà xuất bản thành công", data.recordsets[0]);
                     }).catch(err => { return apiResponse.ErrorResponse(res, err) });
                 }
             }

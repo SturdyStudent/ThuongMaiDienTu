@@ -4,6 +4,7 @@ const PublisherController = require("../controllers/PublisherController");
 var router = express.Router();
 
 router.get("/", PublisherController.publisherList);
+router.get("/:id", PublisherController.publisherListById);
 router.post("/create", PublisherController.publisherCreate);
 router.delete("/delete/:id", PublisherController.publisherDelete);
 router.put("/update/:id", PublisherController.publisherUpdate);

@@ -1,16 +1,18 @@
 var express = require("express");
 const multer = require('multer')
+const apiResponse = require('../helpers/apiResponse')
 
-
+var fileName;
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, './assets/images')
+        cb(null, './public')
     },
     filename: (req, file, cb) => {
         const {
             body: { name }
         } = req;
-        cb(null, Date.now() + name);
+        fileName = Date.now() + name;
+        cb(null, fileName);
     }
 })
 
@@ -21,8 +23,6 @@ router.get("/", (req, res) => {
     res.send("Trang upload ảnh");
 })
 router.post("/", upload.single('file'), (req, res) => {
-    res.status(200).send({
-        message: 'Upload thành công'
-    })
+    return apiResponse.successResponseWithData(res, "Upload ảnh thành công", fileName);
 });
 module.exports = router;

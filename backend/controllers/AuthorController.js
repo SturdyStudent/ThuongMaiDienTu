@@ -23,6 +23,26 @@ exports.authorList = [
     }
 ];
 
+exports.authorListById = [
+    (req, res) => {
+        let customers;
+        try {
+            const waitPool = async () => {
+                let pool = await sql.connect(config);
+                customers = await pool.request()
+                    .input("MaTacGia", sql.Int, req.params.id)
+                    .execute('SelectTacGiaById');
+                return customers;
+            }
+            waitPool().then((result) => {
+                return apiResponse.successResponseWithData(res, "Lấy danh sách tác giả thành công", result.recordsets[0]);
+            }).catch(err => { return apiResponse.ErrorResponse(res, err) });
+        } catch (err) {
+            return apiResponse.ErrorResponse(res, err);
+        }
+    }
+];
+
 exports.authorCreate = [
     body("TenTacGia").notEmpty().withMessage("Không được bỏ trống trường tên tác giả"),
     body("TieuSu").notEmpty().withMessage("Không được bỏ trống trường tiểu sử"),
@@ -30,6 +50,7 @@ exports.authorCreate = [
     body("DienThoai").notEmpty().withMessage("Không được bỏ trống trường điện thoại"),
     sanitizeBody("*").escape(),
     (req, res) => {
+        let addedAuthor;
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
@@ -40,6 +61,7 @@ exports.authorCreate = [
                     let pool = await sql.connect(config);
                     addedAuthor = await pool.request()
                         .input('TenTacGia', sql.NVarChar(50), req.body.TenTacGia)
+                        .input('HinhTacGia', sql.NVarChar(sql.MAX), 'null')
                         .input('DiaChi', sql.NVarChar(50), req.body.DiaChi)
                         .input('TieuSu', sql.NVarChar(sql.MAX), req.body.TieuSu)
                         .input('DienThoai', sql.NVarChar(50), req.body.DienThoai)
@@ -102,6 +124,7 @@ exports.authorUpdate = [
                     updatedAuthor = await pool.request()
                         .input('MaTacGia', sql.Int, req.params.id)
                         .input('TenTacGia', sql.NVarChar(50), req.body.TenTacGia)
+                        .input('HinhTacGia', sql.NVarChar(sql.MAX), 'null')
                         .input('DiaChi', sql.NVarChar(50), req.body.DiaChi)
                         .input('TieuSu', sql.NVarChar(sql.MAX), req.body.TieuSu)
                         .input('DienThoai', sql.NVarChar(50), req.body.DienThoai)
@@ -109,7 +132,7 @@ exports.authorUpdate = [
                     return updatedAuthor;
                 }
                 waitPool().then((data) => {
-                    return apiResponse.successResponseWithData(res, "Sửa chủ đề thành công", data.recordsets[0]);
+                    return apiResponse.successResponseWithData(res, "Sửa tác giả thành công", data.recordsets[0]);
                 }).catch(err => { return apiResponse.ErrorResponse(res, err) });
             }
         } catch (err) {

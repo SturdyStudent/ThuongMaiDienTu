@@ -1,18 +1,10 @@
 import "./new.scss";
-import { useState } from "react";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import StarIcon from '@mui/icons-material/Star';
 import Switch from 'react-switch'
 
 const Edit = ({ title }) => {
-    const [active, setActive] = useState(true);
-    const starIcon = <StarIcon className="icon" />;
-    const activeText = active ? 'Đã kích hoạt' : 'Đã bị vô hiệu';
-    const isPercentageDiscount = false;
-    const handleActive = () => {
-        setActive(!active);
-    }
 
     return (
         <div className="new">
