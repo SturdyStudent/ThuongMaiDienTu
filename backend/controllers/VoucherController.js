@@ -1,53 +1,176 @@
-const Voucher = require("../models/RatingModel");
 const { body, validationResult } = require("express-validator");
 const { sanitizeBody } = require("express-validator");
 const apiResponse = require("../helpers/apiResponse");
-const { ObjectId } = require('mongodb')
-var mongoose = require("mongoose");
-var Schema = mongoose.Schema;
+const sql = require('mssql')
+const config = require("../dbConfig");
 
 exports.voucherList = [
     function (req, res) {
-
-    }
-];
-
-exports.voucherCreate = [
-    (req, res) => {
-        const publisherId = ObjectId(req.body.publisherId);
+        let vouchers;
         try {
-            const errors = validationResult(req);
-            var book = new Book(
-                {
-                    title: req.body.title,
-                    price: req.body.price,
-                    description: req.body.description,
-                    coverImageUrl: req.body.coverImageUrl,
-                    quantityLeft: req.body.quantityLeft,
-                    publisherId: publisherId,
-                    authorId: req.body.authorId,
-                    categoryId: req.body.categoryId,
-                    isbn: req.body.isbn,
-                    soldQty: 0,
-                    views: 0,
-                    admin: req.body.admin
-                });
-
-            if (!errors.isEmpty()) {
-                return apiResponse.validationErrorWithData(res, "Lỗi xác thực", errors.array());
+            const waitPool = async () => {
+                let pool = await sql.connect(config);
+                vouchers = await pool.request()
+                    .execute('SelectAllVoucher');
+                return vouchers;
             }
-            else {
-                //Save book.
-                book.save(function (err) {
-                    if (err) { return apiResponse.ErrorResponse(res, err); }
-                    let bookData = new BookData(book);
-                    return apiResponse.successResponseWithData(res, "Thêm sách thành công.", bookData);
-                });
-            }
+            waitPool().then((result) => {
+                return apiResponse.successResponseWithData(res, "Lấy danh sách tác giả thành công", result.recordsets[0]);
+            }).catch(err => { return apiResponse.ErrorResponse(res, err) });
         } catch (err) {
             return apiResponse.ErrorResponse(res, err);
         }
     }
 ];
-exports.voucherDelete = [];
-exports.voucherUpdate = [];
+
+exports.voucherItemId = [
+    function (req, res) {
+        let voucher;
+        try {
+            const waitPool = async () => {
+                let pool = await sql.connect(config);
+                voucher = await pool.request()
+                    .input('IdVoucher', sql.Int, req.params.id)
+                    .execute('SelectIdVoucher');
+                return voucher;
+            }
+            waitPool().then((result) => {
+                return apiResponse.successResponseWithData(res, "Lấy id voucher thành công", result.recordsets[0]);
+            }).catch(err => { return apiResponse.ErrorResponse(res, err) });
+        } catch (err) {
+            return apiResponse.ErrorResponse(res, err);
+        }
+    }
+];
+
+
+exports.voucherItemName = [
+    function (req, res) {
+        let voucher;
+        try {
+            const waitPool = async () => {
+                let pool = await sql.connect(config);
+                voucher = await pool.request()
+                    .input('CodeVoucher', sql.NVarChar(50), req.body.CodeVoucher)
+                    .execute('SelectTenVoucher');
+                return voucher;
+            }
+            waitPool().then((result) => {
+                return apiResponse.successResponseWithData(res, "Lấy code voucher thành công", result.recordsets[0]);
+            }).catch(err => {return apiResponse.ErrorResponse(res, err) });
+        } catch (err) {
+            return apiResponse.ErrorResponse(res, err);
+        }
+    }
+];
+
+
+
+exports.voucherCreate = [
+    body("CODEVoucher").notEmpty().withMessage("Không được bỏ trống trường mã voucher"),
+    body("NgayBatDau").notEmpty().withMessage("Không được bỏ trống trường ngày bắt đầu"),
+    body("NgayKetThuc").notEmpty().withMessage("Không được bỏ trống trường ngày kết thúc"),
+    body("TriGiaGiam").notEmpty().withMessage("Không được bỏ trống trường trị giá giảm"),
+    body("DieuKienVoucher").notEmpty().withMessage("Không được bỏ trống trường điều kiện voucher"),
+    body("SoLuong").notEmpty().withMessage("Không được bỏ trống trường số lượng"),
+    body("Hieuluc").notEmpty().withMessage("Không được bỏ trống trường hiệu lực"),
+    sanitizeBody("*").escape(),
+    (req, res) => {
+        try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return apiResponse.validationErrorWithData(res, "Lỗi xác thực", errors.array());
+            }
+            else {
+                const waitPool = async () => {
+                    let pool = await sql.connect(config);
+                    addedVoucher = await pool.request()
+                        .input('CODEVoucher', sql.NVarChar(50), req.body.CODEVoucher)
+                        .input('NgayBatDau', sql.Date, req.body.NgayBatDau)
+                        .input('NgayKetThuc', sql.Date, req.body.NgayKetThuc)
+                        .input('TriGiaGiam', sql.Money, req.body.TriGiaGiam)
+                        .input('DieuKienVoucher', sql.NVarChar(50), req.body.DieuKienVoucher)
+                        .input('SoLuong', sql.Int, req.body.SoLuong)
+                        .input('Hieuluc', sql.Bit, req.body.Hieuluc)
+                        .execute('InsertVoucher');
+                    return addedVoucher;
+                }
+                waitPool().then((data) => {
+                    return apiResponse.successResponseWithData(res, "Thêm Voucher thành công", data.recordsets[0]);
+                }).catch(err => { return apiResponse.ErrorResponse(res, err) });
+            }
+        } catch (err) {
+            return apiResponse.ErrorResponse(res, err);
+        }
+
+    }
+];
+
+exports.voucherDelete = [
+    function (req, res) {
+        try {
+            let deletedVoucher;
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+            }
+            else {
+                const waitPool = async () => {
+                    let pool = await sql.connect(config);
+                    deletedVoucher = await pool.request()
+                        .input('IDVoucher', sql.Int, req.params.id)
+                        .execute('DeleteVoucher');
+                    return deletedVoucher;
+                }
+                waitPool().then((data) => {
+                    return apiResponse.successResponseWithData(res, "xóa tác giả thành công", data.recordsets[0]);
+                }).catch(err => { return apiResponse.ErrorResponse(res, err) });
+            }
+        } catch (err) {
+            //throw error in json response with status 500. 
+            return apiResponse.ErrorResponse(res, err);
+        }
+    }
+];
+
+exports.voucherUpdate = [
+    body("CODEVoucher").notEmpty().withMessage("Không được bỏ trống trường mã voucher"),
+    body("NgayBatDau").notEmpty().withMessage("Không được bỏ trống trường ngày bắt đầu"),
+    body("NgayKetThuc").notEmpty().withMessage("Không được bỏ trống trường ngày kết thúc"),
+    body("TriGiaGiam").notEmpty().withMessage("Không được bỏ trống trường trị giá giảm"),
+    body("DieuKienVoucher").notEmpty().withMessage("Không được bỏ trống trường điều kiện voucher"),
+    body("SoLuong").notEmpty().withMessage("Không được bỏ trống trường số lượng"),
+    body("Hieuluc").notEmpty().withMessage("Không được bỏ trống trường hiệu lực"),
+    sanitizeBody("*").escape(),
+    (req, res) => {
+        try {
+            let updatedVoucher;
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
+            }
+            else {
+                const waitPool = async () => {
+                    let pool = await sql.connect(config);
+                    updatedVoucher = await pool.request()
+                        .input('IDVoucher', sql.Int, req.params.id)
+                        .input('CodeVoucher', sql.NVarChar(sl.Max), req.body.CodeVoucher)
+                        .input('NgayBatDau', sql.Date, req.body.NgayBatDau)
+                        .input('NgayKetThuc', sql.Date, req.body.NgayKetThuc)
+                        .input('TriGiaGiam', sql.Money, req.body.TriGiaGiam)
+                        .input('DieuKienVoucher', sql.NVarChar(50), req.body.DieuKienVoucher)
+                        .input('Soluong', sql.BigInt, req.body.SoLuong)
+                        .input('HieuLuc', sql.Int, req.body.HieuLuc)
+                        .execute('UpdateTacGia');
+                    return updatedVoucher;
+                }
+                waitPool().then((data) => {
+                    return apiResponse.successResponseWithData(res, "Sửa chủ đề thành công", data.recordsets[0]);
+                }).catch(err => { return apiResponse.ErrorResponse(res, err) });
+            }
+        } catch (err) {
+            //throw error in json response with status 500. 
+            return apiResponse.ErrorResponse(res, err);
+        }
+    }
+];

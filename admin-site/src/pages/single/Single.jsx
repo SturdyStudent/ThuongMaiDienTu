@@ -4,13 +4,24 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import Chart from "../../components/chart/Chart";
 import List from "../../components/table/Table";
-
+import { Row,Col } from "react-bootstrap";
+import Container from 'react-bootstrap/Container'
 const Single = () => {
   return (
-    <div className="single">
-      <Sidebar />
-      <div className="singleContainer">
-        <Navbar />
+    <>
+    <Container fluid>
+  <Row>
+    <Col>    
+      <Navbar />   
+    </Col>
+  </Row>
+  <Row>
+  <Col xs={2} md={2}>
+              <Sidebar />
+    </Col>
+    <Col xs={10} md={10}>
+    <div className="single">     
+      <div className="singleContainer">        
         <div className="top">
           <div className="left">
             <Link to="/users/edit" style={{ textDecoration: "none" }}>
@@ -56,6 +67,11 @@ const Single = () => {
         </div>
       </div>
     </div>
+    </Col>
+  </Row>
+  </Container>
+  </>
+    
   );
 };
 

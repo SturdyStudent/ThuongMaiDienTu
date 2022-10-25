@@ -151,7 +151,6 @@ export const orderRows = [
     deliverDate: '20/09/2022',
     receiverName: "Trịnh Công Núi",
     receiverAddress: '109 đường Hoàng Thế Hiển, Phường 7, Quận Ba Đình, Hà Nội',
-    receiverPhone: '98329552543',
     paymentMethod: 'Thanh toán tiền mặt khi nhận hàng',
     deliverMethod: 'Giao hàng tiết kiệm',
     deliverMan: 'Trần Ngọc Hoàng',

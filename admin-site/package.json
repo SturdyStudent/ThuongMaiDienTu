@@ -21,6 +21,8 @@
     "react-router-dom": "^6.4.2",
     "react-scripts": "5.0.0",
     "react-spinner-animated": "^3.1.1",
+    "react-select": "^5.5.4",
+    "react-select-country-list": "^2.2.3",
     "react-switch": "^7.0.0",
     "recharts": "^2.1.9",
     "sass": "^1.49.9",

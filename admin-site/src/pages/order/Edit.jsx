@@ -7,15 +7,27 @@ import Navbar from "../../components/navbar/Navbar";
 import Cover from '../../assets/images/bookCover.png'
 // import SearchModal from "../../components/modal/SearchProductModal";
 import SearchCustomer from '../../components/modal/SearchCustomerModal'
-
+import Container from 'react-bootstrap/Container'
+import { Row,Col } from "react-bootstrap";
 const Edit = ({ title }) => {
 
     return (
         <>
-            <div className="new" style={{ height: "100%" }}>
-                <Sidebar />
+         <Container fluid>
+  <Row>
+    <Col>    
+      <Navbar />   
+    </Col>
+  </Row>
+  <Row>
+  <Col xs={2} md={2}>
+              <Sidebar />
+    </Col>
+    <Col xs={10} md={10}>
+    <div className="new">
+                
                 <div className="newContainer">
-                    <Navbar />
+                   
                     <div className="top">
                         <h1>{title}</h1>
                     </div>
@@ -125,6 +137,11 @@ const Edit = ({ title }) => {
                 </div>
             </div>
             <SearchCustomer />
+    </Col>
+    
+  </Row>
+  </Container>
+            
         </>
 
     );
