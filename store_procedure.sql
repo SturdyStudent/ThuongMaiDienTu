@@ -9,8 +9,9 @@ SET QUOTED_IDENTIFIER ON
 GO;
 
 --Utility
-CREATE FUNCTION DescVoucher(@IDVoucher int)
-RETURNS bit
+CREATE PROCEDURE DescVoucher(
+	@IDVoucher int
+)
 AS
 begin
 	declare @SoLuong int
@@ -19,11 +20,19 @@ begin
 			set @SoLuong = (Select Voucher.SoLuong from Voucher where Voucher.IDVoucher = @IDVoucher)
 			Update Voucher
 			SET Voucher.SoLuong = @SoLuong - 1
-			return 1
 		end
-	return 0
-end;
-GO
+end
+GO;
+
+CREATE PROCEDURE [dbo].[GiaoThanhCong](
+	@MaDonHang INT
+)
+AS
+	UPDATE DonHang
+	SET DonHang.TinhTrangGiaoHang = 1
+	WHERE DonHang.MaDonHang = @MaDonHang
+GO;
+
 
 --select all
 CREATE PROCEDURE [dbo].[SelectAllCD]
@@ -31,10 +40,10 @@ AS
 	Select * FROM ChuDe
 GO;
 
---CREATE PROCEDURE [dbo].[SelectAllCTDHang]
---AS
---SELECT * FROM ChiTietDonHang
---GO;
+CREATE PROCEDURE [dbo].[SelectAllCTDHang]
+AS
+SELECT * FROM ChiTietDonHang
+GO;
 
 CREATE PROCEDURE [dbo].[SelectAllDonHang]
 AS
@@ -50,7 +59,7 @@ CREATE PROCEDURE [dbo].[SelectAllKhachHang]
 AS
 SELECT * FROM KhachHang
 GO;
-GO
+
 
 CREATE PROCEDURE [dbo].[SelectAllNhanVien]
 AS
@@ -218,7 +227,8 @@ CREATE PROCEDURE [dbo].[SelectIdVoucher](
 )
 AS
 	SELECT * from Voucher WHERE Voucher.IDVoucher = @IdVoucher
-GO;
+GO
+
 
 CREATE PROCEDURE [dbo].[SelectTenVoucher](
 @CodeVoucher nvarchar(50)
@@ -235,7 +245,7 @@ CREATE PROCEDURE [dbo].[InsertChuDe](
 AS
 	INSERT INTO ChuDe(TenChuDe)
 	VALUES (@TenChuDe);
-GO;
+GO
 
 CREATE PROCEDURE [dbo].[InsertChiTietDonHang](
 @MaDonHang int,
@@ -246,7 +256,7 @@ CREATE PROCEDURE [dbo].[InsertChiTietDonHang](
 AS
 	INSERT INTO ChiTietDonHang(MaDonHang,MaSach, SoLuong, DonGia)
 	VALUES (@MaDonHang, @MaSach, @SoLuong, @DonGia);
-GO;
+GO
 
 CREATE PROCEDURE [dbo].[InsertDonHangNotVovucher](
 @DaThanhToan	bit,
@@ -271,7 +281,7 @@ AS
 		@TenNguoiNhan, @DienThoaiNguoiNhan, @DiaChiGiao, @HinhThucThanhToan,
 		@HinhThucGiaoHang, @ThanhTien)
 	end
-GO;
+GO
 
 CREATE PROCEDURE [dbo].[InsertDonHangHaveVoucher](
 @DaThanhToan	bit,
@@ -298,7 +308,7 @@ AS
 		@HinhThucGiaoHang, @IDVoucher, @ThanhTien)
 		select dbo.DescVoucher(@IDVoucher)
 	end
-GO;
+GO
 
 
 
@@ -325,7 +335,7 @@ CREATE PROCEDURE [dbo].[InsertGiaoHang](
 AS
 	INSERT INTO GiaoHang(MaNV, MaDonHang, NgayGiao)
 	VALUES (@MaNV, @MaDonHang, @NgayGiao);
-GO;
+GO
 
 CREATE PROCEDURE [dbo].[InsertKhachHang](
 @HoTen	nvarchar(50),
@@ -378,7 +388,7 @@ CREATE PROCEDURE [dbo].[InsertSach](
 AS
 	INSERT INTO Sach(TenSach, GiaBan, MoTa,AnhBia,NgayCapNhat,SoLuongTon,MaNXB,MaChuDe, MaTacGia)
 	VALUES (@TenSach, @GiaBan, @MoTa,@AnhBia,@NgayCapNhat,@SoLuongTon,@MaNXB,@MaChuDe, @MaTacGia)
-GO;
+GO
 
 
 CREATE PROCEDURE [dbo].[InsertTacGia](
@@ -391,7 +401,7 @@ CREATE PROCEDURE [dbo].[InsertTacGia](
 AS
 	INSERT INTO TacGia(TenTacGia, HinhTacGia, DiaChi, TieuSu, DienThoai)
 	VALUES (@TenTacGia,@HinhTacGia, @DiaChi, @TieuSu,@DienThoai);
-GO;
+GO
 
 
 --update
@@ -426,7 +436,6 @@ CREATE PROCEDURE [dbo].[UpdateDonHang](
 @MaDonHang int,
 @DaThanhToan bit,
 @TinhTrangGiaoHang bit,
-@NgayDat date,
 @NgayGiao date,
 @TenNguoiNhan nvarchar(50),
 @DienThoaiNguoiNhan nvarchar(50),
@@ -437,7 +446,6 @@ AS
 	SET
 		DonHang.DaThanhToan = @DaThanhToan,
 		DonHang.TinhTrangGiaoHang = @TinhTrangGiaoHang,
-		DonHang.NgayDat = @NgayDat,
 		DonHang.NgayGiao = @NgayGiao,
 		DonHang.TenNguoiNhan = @TenNguoiNhan,
 		DonHang.DienThoaiNguoiNhan = @DienThoaiNguoiNhan,
