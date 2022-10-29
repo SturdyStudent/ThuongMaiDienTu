@@ -35,7 +35,7 @@ export default function ReviewModal() {
                         <Rating ratingValue={rateVal} onClick={handleRating} />
                         <div>Đánh giá chi tiết</div>
                         <textarea className='col-md-12 mt-3' placeholder='Bạn nghĩ gì về sản phẩm này..'></textarea>
-                        <input class="form-control form-control-sm mt-3" id="formFileSm" type="file" />
+                        <input className="form-control form-control-sm mt-3" id="formFileSm" type="file" />
                     </div>
                 </div>
                 <div>

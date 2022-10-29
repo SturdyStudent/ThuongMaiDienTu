@@ -34,7 +34,47 @@ exports.bookListById = [
                 return book;
             }
             waitPool().then((result) => {
-                return apiResponse.successResponseWithData(res, "Lấy danh sách sách thành công", result.recordsets[0]);
+                return apiResponse.successResponseWithData(res, "Lấy sách thành công", result.recordsets[0]);
+            }).catch(err => { return apiResponse.ErrorResponse(res, err) });
+        } catch (err) {
+            return apiResponse.ErrorResponse(res, err);
+        }
+    }
+];
+
+exports.bookListByViews = [
+    (req, res) => {
+        try {
+            let book;
+            const waitPool = async () => {
+                let pool = await sql.connect(config);
+                book = await pool.request()
+                    .input('Limit', sql.Int, req.params.limit)
+                    .execute('SelectAllSachByViews');
+                return book;
+            }
+            waitPool().then((result) => {
+                return apiResponse.successResponseWithData(res, "Lấy sách thành công", result.recordsets[0]);
+            }).catch(err => { return apiResponse.ErrorResponse(res, err) });
+        } catch (err) {
+            return apiResponse.ErrorResponse(res, err);
+        }
+    }
+];
+
+exports.bookListBySales = [
+    (req, res) => {
+        try {
+            let book;
+            const waitPool = async () => {
+                let pool = await sql.connect(config);
+                book = await pool.request()
+                    .input('Limit', sql.Int, req.params.limit)
+                    .execute('SelectAllSachBySales');
+                return book;
+            }
+            waitPool().then((result) => {
+                return apiResponse.successResponseWithData(res, "Lấy sách thành công", result.recordsets[0]);
             }).catch(err => { return apiResponse.ErrorResponse(res, err) });
         } catch (err) {
             return apiResponse.ErrorResponse(res, err);

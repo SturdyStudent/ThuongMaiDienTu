@@ -226,6 +226,7 @@ const Edit = ({ title }) => {
                                     })}
                                 </select>
                             </div>
+                            <div>{imgCover && imgCover} a</div>
                             <div className="d-flex row mb-4">
                                 <div className="me-4 fw-bold col-md-3">
                                     <label>Hình sách:</label>
@@ -257,6 +258,7 @@ const Edit = ({ title }) => {
                                 </div>
                             </div>
                         </div>
+
                         <div className="col-md-12 text-center mb-5 mt-5">
                             <input type={"submit"} className="btn btn-primary text-white p-2 ps-3 pe-3" value={"Cập nhật"}></input>
                         </div>

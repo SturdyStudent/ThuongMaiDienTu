@@ -7,6 +7,7 @@ var categoryRouter = require("./category")
 var authorRouter = require("./author")
 var uploadRouter = require('./upload')
 var userRouter = require("./user")
+var paymentRouter = require("./payment")
 
 
 var app = express();
@@ -19,5 +20,6 @@ app.use("/category/", categoryRouter);
 app.use("/author/", authorRouter);
 app.use("/upload/", uploadRouter);
 app.use("/user/", userRouter);
+app.use("/payment/", paymentRouter)
 
 module.exports = app;

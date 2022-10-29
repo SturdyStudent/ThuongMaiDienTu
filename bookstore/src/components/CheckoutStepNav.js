@@ -2,15 +2,13 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
 
-function CheckoutStepNav() {
-    const thispage = 2;
+function CheckoutStepNav({ currentStage }) {
     let style1 = { color: "#e2ddd1" };
     let style2 = { color: "#e2ddd1" };
     let style3 = { color: "#e2ddd1" };
-    if (thispage === 2) {
+    if (currentStage === 2) {
         style3 = { color: "black" };
-    } else if (thispage === 1) {
-        console.log("style2")
+    } else if (currentStage === 1) {
         style2 = { color: "black" };
     } else {
         style1 = { color: "black" };
@@ -23,13 +21,13 @@ function CheckoutStepNav() {
                 <div style={style2}>
                     <FontAwesomeIcon icon={faChevronRight} />
                 </div>
-                <div style={style2}><h6>THANH TOÁN</h6></div>
+                <div style={style2}><h6>REVIEW {'&'} ĐẶT HÀNG</h6></div>
             </div>
             <div className='display-flex'>
                 <div style={style3}>
                     <FontAwesomeIcon icon={faChevronRight} />
                 </div>
-                <div style={style3}><h6>REVIEW {'&'} ĐẶT HÀNG</h6></div>
+                <div style={style3}><h6>THANH TOÁN</h6></div>
             </div>
         </div>
     )

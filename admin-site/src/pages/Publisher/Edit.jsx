@@ -115,14 +115,9 @@ const Edit = ({ title }) => {
                                 </div>
                                 <input className="p-1 col-md-7" ref={focusField} type={"number"} value={publisherPhone || ''} onChange={e => changePublisherPhone(e)} placeholder="Nhập số điện thoại nhà xuất bản"></input>
                             </div>
-                            <div className="d-flex row mb-4">
-                                <div className="me-4 fw-bold col-md-3">
-                                    <label>Hình nhà xuất bản:</label>
-                                </div>
-                            </div>
                         </div>
                         <div className="col-md-12 text-center mt-5 mb-5">
-                            <input type={"submit"} className="btn btn-primary text-white p-2 ps-3 pe-3" value={"Cập nhật"}></input>
+                            <input type={"submit"} className="btn btn-primary text-white p-2 ps-3 pe-3"></input>
                         </div>
                     </form>
                 </div>

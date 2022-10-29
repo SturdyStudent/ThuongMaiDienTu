@@ -6,7 +6,7 @@ import { Row, Col } from "react-bootstrap";
 function voucherList() {
   return (
     <>
-      <Container fluid>
+      {/* <Container fluid>
         <Row>
           <Col>
             <Navbar />
@@ -17,10 +17,10 @@ function voucherList() {
             <Sidebar />
           </Col>
           <Col xs={10} md={10}>
-            {/* <Datatable objectName={"Voucher"} /> */}
+            <Datatable objectName={"Voucher"} />
           </Col>
         </Row>
-      </Container>
+      </Container> */}
     </>
   )
 }

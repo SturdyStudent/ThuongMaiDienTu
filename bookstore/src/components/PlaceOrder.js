@@ -54,7 +54,6 @@ function PlaceOrder() {
                         </div>
                     </blockquote>
                 </div>
-                <SuccessNotification />
             </div>
         </div>
     )
