@@ -1,0 +1,4 @@
+=======Cần xin ý kiến===============
+Tân: 
++ Bảng chi tiết đơn hàng nên có cột ngày tạo để tránh trường hợp khi xóa đơn hàng giống nhau
++ Bảng đơn hàng và chi tiết đơn hàng, nên tạo 1 biến lớn bên front-end là giỏ hàng chứa các thuộc tính của cả 2 bảng để gọi API
