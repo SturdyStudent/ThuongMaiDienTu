@@ -8,10 +8,9 @@ import axios from 'axios'
 import './CartDisplay.css'
 
 function CartDisplay({ item, callback }) {
-    let oldItems;
     const [cartItem, setCartItem] = useState({
         MaTacGia: 1,
-        soLuong: 1
+        soLuong: 1,
     });
     const [itemQty, setItemQty] = useState(1);
     const [authorName, setAuthorName] = useState();
@@ -27,21 +26,20 @@ function CartDisplay({ item, callback }) {
         }
     }
 
-    const fetchBook = async () => {
-        let result = await axios.get(`${baseUrl}/book/${item.idSach}`);
-        setCartItem(result.data.data[0]);
-    }
-
     useEffect(() => {
-        oldItems = JSON.parse(localStorage.getItem("CART_ITEMS") || "[]");
+        let oldItems = JSON.parse(localStorage.getItem("CART_ITEMS") || "[]");
         callback(Date.now());
-        oldItems[(_.findIndex(oldItems, _.matchesProperty('idSach', item.idSach)))] = { ...item, soLuong: itemQty, tongTien: (itemQty * cartItem.GiaBan) || 0 };
+        oldItems[(_.findIndex(oldItems, _.matchesProperty('idSach', item.idSach)))] = { ...item, anhBia: cartItem.AnhBia, tenSach: cartItem.TenSach, soLuong: itemQty, tongTien: (itemQty * cartItem.GiaBan) || 0 };
         localStorage.setItem("CART_ITEMS", JSON.stringify(oldItems));
-    }, [itemQty, cartItem])
+    }, [itemQty, cartItem, callback, item])
 
     useEffect(() => {
+        const fetchBook = async () => {
+            let result = await axios.get(`${baseUrl}/book/${item.idSach}`);
+            setCartItem(result.data.data[0]);
+        }
         fetchBook();
-    }, [])
+    }, [cartItem, item.idSach])
 
     useEffect(() => {
         try {
@@ -53,15 +51,14 @@ function CartDisplay({ item, callback }) {
         } catch (err) {
             console.log(err);
         }
-    }, [item.MaTacGia]);
+    }, [item.MaTacGia, cartItem.MaTacGia]);
 
     const handleRemoveItem = (e) => {
         e.preventDefault();
         callback(Date.now());
-        oldItems = JSON.parse(localStorage.getItem("CART_ITEMS") || "[]");
+        let oldItems = JSON.parse(localStorage.getItem("CART_ITEMS") || "[]");
         _.remove(oldItems, _.matchesProperty('idSach', item.idSach));
         localStorage.setItem("CART_ITEMS", JSON.stringify(oldItems));
-        window.location.reload();
     }
 
     return (

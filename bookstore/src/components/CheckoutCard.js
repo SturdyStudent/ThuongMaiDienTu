@@ -2,11 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { actChangeToPaymentSection, actChangeToReviewSection, actChangeToShippingSection } from '../actions/index'
 import { useDispatch, useSelector } from 'react-redux'
 import _ from 'lodash'
-import { Navigate } from 'react-router-dom'
 
 function CheckoutCard() {
     const dispatch = useDispatch();
-    const orderState = useSelector(state => state.orderState);
     const [totalPrice, setTotalPrice] = useState(0);
     const [applyVoucher, setApplyVoucher] = useState(false);
     const [placeOrder, setPlaceOrder] = useState(true);
@@ -36,6 +34,7 @@ function CheckoutCard() {
             setPrevSection(true)
         } else if (currentSection === 2) {
             alert("đặt hàng thành công");
+            setPrevSection(true)
         }
     }
 
@@ -54,8 +53,8 @@ function CheckoutCard() {
     }
 
     return (
-        <div class="card text-center card-shadow self-center-div" style={{ width: "18rem", borderRadius: "20px", padding: "10px" }}>
-            <div class="card-body ">
+        <div className="card text-center card-shadow self-center-div" style={{ width: "18rem", borderRadius: "20px", padding: "10px" }}>
+            <div className="card-body ">
                 <div className='display-flex space-between' style={{ "borderBottom": "1px solid #DCDCDC	", marginBottom: "5px" }}>
                     <div>Tiền hàng</div>
                     <div><b>{Number(totalPrice).toLocaleString()} VNĐ</b></div>
@@ -65,7 +64,7 @@ function CheckoutCard() {
                     <div><b>20.000VNĐ</b></div>
                 </div>
                 <div className='display-flex space-between' style={{ "borderBottom": "1px solid #DCDCDC	", marginTop: "45px" }}>
-                    <h6 class="card-title"><b>TỔNG CỘNG</b></h6>
+                    <h6 className="card-title"><b>TỔNG CỘNG</b></h6>
                     <h6><b>{Number(totalPrice + 20000).toLocaleString()}VNĐ</b></h6>
                 </div>
                 <br />
@@ -78,9 +77,9 @@ function CheckoutCard() {
                 }
 
                 {applyVoucher && <><h6>Nhập mã giảm giá</h6>
-                    <div class="input-group card-shadow border-0" style={{ "marginTop": "10px" }}>
-                        <input type="search" class="form-control rounded" aria-label="Search" aria-describedby="search-addon" />
-                        <button type="button" class="btn btn-danger"><b>ÁP DỤNG</b></button>
+                    <div className="input-group card-shadow border-0" style={{ "marginTop": "10px" }}>
+                        <input type="search" className="form-control rounded" aria-label="Search" aria-describedby="search-addon" />
+                        <button type="button" className="btn btn-danger"><b>ÁP DỤNG</b></button>
                     </div>
                 </>}
             </div>

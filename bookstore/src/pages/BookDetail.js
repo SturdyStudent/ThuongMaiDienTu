@@ -32,14 +32,13 @@ function BookDetail() {
     const [addToCart, setAddToCart] = useState(false);
 
     let { id } = useParams();
-    let fetchBook;
     useEffect(() => {
-        fetchBook = async () => {
+        let fetchBook = async () => {
             let result = await axios.get(`${baseUrl}/book/${id}`);
             setItem(result.data.data[0]);
         }
         fetchBook();
-    }, [fetchBook])
+    }, [id])
 
     useEffect(() => {
         let oldItems = JSON.parse(localStorage.getItem("CART_ITEMS") || "[]");
@@ -86,7 +85,7 @@ function BookDetail() {
     const handleAddToCart = (cartItem) => {
 
         try {
-            let arr = new Array();
+            let arr = [];
             let oldItems = JSON.parse(localStorage.getItem("CART_ITEMS") || "[]");
             if (!_.isEqual(oldItems, [])) {
                 oldItems.push(cartItem);

@@ -8,25 +8,15 @@ import CheckoutLogin from './pages/CheckoutLogin';
 import BookCheckout from './pages/BookCheckout';
 import CouponPage from './pages/CouponPage';
 import ProductFAQ from './pages/ProductFAQ';
-import ProtectedRoute from './ProtectedRoute';
 import OrderHistory from './pages/OrderHistory';
 import OrderView from './pages/OrderView';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { baseUrl } from './baseUrl';
-import { Elements } from "@stripe/react-stripe-js";
 
 function App() {
   const [stripePromise, setStripePromise] = useState();
-  const [clientSecret, setClientSecret] = useState();
-
-  useEffect(() => {
-    // Create PaymentIntent as soon as the page loads
-    axios.get(`${baseUrl}/payment/secret`)
-      .then(res => res.data.data)
-      .then((data) => setClientSecret(data.client_secret));
-  }, []);
 
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads

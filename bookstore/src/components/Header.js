@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faUser, faHeart, faCartShopping } from '@fortawesome/free-solid-svg-icons'
 import Logo from '../assets/logo.png'
 import _ from 'lodash'
-import { Navigate } from 'react-router-dom'
 
 function Header() {
     const isSupportPage = true;
@@ -13,29 +12,26 @@ function Header() {
     let onSelected = true;
     let userNav = <>Đăng nhập</>;
 
+    const cartItemFromLocalStore = localStorage.getItem("CART_ITEMS");
     const [cartItems, setCartItems] = useState();
-    const [navigate, setNavigate] = useState();
     const [userNavItems, setUserNavItems] = useState('');
 
     useEffect(() => {
-        let oldItems = JSON.parse(localStorage.getItem("CART_ITEMS") || "[]");
+        let oldItems = JSON.parse(cartItemFromLocalStore || "[]");
         if (!_.isEqual(oldItems, [])) {
             setCartItems(oldItems.length);
         } else {
             setCartItems();
         }
-    }, [localStorage.getItem("CART_ITEMS")])
+    }, [cartItemFromLocalStore])
 
     if (isLoggedIn) {
         userNav = <span onMouseOver={() => handleNavModal()}>Tài khoản <br /><span style={{ "color": "red", textDecoration: "underline" }}>Trần Thành Đạt</span></span>;
     }
-    if (navigate) {
-        return <Navigate to="/results" />
-    }
     const handleNavModal = () => {
 
-        setUserNavItems(<div style={{ "position": "absolute" }} className='shadow bg-white mt-5 nav-header-modal' onMouseOver={() => { handleNavModal(); onselect = true }} onMouseLeave={() => { onSelected = false; handleRemoveNavModal(); }}>
-            <Link to={'/order/history'} style={{ "textDecoration": "none" }}>
+        setUserNavItems(<div style={{ "position": "absolute", zIndex: "100" }} className='shadow bg-white mt-5 nav-header-modal' onMouseOver={() => { handleNavModal(); onselect = true }} onMouseLeave={() => { onSelected = false; handleRemoveNavModal(); }}>
+            <Link to={'/order/history'} style={{ "textDecoration": "none", color: "black" }}>
                 <div className='text-start nav-header-item ps-3 pe-3 pt-2 pb-2'>Đơn hàng của tôi</div>
             </Link>
             <div className='text-start nav-header-item ps-3 pe-3 pt-2 pb-2'>Quản lí đổi trả</div>
@@ -46,7 +42,7 @@ function Header() {
     }
     const handleRemoveNavModal = () => {
         if (!onSelected) {
-            setTimeout(() => setUserNavItems(''), 1000);
+            setTimeout(() => setUserNavItems(''), 0);
         }
     }
     return (
@@ -62,7 +58,9 @@ function Header() {
                     <div className='col-lg-8' id='header-search-container'>
                         <div className="search">
                             <input type="text" className="form-control" placeholder="Tìm kiếm sách..." />
-                            <button className="btn" onClick={() => setNavigate(true)}> <FontAwesomeIcon icon={faSearch} color="white" /></button>
+                            <Link to={"/results"}>
+                                <button className="btn"> <FontAwesomeIcon icon={faSearch} color="white" /></button>
+                            </Link>
                         </div>
                     </div>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
@@ -82,7 +80,7 @@ function Header() {
                                         {cartItems}
                                     </div>}
                                     <FontAwesomeIcon icon={faCartShopping} color="red" />
-                                    <div className="nav-link active" aria-current="page" href="/cart" style={{ "fontWeight": "bold", "color": "black", textDecoration: "none" }}>Giỏ hàng</div>
+                                    <div className="nav-link active mt-0 pt-0" aria-current="page" href="/cart" style={{ "fontWeight": "bold", "color": "black", textDecoration: "none" }}>Giỏ hàng</div>
                                 </li>
                             </Link>
 
@@ -109,12 +107,12 @@ function Header() {
                                     </Link>
                                 </li>
                                 <li id="menu-item-40" className="nav-item menu-item menu-item-type-post_type menu-item-object-page menu-item-40">
-                                    <Link to={"/"} className='nav-link'>
+                                    <Link to={"/coupons"} className='nav-link'>
                                         MÃ GIẢM GIÁ
                                     </Link>
                                 </li>
                                 <li id="menu-item-40" className="nav-item menu-item menu-item-type-post_type menu-item-object-page menu-item-40">
-                                    <Link to={"/"} className='nav-link'>
+                                    <Link to={"/cart"} className='nav-link'>
                                         THANH TOÁN
                                     </Link>
                                 </li>

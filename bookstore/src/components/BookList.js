@@ -6,7 +6,7 @@ import { FreeMode } from 'swiper'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
-import { baseUrl, loadImageUrl } from '../baseUrl'
+import { baseUrl } from '../baseUrl'
 import 'swiper/css'
 import 'swiper/css/free-mode'
 
@@ -26,7 +26,7 @@ function BookList({ title }) {
                     setDisplayedBooks(result.data.data);
                 });
         }
-    }, [])
+    }, [title])
 
     return (
         <div id="booklist-container">

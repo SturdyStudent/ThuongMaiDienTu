@@ -10,7 +10,7 @@ function BookCard({ spacingStyle, item }) {
     useEffect(() => {
         axios.get(`${baseUrl}/author/${item.MaTacGia}`)
             .then(result => setAuthorName(result.data.data[0].TenTacGia));
-    }, [])
+    }, [item.MaTacGia])
 
     const spacing = spacingStyle ? spacingStyle : { "width": "25vh" };
 

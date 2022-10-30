@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { useSelector, useDispatch } from 'react-redux'
-import { actAllowNext, actNotAllowNext, actOrderSetState } from '../actions/index'
+import { useDispatch } from 'react-redux'
+import { actAllowNext, actNotAllowNext, actOrderSetState } from '../../actions/index'
 
 function ShippingSection() {
     const [receiverName, setReceiverName] = useState('');
@@ -16,8 +16,6 @@ function ShippingSection() {
     const [wards, setWards] = useState();
     const [wardName, setWardName] = useState('');
     const [errMsg, setErrMsg] = useState();
-
-    const currentSection = useSelector(state => state.currentCheckoutSection);
 
     const getLocationUrl = "https://provinces.open-api.vn/api/"
 
@@ -35,7 +33,7 @@ function ShippingSection() {
 
     useEffect(() => {
         if (!receiverName) {
-            dispatch(actAllowNext());
+            dispatch(actNotAllowNext());
             setErrMsg("Vui lòng nhập tên người nhận");
         } else if (!(wardName && districtName && provinceName)) {
             dispatch(actNotAllowNext());
@@ -52,7 +50,7 @@ function ShippingSection() {
                 DiaChiGiao: `${address} ${wardName} ${districtName} ${provinceName}`
             }));
         }
-    }, [receiverName, receiverPhone, address, wardName, districtName, provinceName, districtId, provinceId])
+    }, [receiverName, receiverPhone, address, wardName, districtName, provinceName, districtId, provinceId, dispatch])
 
     useEffect(() => {
         axios.get(`${getLocationUrl}p/`)
@@ -82,9 +80,8 @@ function ShippingSection() {
     useEffect(() => {
         if (districts) {
             districts.districts.forEach(element => {
-                if (Number(element.code) == districtId) {
+                if (Number(element.code) === Number(districtId)) {
                     setDistrictName(element.name);
-                    console.log(element.name);
                 }
             });
         }
@@ -93,9 +90,8 @@ function ShippingSection() {
     useEffect(() => {
         if (provinces) {
             provinces.forEach(element => {
-                if (Number(element.code) == provinceId) {
+                if (Number(element.code) === Number(provinceId)) {
                     setProvinceName(element.name);
-                    console.log(element.name);
                 }
             });
         }

@@ -46,7 +46,7 @@ function ShopingCart() {
                                 <div id='proceed-checkout-container'>
                                     <h5 style={{ fontWeight: "500" }}>Tổng cộng &nbsp; <b>{totalPrice ? Number(totalPrice).toLocaleString() : 0} VNĐ</b></h5>
                                     <br />
-                                    <div hidden="true">{nune}</div>
+                                    <div hidden={'true'}>{nune}</div>
                                     <Link to={"/checkout"}>
                                         <button id='checkout-btn' ><b>CHUYỂN ĐẾN trang CHECKOUT</b> </button>
                                     </Link>

@@ -2,8 +2,6 @@ import React, { useState } from 'react'
 import './ReviewModal.css'
 import { Rating } from 'react-simple-star-rating'
 import { Navigate } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStar } from '@fortawesome/free-solid-svg-icons'
 import BookCover from '../assets/bookCover.png'
 
 export default function ReviewModal() {
@@ -27,7 +25,7 @@ export default function ReviewModal() {
                 <div className='row'>
                     <div className='col-md-3'>
                         <div className='book-cover-review-modal' style={{ height: "110px", width: "80px" }}>
-                            <img src={BookCover} style={{ height: '100%', width: "100%" }} />
+                            <img src={BookCover} alt="" style={{ height: '100%', width: "100%" }} />
                         </div>
                     </div>
                     <div className='col-md-9 text-start'>

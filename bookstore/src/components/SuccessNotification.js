@@ -12,11 +12,13 @@ export default function SuccessNotification() {
     }
     let orderSuccessModal = <></>;
     if (allowAppear) {
-        orderSuccessModal = <div className='container-out-notification row' onClick={handleOpenSuccessModal}>
-            <div className='container-notification offset-4 col-md-4' onClick={preventPropagation}>
-                <img src={SuccessPayment} width="470px" height="200px" style={{ "border": "none" }} />
+        orderSuccessModal =
+            <div className='container-out-notification row' onClick={handleOpenSuccessModal}>
+                <div className='container-notification offset-4 col-md-4' onClick={preventPropagation}>
+                    <img src={SuccessPayment} alt="" width="200px" height="200px" style={{ "border": "none" }} />
+                    <h5>Mua hàng thành công!</h5>
+                </div>
             </div>
-        </div>
     }
     return (
         <>

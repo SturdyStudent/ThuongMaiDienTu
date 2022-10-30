@@ -7,17 +7,17 @@ import './ResultDisplay.css'
 
 export function ResultDisplay({ currentItems }) {
     // Example items, to simulate fetching from another resources.
-
-    const currentItemss = [...Array(11).keys()];
-    return (
-        currentItemss ? <div className='result-holder'>
-            {currentItemss &&
-                currentItemss.map((item) => (
+    return (<>
+        {currentItems ? <div className='result-holder'>
+            {
+                currentItems.map((item) => (
                     <div>
+                        <div>{item}</div>
                         <BookCard spacingStyle={{ "width": "30vh", margin: "2vw" }} />
                     </div>
                 ))}
-        </div> : <h3 style={{ minHeight: "30vh" }}>Không có kết quả nào được tìm thấy</h3>
+        </div> : <h3 style={{ minHeight: "30vh" }}>Không có kết quả nào được tìm thấy</h3>}
+    </>
     )
 }
 
@@ -44,6 +44,7 @@ export function PaginatedItems({ itemsPerPage, items }) {
     const next = <span><FontAwesomeIcon icon={faChevronRight} /></span>;
     return (
         <div>
+            {currentItems}
             <ReactPaginate
                 nextLabel={next}
                 onPageChange={handlePageClick}
