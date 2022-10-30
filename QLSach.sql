@@ -72,6 +72,8 @@ CREATE TABLE [dbo].[Sach](
 	[MaNXB] [int] NULL,
 	[MaChuDe] [int] NULL,
 	[MaTacGia] [int] NULL,
+	[SoLuotXem] [int] NULL,
+	[SoLuongBan] [int] NULL
 )
 GO
 
