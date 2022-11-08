@@ -211,14 +211,12 @@ export const orderRows = [
 //Tác Giả
 export const  authorColumns = [
   {field: "id", headerName: "CODE",  width: 170},
-  {field: "authorName", headerName: "Name", width: 200},
-  {field: "authorBackground", headerName: "Background", width: 300}
+  {field: "authorName", headerName: "Name", width: 200}
 ]
 export const authorRows = [
   {
     id: 1,
     authorName: "Tacaiga",
-    authorBackground: "Backkground"
   }
 ]
 

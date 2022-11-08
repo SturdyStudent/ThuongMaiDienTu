@@ -48,7 +48,7 @@ function PartnerLoginPage() {
     e.preventDefault();
   }
   return (
-    <div className="row login-bg" style={{ "margin": "0", maxHeight: "100vh" }}>
+    <div className="row login-bg" style={{ "margin": "0", maxHeight: "100vh" }} id="login">
       <div className=' d-flex justify-content-center align-items-center card-parent'>
         <div className="card p-4 shadow-lg" style={{ width: '25rem', borderRadius: "20px" }}>
           <div className="card-body">
