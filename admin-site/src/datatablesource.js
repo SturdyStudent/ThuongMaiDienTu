@@ -173,8 +173,8 @@ export const bookRows = [
 
 export const categoryRows = [
   {
-    id: "qq90asffdaaaf",
-    categoryName: "Kinh dị"
+    id: 1,
+    authorName: "Tacaiga",
   }
 ]
 
