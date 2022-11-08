@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import './SuccessNotification.css'
-import { Navigate } from 'react-router-dom';
 import SuccessPayment from '../assets/successPayment.jpg'
 
 export default function SuccessNotification() {
@@ -13,22 +12,13 @@ export default function SuccessNotification() {
     }
     let orderSuccessModal = <></>;
     if (allowAppear) {
-        orderSuccessModal = <div className='container-out-notification row' onClick={handleOpenSuccessModal}>
-            <div className='container-notification offset-4 col-md-4' onClick={preventPropagation}>
-                <img src={SuccessPayment} width="470px" height="200px" style={{ "border": "none" }} />
-                <div>
-                    <button className='back-notification-btn' onClick={(e) => handleRedirect(e)}>Quay về trang chủ</button>
+        orderSuccessModal =
+            <div className='container-out-notification row' onClick={handleOpenSuccessModal}>
+                <div className='container-notification offset-4 col-md-4' onClick={preventPropagation}>
+                    <img src={SuccessPayment} alt="" width="200px" height="200px" style={{ "border": "none" }} />
+                    <h5>Mua hàng thành công!</h5>
                 </div>
             </div>
-        </div>
-    }
-    const [redirect, setRedirect] = useState(false);
-    function handleRedirect(e) {
-        e.preventDefault();
-        setRedirect(true);
-    }
-    if (redirect) {
-        return <Navigate to={"/"} replace />
     }
     return (
         <>

@@ -12,12 +12,12 @@ export default function HomePage() {
         <div>
             <Header />
             <img src={Banner} style={{ "margin": "4vh" }} alt="banner" />
-            <BookList />
+            <BookList title={"SÁCH BÁN CHẠY"} />
             <div style={{ "display": "flex", "justifyContent": "center" }}>
                 <SaleCard />
                 <SaleCard />
             </div>
-            <BookList />
+            <BookList title={"SÁCH ĐANG HOT"} />
             <div style={{ "display": "flex", "justifyContent": "center" }}>
                 <SaleCard />
                 <SaleCard />

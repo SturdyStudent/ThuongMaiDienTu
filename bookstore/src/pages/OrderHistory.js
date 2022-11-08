@@ -18,20 +18,20 @@ function OrderHistory() {
         { id: 'history-nav-6', text: "Đã hủy" }
     ];
     const [activeId, setActiveId] = useState('history-nav-1');
-    // const resultNone = <blockquote class="blockquote blockquote-custom bg-white mt-4 p-4 shadow rounded">
+    // const resultNone = <blockquote className="blockquote blockquote-custom bg-white mt-4 p-4 shadow rounded">
     //     <img src={ResultNotFound} />
     //     <div className='text-lg'>Chưa có đơn hàng</div></blockquote>
     return (
         <>
             <Header />
             <div className='parent-body-padding'>
-                <blockquote class=" bg-white mt-4 shadow rounded">
-                    <nav class="navbar navbar-expand-lg navbar-light" style={{ "padding": "0px" }}>
-                        <div class="navbar-nav d-flex col-md-12 row order-history-nav m-0">
+                <blockquote className=" bg-white mt-4 shadow rounded">
+                    <nav className="navbar navbar-expand-lg navbar-light" style={{ "padding": "0px" }}>
+                        <div className="navbar-nav d-flex col-md-12 row order-history-nav m-0">
                             {values.map((value) => {
                                 return (
-                                    <div className={(value.id === activeId) ? 'nav-item-history col-md-2 pt-1 pb-1  border-bottom border-primary border-2 text-primary' : 'nav-item-history acive col-md-2 pt-1 pb-1'} onClick={() => setActiveId(value.id)}>
-                                        <a class={(value.id === activeId) ? 'nav-link text-primary' : 'nav-link'} href="/#" onClick={(e) => { e.preventDefault() }}>{value.text}</a>
+                                    <div key={value.id} className={(value.id === activeId) ? 'nav-item-history col-md-2 pt-1 pb-1  border-bottom border-primary border-2 text-primary' : 'nav-item-history acive col-md-2 pt-1 pb-1'} onClick={() => setActiveId(value.id)}>
+                                        <a className={(value.id === activeId) ? 'nav-link text-primary' : 'nav-link'} href="/#" onClick={(e) => { e.preventDefault() }}>{value.text}</a>
                                     </div>)
                             })}
                         </div>
@@ -39,10 +39,10 @@ function OrderHistory() {
                 </blockquote>
             </div>
             <div className='parent-body-padding'>
-                <blockquote class="blockquote blockquote-custom bg-white mt-4 p-4 shadow rounded">
-                    <div class="blockquote-custom-icon bg-info shadow-sm"><i class="fa fa-quote-left text-white"></i></div>
+                <blockquote className="blockquote blockquote-custom bg-white mt-4 p-4 shadow rounded">
+                    <div className="blockquote-custom-icon bg-info shadow-sm"><i className="fa fa-quote-left text-white"></i></div>
                     <h5 className='text-start' style={{ color: "#838189" }}><FontAwesomeIcon icon={faTruck} color={'#838189'} />&nbsp; Giao hàng thành công</h5>
-                    <div class=" pt-4 mt-4 border-top">
+                    <div className=" pt-4 mt-4 border-top">
                         <div className='row'>
                             <div className='col-md-2' >
                                 <div id='book-detail-cover-history'>

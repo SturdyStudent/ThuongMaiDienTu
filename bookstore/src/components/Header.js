@@ -1,28 +1,37 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './Header.css'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faUser, faHeart, faCartShopping } from '@fortawesome/free-solid-svg-icons'
 import Logo from '../assets/logo.png'
-import { Navigate } from 'react-router-dom'
+import _ from 'lodash'
 
 function Header() {
     const isSupportPage = true;
     const isLoggedIn = true;
     let onSelected = true;
     let userNav = <>Đăng nhập</>;
-    const [navigate, setNavigate] = useState();
+
+    const cartItemFromLocalStore = localStorage.getItem("CART_ITEMS");
+    const [cartItems, setCartItems] = useState();
     const [userNavItems, setUserNavItems] = useState('');
+
+    useEffect(() => {
+        let oldItems = JSON.parse(cartItemFromLocalStore || "[]");
+        if (!_.isEqual(oldItems, [])) {
+            setCartItems(oldItems.length);
+        } else {
+            setCartItems();
+        }
+    }, [cartItemFromLocalStore])
+
     if (isLoggedIn) {
         userNav = <span onMouseOver={() => handleNavModal()}>Tài khoản <br /><span style={{ "color": "red", textDecoration: "underline" }}>Trần Thành Đạt</span></span>;
     }
-    if (navigate) {
-        return <Navigate to="/results" />
-    }
     const handleNavModal = () => {
 
-        setUserNavItems(<div style={{ "position": "absolute" }} className='shadow bg-white mt-5 nav-header-modal' onMouseOver={() => { handleNavModal(); onselect = true }} onMouseLeave={() => { onSelected = false; handleRemoveNavModal(); }}>
-            <Link to={'/order/history'} style={{ "textDecoration": "none" }}>
+        setUserNavItems(<div style={{ "position": "absolute", zIndex: "100" }} className='shadow bg-white mt-5 nav-header-modal' onMouseOver={() => { handleNavModal(); onselect = true }} onMouseLeave={() => { onSelected = false; handleRemoveNavModal(); }}>
+            <Link to={'/order/history'} style={{ "textDecoration": "none", color: "black" }}>
                 <div className='text-start nav-header-item ps-3 pe-3 pt-2 pb-2'>Đơn hàng của tôi</div>
             </Link>
             <div className='text-start nav-header-item ps-3 pe-3 pt-2 pb-2'>Quản lí đổi trả</div>
@@ -32,59 +41,86 @@ function Header() {
         </div>)
     }
     const handleRemoveNavModal = () => {
-        console.log(onSelected);
         if (!onSelected) {
-            setTimeout(() => setUserNavItems(''), 1000);
+            setTimeout(() => setUserNavItems(''), 0);
         }
     }
     return (
         <div>
-            <nav class="navbar navbar-expand-lg navbar-dark static-top" id="header-bg">
-                <div class="container">
-                    <Link class="navbar-brand lg-4" href="#">
+            <nav className="navbar navbar-expand-lg navbar-dark static-top" id="header-bg">
+                <div className="container">
+                    <Link className="navbar-brand lg-4" href="#">
                         <img src={Logo} alt="..." height="60" />
                     </Link>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
+                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span className="navbar-toggler-icon"></span>
                     </button>
                     <div className='col-lg-8' id='header-search-container'>
-                        <div class="search">
-                            <input type="text" class="form-control" placeholder="Tìm kiếm sách..." />
-                            <button class="btn" onClick={() => setNavigate(true)}> <FontAwesomeIcon icon={faSearch} color="white" /></button>
+                        <div className="search">
+                            <input type="text" className="form-control" placeholder="Tìm kiếm sách..." />
+                            <Link to={"/results"}>
+                                <button className="btn"> <FontAwesomeIcon icon={faSearch} color="white" /></button>
+                            </Link>
                         </div>
                     </div>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav ms-auto">
-                            <li class="nav-item nav-header-menu" onMouseOver={() => handleNavModal()} onMouseMove={() => handleNavModal()} onMouseLeave={() => handleRemoveNavModal()}>
+                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul className="navbar-nav ms-auto">
+                            <li className="nav-item nav-header-menu" onMouseOver={() => handleNavModal()} onMouseMove={() => handleNavModal()} onMouseLeave={() => handleRemoveNavModal()}>
                                 <FontAwesomeIcon icon={faUser} color="red" />
-                                <a class="nav-link active" aria-current="page" href="/#" style={{ "fontWeight": "bold", "color": "black" }}>{userNav}</a>
+                                <a className="nav-link active" aria-current="page" href="/#" style={{ "fontWeight": "bold", "color": "black" }}>{userNav}</a>
                             </li>
                             {userNavItems}
-                            <li class="nav-item nav-header-menu">
+                            <li className="nav-item nav-header-menu">
                                 <FontAwesomeIcon icon={faHeart} color="red" />
-                                <a class="nav-link active" aria-current="page" href="/#" style={{ "fontWeight": "bold", "color": "black" }}>Whishlist</a>
+                                <a className="nav-link active" aria-current="page" href="/#" style={{ "fontWeight": "bold", "color": "black" }}>Whishlist</a>
                             </li>
-                            <li class="nav-item nav-header-menu">
-                                <FontAwesomeIcon icon={faCartShopping} color="red" />
-                                <a class="nav-link active" aria-current="page" href="/#" style={{ "fontWeight": "bold", "color": "black" }}>Giỏ hàng</a>
-                            </li>
+                            <Link to={"/cart"} style={{ textDecoration: "none" }}>
+                                <li className="nav-item nav-header-menu position-relative" >
+                                    {cartItems && <div className='rounded-circle bg-success position-absolute fw-bold text-white' style={{ width: "30px", height: "30px", top: -10, right: 0 }}>
+                                        {cartItems}
+                                    </div>}
+                                    <FontAwesomeIcon icon={faCartShopping} color="red" />
+                                    <div className="nav-link active mt-0 pt-0" aria-current="page" href="/cart" style={{ "fontWeight": "bold", "color": "black", textDecoration: "none" }}>Giỏ hàng</div>
+                                </li>
+                            </Link>
+
                         </ul>
                     </div>
                 </div>
             </nav>
-            {isSupportPage && <nav class="navbar navbar-expand-lg navbar-light " id='navbar-container'>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+            {isSupportPage && <nav className="navbar navbar-expand-lg navbar-light " id='navbar-container'>
+                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span className="navbar-toggler-icon"></span>
                 </button>
-                <nav class="navbar navbar-expand" style={{ "width": "100%" }}>
-                    <div class="container">
-                        <div class="collapse navbar-collapse" id="navbarNav">
-                            <ul id="menu-main-nav" class="navbar-nav nav-fill w-100">
-                                <li id="menu-item-42" class="nav-item  menu-item-42"><a href="XXX" class="nav-link">TRANG CHỦ</a></li>
-                                <li id="menu-item-963" class="nav-item menu-item menu-item-type-post_type menu-item-object-page menu-item-963"><a href="XXX" class="nav-link">THỂ LOẠI</a></li>
-                                <li id="menu-item-40" class="nav-item menu-item menu-item-type-post_type menu-item-object-page menu-item-40"><a href="XXX" class="nav-link">MÃ GIẢM GIÁ</a></li>
-                                <li id="menu-item-40" class="nav-item menu-item menu-item-type-post_type menu-item-object-page menu-item-40"><a href="XXX" class="nav-link">THANH TOÁN</a></li>
-                                <li id="menu-item-42" class="nav-item  menu-item-42"><a href="XXX" class="nav-link">HỎI ĐÁP SẢN PHẨM</a></li>
+                <nav className="navbar navbar-expand" style={{ "width": "100%" }}>
+                    <div className="container">
+                        <div className="collapse navbar-collapse" id="navbarNav">
+                            <ul id="menu-main-nav" className="navbar-nav nav-fill w-100">
+                                <li id="menu-item-42" className="nav-item  menu-item-42">
+                                    <Link to={"/"} className='nav-link'>
+                                        TRANG CHỦ
+                                    </Link>
+                                </li>
+                                <li id="menu-item-963" className="nav-item menu-item menu-item-type-post_type menu-item-object-page menu-item-963">
+                                    <Link to={"/"} className='nav-link'>
+                                        THỂ LOẠI
+                                    </Link>
+                                </li>
+                                <li id="menu-item-40" className="nav-item menu-item menu-item-type-post_type menu-item-object-page menu-item-40">
+                                    <Link to={"/coupons"} className='nav-link'>
+                                        MÃ GIẢM GIÁ
+                                    </Link>
+                                </li>
+                                <li id="menu-item-40" className="nav-item menu-item menu-item-type-post_type menu-item-object-page menu-item-40">
+                                    <Link to={"/cart"} className='nav-link'>
+                                        THANH TOÁN
+                                    </Link>
+                                </li>
+                                <li id="menu-item-42" className="nav-item  menu-item-42">
+                                    <Link to={"/faqs"} className='nav-link'>
+                                        HỎI ĐÁP SẢN PHẨM
+                                    </Link>
+                                </li>
                             </ul>
                         </div>
                     </div>

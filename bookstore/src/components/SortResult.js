@@ -2,7 +2,7 @@ import React from 'react'
 import { PaginatedItems } from './ResultDisplay'
 import './SortResult.css'
 
-function SortResult({ isListingPage }) {
+function SortResult({ isListingPage, category }) {
     const items = [...Array(30).keys()];
     const paginate = (isListingPage ? <div id='pagination-container'>
         <PaginatedItems itemsPerPage={4} items={items} />
@@ -21,7 +21,7 @@ function SortResult({ isListingPage }) {
         <div id='result-sort-parent'>
             <div id='result-container'>
                 <div>
-                    <div>Category {'>>'} Fiction {'>>'} Horror</div>
+                    <div>Thể loại{'>>'} {category}</div>
                     <hr />
                 </div>
                 {paginate}

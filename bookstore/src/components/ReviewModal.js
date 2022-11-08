@@ -2,8 +2,6 @@ import React, { useState } from 'react'
 import './ReviewModal.css'
 import { Rating } from 'react-simple-star-rating'
 import { Navigate } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStar } from '@fortawesome/free-solid-svg-icons'
 import BookCover from '../assets/bookCover.png'
 
 export default function ReviewModal() {
@@ -27,7 +25,7 @@ export default function ReviewModal() {
                 <div className='row'>
                     <div className='col-md-3'>
                         <div className='book-cover-review-modal' style={{ height: "110px", width: "80px" }}>
-                            <img src={BookCover} style={{ height: '100%', width: "100%" }} />
+                            <img src={BookCover} alt="" style={{ height: '100%', width: "100%" }} />
                         </div>
                     </div>
                     <div className='col-md-9 text-start'>
@@ -35,7 +33,7 @@ export default function ReviewModal() {
                         <Rating ratingValue={rateVal} onClick={handleRating} />
                         <div>Đánh giá chi tiết</div>
                         <textarea className='col-md-12 mt-3' placeholder='Bạn nghĩ gì về sản phẩm này..'></textarea>
-                        <input class="form-control form-control-sm mt-3" id="formFileSm" type="file" />
+                        <input className="form-control form-control-sm mt-3" id="formFileSm" type="file" />
                     </div>
                 </div>
                 <div>

@@ -1,55 +1,45 @@
 import * as types from '../constants/ActionTypes'
 
-export const actCloseForm = () => {
+export const actChangeToShippingSection = () => {
     return {
-        'type': types.CLOSE_FORM
-    }
-}
-export const actOpenForm = () => {
-    return {
-        'type': types.OPEN_FORM
-    }
-}
-export const actToggleForm = () => {
-    return {
-        'type': types.TOGGLE_FORM
-    }
-}
-export const actSort = (orderBy, orderDir) => {
-    return {
-        'type': types.SORT_ITEM,
-        orderBy,
-        orderDir
-    }
-}
-export const actSearch = (search) => {
-    return {
-        'type': types.CHANGE_SEARCH,
-        search
-    }
-}
-export const actDelete = (id) => {
-    return {
-        'type': types.DELETE_ITEM,
-        id
-    }
-}
-export const actSubmit = (item) => {
-    return {
-        'type': types.SUBMIT_FORM,
-        item
+        'type': types.SHIPPING_DETAIL_SECTION
     }
 }
 
-export const actSelect = (item) => {
+export const actChangeToPaymentSection = () => {
     return {
-        'type': types.SELECTED_ITEM,
-        item
+        'type': types.PAYMENT_SECTION
     }
 }
 
-export const actUnSelect = () => {
+export const actChangeToReviewSection = () => {
     return {
-        'type': types.UNSELECT_ITEM,
+        'type': types.REVIEW_SECTION
+    }
+}
+
+export const actOrderSetState = (orderState) => {
+    return {
+        'type': types.ORDER_STATE,
+        orderState
+    }
+}
+
+export const actNotificationSetState = (notificationState) => {
+    return {
+        'type': types.NOTIFICATION_STATE,
+        notificationState
+    }
+}
+
+export const actAllowNext = () => {
+    return {
+        'type': types.ALLOW_NEXT
+    }
+}
+
+export const actNotAllowNext = () => {
+    return {
+        'type': types.NOT_ALLOW_NEXT
     }
 }

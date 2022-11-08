@@ -1,11 +1,11 @@
 import "./new.scss";
-import { useState } from "react";
+// import { useState } from "react";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
-import StarIcon from '@mui/icons-material/Star';
-import Switch from 'react-switch'
+// import StarIcon from '@mui/icons-material/Star';
+// import Switch from 'react-switch'
 import Cover from '../../assets/images/bookCover.png'
-import SearchModal from "../../components/modal/SearchProductModal";
+// import SearchModal from "../../components/modal/SearchProductModal";
 import SearchCustomer from '../../components/modal/SearchCustomerModal'
 import Container from 'react-bootstrap/Container'
 import { Row,Col } from "react-bootstrap";

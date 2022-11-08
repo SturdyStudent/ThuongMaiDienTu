@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Logo from '../../assets/images/logo.png';
 import { Link, Navigate } from 'react-router-dom';
 import axios from 'axios'
@@ -23,28 +23,21 @@ function PartnerLoginPage() {
       handleLogin();
   }
   const handleLogin = (e) => {
-    // axios.post(loginUrl, {
-    //   username: username,
-    //   password: password
-    // }).then((res) => {
-    //   localStorage.setItem('LOGIN_INFORMATION', JSON.stringify(res.data));
-    //   if (res.data.toString().length > 0) {
-    //     auth.login(() => {
-    //       console.log("chuyển trang nữa")
-    //       setRedirect(true);
-    //     })
-    //   } else {
-    //     alert("Nhập sai tên đăng nhập hoặc mật khẩu");
-    //   }
-    // })
-    if (username == 'user' && password == 'user') {
-      auth.login(() => {
-        console.log("đã xử lí");
-        setRedirect(true);
-      })
-    } else {
-      alert("Nhập sai tên đăng nhập hoặc mật khẩu");
-    }
+    axios.post(loginUrl, {
+      username: username,
+      password: password
+    }).then((res) => {
+      localStorage.setItem('LOGIN_INFORMATION', JSON.stringify(res.data));
+      if (res.data.toString().length > 0) {
+        auth.login(() => {
+          console.log("chuyển trang nữa")
+          setRedirect(true);
+        })
+      } else {
+        alert("Nhập sai tên đăng nhập hoặc mật khẩu");
+      }
+    })
+
     e.preventDefault();
   }
   return (
@@ -53,7 +46,7 @@ function PartnerLoginPage() {
         <div className="card p-4 shadow-lg" style={{ width: '25rem', borderRadius: "20px" }}>
           <div className="card-body">
             <div className='justify-content-center mb-3 text-center'>
-              <img src={Logo} height="40px"></img>
+              <img src={Logo} alt="..." height="40px"></img>
             </div>
             <h5 className="card-title fw-bold">Chào mừng đã quay lại!</h5>
             <p className="card-text">Đăng nhập để quản lí những những chuyến bay của bạn từ việc kiểm

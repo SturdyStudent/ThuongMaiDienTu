@@ -8,7 +8,7 @@ function BrandCoupon() {
             <div className="row">
                 <div className=' col-lg-12 display-flex align-items-center'>
                     <div className='rounded-brand-avatar'>
-                        <img src={BrandAvatar} width="100%" height={"100%"} />
+                        <img src={BrandAvatar} width="100%" alt="" height={"100%"} />
                     </div>
                     <h5 className='ms-3'>Honda Hoàng Việt</h5>
                 </div>
