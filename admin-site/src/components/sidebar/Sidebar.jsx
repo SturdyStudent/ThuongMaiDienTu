@@ -25,19 +25,15 @@ const Sidebar = () => {
   const { dispatch } = useContext(DarkModeContext);
   return (
     <div className="sidebar">
-      <div className="top">
-        <Link to="/" style={{ textDecoration: "none" }}>
-          <img src={Logo} alt="..." height="60" />
-        </Link>
-      </div>
-      <hr />
       <div className="center">
         <ul>
           <p className="title">CHÍNH</p>
-          <li>
-            <DashboardIcon className="icon" />
-            <span>Dashboard</span>
-          </li>
+          <Link to="/" style={{textDecoration: "none"}}>
+            <li>
+              <DashboardIcon className="icon" />
+              <span>Dashboard</span>
+            </li>
+          </Link>
           <p className="title">DANH SÁCH</p>
           <Link to="/users" style={{ textDecoration: "none" }}>
             <li>

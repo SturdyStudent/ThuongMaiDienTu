@@ -24,6 +24,7 @@ app.use('/order/', orderRouter)
 app.use("/publisher/", publisherRouter);
 app.use("/category/", categoryRouter);
 app.use("/shipment/", shipmentRouter);
+app.use("/voucher/",voucherRouter)
 // app.use("/rating/", ratingRouter);
 app.use("/utility", utilityRouter);
 app.use("/author/", authorRouter);

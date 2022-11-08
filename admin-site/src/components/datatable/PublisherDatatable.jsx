@@ -3,25 +3,29 @@ import { DataGrid } from "@mui/x-data-grid";
 import { publisherColumns } from "../../datatablesource";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import baseUrl from '../../helpers/baseUrl'
+import {BaseUrl} from '../../helpers/baseUrl'
 import axios from 'axios'
 
 const UserDatatable = () => {
     let dataRows = [];
     let dataColumns = publisherColumns;
-    let addAction = <Link to="/publishers/new" className="link" state>Thêm</Link>
+    let addAction = <Link to="/publishers/new" className="link" state>Thêm mới nhà xuất bản</Link>
     const [data, setData] = useState(dataRows);
 
     useEffect(() => {
-        axios.get(`${baseUrl}/publisher/`)
+        axios.get(`${BaseUrl}/publisher/`)
             .then(data => {
                 let count = 0;
                 let dataObj = [];
                 data.data.data.forEach(element => {
                     dataObj[count] = {
                         id: data.data.data[count].MaNXB,
-                        ...element
+                        TenNXB: data.data.data[count].TenNXB,
+                        DiaChi: data.data.data[count].DiaChi,
+                        DienThoai: data.data.data[count].DienThoai
                     }
+                    if(dataObj[count].DiaChi == null) {dataObj[count].DiaChi = "Đang cập nhật"}
+                    if(dataObj[count].DienThoai == null) {dataObj[count].DienThoai = "Đang cập nhật"}
                     count++;
                 });
                 setData(dataObj);
@@ -29,7 +33,7 @@ const UserDatatable = () => {
     }, [dataColumns])
 
     const handleDelete = (id, MaNXB) => {
-        axios.delete(`${baseUrl}/publisher/delete/${MaNXB}`)
+        axios.delete(`${BaseUrl}/publisher/delete/${MaNXB}`)
             .then(() => {
                 setData(data.filter((item) => item.id !== id));
             }).catch((err) => {
@@ -60,7 +64,6 @@ const UserDatatable = () => {
     return (
         <div className="datatable">
             <div className="datatableTitle">
-                Thêm mới người dùng
                 {addAction}
             </div>
             <DataGrid

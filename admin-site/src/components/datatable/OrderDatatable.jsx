@@ -1,26 +1,36 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { categoryColumns } from "../../datatablesource";
+import { orderColumns } from "../../datatablesource";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {BaseUrl} from '../../helpers/baseUrl'
 import axios from 'axios'
 
-const CategoryDatatable = () => {
+const OrderDatatable = () => {
     let dataRows = [];
-    let dataColumns = categoryColumns;
-    let addAction = <Link to="/categories/new" className="link">Thêm mới thể loại</Link>
+    let dataColumns = orderColumns;
     const [data, setData] = useState(dataRows);
-
     useEffect(() => {
-        axios.get(`${BaseUrl}/category/`)
+        axios.get(`${BaseUrl}/order/`)
             .then(data => {
                 let count = 0;
                 let dataObj = [];
                 data.data.data.forEach(element => {
                     dataObj[count] = {
-                        id: data.data.data[count].MaChuDe,
-                        ...element
+                        MaDonHang: data.data.data[count].MaDonHang,
+                        DaThanhToan: data.data.data[count].DaThanhToan,
+                        TinhTrangGiaoHang: data.data.data[count].TinhTrangGiaoHang,
+                        NgayDat: data.data.data[count].NgayDat,
+                        NgayGiao: data.data.data[count].NgayGiao,
+                        MaKH: data.data.data[count].MaKH,
+                        TenNguoiNhan: data.data.data[count].TenNguoiNhan,
+                        DienThoaiNguoiNhan: data.data.data[count].DienThoaiNguoiNhan,
+                        DiaChiGiao: data.data.data[count].DiaChiGiao,
+                        HinhThucThanhToan: data.data.data[count].HinhThucThanhToan,
+                        HinhThucGiaoHang: data.data.data[count].HinhThucGiaoHang,
+                        IDVoucher: data.data.data[count].IDVoucher,
+                        ThanhTien: data.data.data[count].ThanhTien
+
                     }
                     count++;
                 });
@@ -28,8 +38,8 @@ const CategoryDatatable = () => {
             })
     }, [dataColumns])
 
-    const handleDelete = (id, MaChuDe) => {
-        axios.delete(`${BaseUrl}/category/delete/${MaChuDe}`)
+    const handleDelete = (id, MaDonHang) => {
+        axios.delete(`${BaseUrl}/order/delete/${MaDonHang}`)
             .then(() => {
                 setData(data.filter((item) => item.id !== id));
             }).catch((err) => {
@@ -45,10 +55,10 @@ const CategoryDatatable = () => {
             renderCell: (params) => {
                 return (
                     <div className="cellAction">
-                        <Link to="/categories/edit" style={{ textDecoration: "none" }} state={{ id: params.row.id }}><div className="viewButton">Sửa</div></Link>
+                        <Link to="/orders/edit" style={{ textDecoration: "none" }} state={{ id: params.row.MaKH }}><div className="viewButton">Sửa</div></Link>
                         <div
                             className="deleteButton"
-                            onClick={() => handleDelete(params.row.id, params.row.MaChuDe)}
+                            onClick={() => handleDelete(params.row.id, params.row.MaKH)}
                         >
                             Xóa
                         </div>
@@ -60,7 +70,7 @@ const CategoryDatatable = () => {
     return (
         <div className="datatable">
             <div className="datatableTitle">
-                {addAction}
+                Danh sach Don hang
             </div>
             <DataGrid
                 className="datagrid"
@@ -72,6 +82,6 @@ const CategoryDatatable = () => {
             />
         </div>
     );
-};
+}
 
-export default CategoryDatatable;
+export default OrderDatatable;

@@ -11,7 +11,7 @@ exports.categoryList = [
             const waitPool = async () => {
                 let pool = await sql.connect(config);
                 categories = await pool.request()
-                    .execute('SelectAllChuDe');
+                    .execute('SelectAllCD');
                 return categories;
             }
             waitPool().then((result) => {
