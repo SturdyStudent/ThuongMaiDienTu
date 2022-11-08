@@ -3,7 +3,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { userColumns } from "../../datatablesource";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import baseUrl from '../../helpers/baseUrl'
+import {BaseUrl} from '../../helpers/baseUrl'
 import axios from 'axios'
 
 const UserDatatable = () => {
@@ -13,7 +13,7 @@ const UserDatatable = () => {
     const [data, setData] = useState(dataRows);
 
     useEffect(() => {
-        axios.get(`${baseUrl}/user/`)
+        axios.get(`${BaseUrl}/user/`)
             .then(data => {
                 let count = 0;
                 let dataObj = [];
@@ -29,7 +29,7 @@ const UserDatatable = () => {
     }, [dataColumns])
 
     const handleDelete = (id, MaKH) => {
-        axios.delete(`${baseUrl}/user/delete/${MaKH}`)
+        axios.delete(`${BaseUrl}/user/delete/${MaKH}`)
             .then(() => {
                 setData(data.filter((item) => item.id !== id));
             }).catch((err) => {

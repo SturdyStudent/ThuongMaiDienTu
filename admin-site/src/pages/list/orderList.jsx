@@ -3,6 +3,7 @@ import Sidebar from "../../components/sidebar/Sidebar"
 import Navbar from "../../components/navbar/Navbar"
 import Container from 'react-bootstrap/Container'
 import { Row, Col } from "react-bootstrap";
+import OrderDatatable from "../../components/datatable/OrderDatatable";
 const List = () => {
   return (
     <>
@@ -17,7 +18,7 @@ const List = () => {
             <Sidebar />
           </Col>
           <Col xs={10} md={10}>
-
+            <OrderDatatable/>
           </Col>
         </Row>
       </Container>

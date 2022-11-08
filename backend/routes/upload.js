@@ -1,6 +1,6 @@
 var express = require("express");
-// const multer = require('multer')
-// const apiResponse = require('../helpers/apiResponse')
+const multer = require('multer')
+const apiResponse = require('../helpers/apiResponse')
 
 var fileName;
 const storage = multer.diskStorage({

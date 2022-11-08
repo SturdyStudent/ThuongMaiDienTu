@@ -4,6 +4,7 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', BookController.bookList);
+router.get('/two', BookController.bookList2);
 router.get('/:id', BookController.bookListById);
 router.get('/bestseller/:limit', BookController.bookListBySales);
 router.get('/mostviewed/:limit', BookController.bookListByViews);

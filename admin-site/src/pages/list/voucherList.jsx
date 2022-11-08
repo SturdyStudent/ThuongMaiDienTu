@@ -3,10 +3,10 @@ import Sidebar from "../../components/sidebar/Sidebar"
 import Navbar from "../../components/navbar/Navbar"
 import Container from 'react-bootstrap/Container'
 import { Row, Col } from "react-bootstrap";
+import VoucherDatatable from '../../components/datatable/VoucherDatatable';
 function voucherList() {
   return (
-    <>
-      {/* <Container fluid>
+      <Container fluid>
         <Row>
           <Col>
             <Navbar />
@@ -17,11 +17,10 @@ function voucherList() {
             <Sidebar />
           </Col>
           <Col xs={10} md={10}>
-            <Datatable objectName={"Voucher"} />
+            <VoucherDatatable/>
           </Col>
         </Row>
-      </Container> */}
-    </>
+      </Container>
   )
 }
 

@@ -9,20 +9,18 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 --Utility
-CREATE PROCEDURE DescVoucher(
-	@IDVoucher int
-)
-AS
+create function fn_getTenNXB(@idNXB int)
+returns nvarchar(max)
+as
 begin
-	declare @SoLuong int
-	if exists (select v.IDVoucher from Voucher v where v.IDVoucher = @IDVoucher)
-		begin
-			set @SoLuong = (Select Voucher.SoLuong from Voucher where Voucher.IDVoucher = @IDVoucher)
-			Update Voucher
-			SET Voucher.SoLuong = @SoLuong - 1
-		end
+	declare @ten nvarchar(max)
+	set @ten = (select TenNXB from NXB WHERE NXB.MaNXB = @idNXB)
+	return @ten
 end
-GO
+go
+
+select dbo.fn_getTenNXB(1) as ten
+go
 
 CREATE PROCEDURE [dbo].[GiaoThanhCong](
 	@MaDonHang INT
@@ -85,6 +83,19 @@ CREATE PROCEDURE [dbo].[SelectAllSach]
 AS
 	SELECT * from Sach
 	WHERE SoLuongTon > 0
+GO
+
+create procedure [dbo].[selectAllSach2]
+AS
+BEGIN
+select s.MaSach, s.TenSach, s.GiaBan, s.MoTa, s.AnhBia, s.NgayCapNhat
+, s.SoLuongTon, tg.TenTacGia as MaTacGia, n.TenNXB as MaNXB, cd.TenChuDe as MaChuDe,s.SoLuotXem, s.SoLuongBan 
+from Sach s, TacGia tg, NXB n, ChuDe cd 
+where
+tg.MaTacGia = s.MaTacGia and
+n.MaNXB = s.MaNXB and
+cd.MaChuDe = s.MaChuDe
+END
 GO
 
 CREATE PROCEDURE [dbo].[SelectAllSachByViews](
@@ -319,7 +330,8 @@ CREATE PROCEDURE [dbo].[InsertDonHangHaveVoucher](
 @ThanhTien money
 )
 AS
-	Declare @NgayGiao date
+	Declare @NgayGiao date,
+	@SoLuong int
 	Set @NgayGiao = DATEADD(day, 7, @NgayDat)
 	begin
 		INSERT INTO DonHang(DaThanhToan, TinhTrangGiaoHang, NgayDat, NgayGiao,
@@ -328,7 +340,9 @@ AS
 		VALUES (@DaThanhToan, @TinhTrangGiaoHang, @NgayDat, @NgayGiao, @MaKH,
 		@TenNguoiNhan, @DienThoaiNguoiNhan, @DiaChiGiao, @HinhThucThanhToan,
 		@HinhThucGiaoHang, @IDVoucher, @ThanhTien)
-		select dbo.DescVoucher(@IDVoucher)
+		Set @SoLuong = (select SoLuong from Voucher v where v.IDVoucher = @IDVoucher)
+		UPDATE Voucher
+		set SoLuong = @SoLuong - 1
 	end
 GO
 
@@ -491,7 +505,7 @@ AS
 		GiaoHang.NgayGiao = @NgayGiao
 	WHERE GiaoHang.MaGH = @MaGH
 GO
-select * from TacGia
+
 CREATE PROCEDURE [dbo].[UpdateKhachHang](
 @MaKH int,
 @HoTen nvarchar(50),
@@ -558,7 +572,7 @@ CREATE PROCEDURE [dbo].[UpdateSach](
 @TenSach nvarchar(50),
 @GiaBan nvarchar(50),
 @MoTa nvarchar(MAX),
-@AnhBia image,
+@AnhBia nvarchar(MAX),
 @NgayCapNhat date,
 @SoLuongTon int,
 @MaNXB int,
@@ -888,3 +902,21 @@ INSERT INTO Sach (TenSach, GiaBan, MoTa, AnhBia, NgayCapNhat, SoLuongTon, MaNXB,
 INSERT INTO Sach (TenSach, GiaBan, MoTa, AnhBia, NgayCapNhat, SoLuongTon, MaNXB, MaChuDe, MaTacGia, SoLuotXem, SoLuongBan) VALUES (N'Xứ Đàng Trong – Lịch Sử Kinh Tế', '160000', N'"Bước vào cuộc sống là từng ngày ta buông thả Tâm và Trí mình trôi theo dòng ""nhân duyên, sinh khởi"" để sau đó rước lấy sợ hãi, bám víu cái giả hư và quan niệm càng sai lầm về tự ngã. Ajahm Chah, bậc minh triết nổi tiếng Á Đông, đã nhấn mạnh ""giáo pháp tự nó phát khởi phù hợp với nhu cầu tức thời, nó phải sống trong hiện tại  mới đúng là chánh Pháp""."', 'xudangtrong.jpg', '2022-10-24', '541', '7', '4', '31', '10192', '219');
 INSERT INTO Sach (TenSach, GiaBan, MoTa, AnhBia, NgayCapNhat, SoLuongTon, MaNXB, MaChuDe, MaTacGia, SoLuotXem, SoLuongBan) VALUES (N'Một Tư Duy Khác Về Kinh Tế Và Xã Hội Việt Nam', '160000', N'"Bước vào cuộc sống là từng ngày ta buông thả Tâm và Trí mình trôi theo dòng ""nhân duyên, sinh khởi"" để sau đó rước lấy sợ hãi, bám víu cái giả hư và quan niệm càng sai lầm về tự ngã. Ajahm Chah, bậc minh triết nổi tiếng Á Đông, đã nhấn mạnh ""giáo pháp tự nó phát khởi phù hợp với nhu cầu tức thời, nó phải sống trong hiện tại  mới đúng là chánh Pháp""."', 'kinhtexahoi.jpg', '2022-10-24', '541', '7', '4', '26', '10194', '220');
 INSERT INTO Sach (TenSach, GiaBan, MoTa, AnhBia, NgayCapNhat, SoLuongTon, MaNXB, MaChuDe, MaTacGia, SoLuotXem, SoLuongBan) VALUES (N'Đối Thoại Với Thượng Đế', '160000', N'"Bước vào cuộc sống là từng ngày ta buông thả Tâm và Trí mình trôi theo dòng ""nhân duyên, sinh khởi"" để sau đó rước lấy sợ hãi, bám víu cái giả hư và quan niệm càng sai lầm về tự ngã. Ajahm Chah, bậc minh triết nổi tiếng Á Đông, đã nhấn mạnh ""giáo pháp tự nó phát khởi phù hợp với nhu cầu tức thời, nó phải sống trong hiện tại  mới đúng là chánh Pháp""."', 'doithoaivoi.png', '2022-10-24', '541', '3', '4', '27', '10196', '221');
+GO
+
+INSERT INTO NHANVIEN (HoTenNV, NgaySinh, GioiTinh, Sdt, DiaChi, VaiTro) VALUES (N'Nguyễn Văn A', '2001-12-23', N'Nam', N'0903655478', N'Đang cập nhật', N'Admin');
+INSERT INTO NHANVIEN (HoTenNV, NgaySinh, GioiTinh, Sdt, DiaChi, VaiTro) VALUES (N'Nguyễn Văn B', '2001-10-10', N'Nam', N'0921652478', N'Đang cập nhật', N'GiaoHang');
+INSERT INTO NHANVIEN (HoTenNV, NgaySinh, GioiTinh, Sdt, DiaChi, VaiTro) VALUES (N'Nguyễn Văn C', '2001-08-12', N'Nữ', N'0303565458', N'Đang cập nhật', N'GiaoHang');
+GO
+
+INSERT INTO KhachHang (HoTen, TaiKhoan, MatKhau, Email, DiaChi, DienThoai, GioiTinh, NgaySinh)
+VALUES (N'Nguyễn Văn D', 'userOne', 'passOne', 'email@gmail.com', 'Đang cập nhật','090477352', 'Nam', '1998-08-02');
+INSERT INTO KhachHang (HoTen, TaiKhoan, MatKhau, Email, DiaChi, DienThoai, GioiTinh, NgaySinh)
+VALUES (N'Lê Minh E', 'userTwo', 'passTwo', 'email@gmail.com', 'Đang cập nhật','090477352', 'Nam', '1998-09-09');
+INSERT INTO KhachHang (HoTen, TaiKhoan, MatKhau, Email, DiaChi, DienThoai, GioiTinh, NgaySinh)
+VALUES (N'Trần Ngọc F', 'userThree', 'passThree', 'email@gmail.com', 'Đang cập nhật','090477352', 'Nữ', '2001-06-05');
+INSERT INTO KhachHang (HoTen, TaiKhoan, MatKhau, Email, DiaChi, DienThoai, GioiTinh, NgaySinh)
+VALUES (N'Lê Hồng G', 'userFour', 'passFour', 'email@gmail.com', 'Đang cập nhật','090477352', 'Nữ', '2000-03-15');
+INSERT INTO KhachHang (HoTen, TaiKhoan, MatKhau, Email, DiaChi, DienThoai, GioiTinh, NgaySinh)
+VALUES (N'Lê Đức H', 'userFive', 'passFive', 'email@gmail.com', 'Đang cập nhật','090477352', 'Nam', '1999-01-30');
+GO

@@ -6,7 +6,6 @@ import Container from 'react-bootstrap/Container'
 import { Row,Col } from "react-bootstrap";
 const authors = () => {
     return (
-        <>
         <Container fluid>
       <Row>
         <Col>    
@@ -15,14 +14,13 @@ const authors = () => {
       </Row>
       <Row>
       <Col xs={2} md={2}>
-                  <Sidebar />
+            <Sidebar />
         </Col>
         <Col xs={10} md={10}>
-      <Datatable objectName={"Tác Giả"} />
+          <Datatable objectName={"Tác Giả"} />
         </Col>
       </Row>
       </Container>
-      </>
     )
 }
 

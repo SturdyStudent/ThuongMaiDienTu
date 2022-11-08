@@ -64,7 +64,7 @@ GO
 CREATE TABLE [dbo].[Sach](
 	[MaSach] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	[TenSach] [nvarchar](50) NULL,
-	[GiaBan] [nvarchar](50) NULL,
+	[GiaBan] [money](50) NULL,
 	[MoTa] [nvarchar](max) NULL,
 	[AnhBia] [nvarchar](max) NULL,
 	[NgayCapNhat] [date] NULL,

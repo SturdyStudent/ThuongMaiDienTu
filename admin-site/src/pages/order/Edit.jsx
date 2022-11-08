@@ -13,15 +13,15 @@ const Edit = ({ title }) => {
 
     return (
         <>
-         <Container fluid>
-  <Row>
+    <Container fluid>
+    <Row>
     <Col>    
       <Navbar />   
     </Col>
   </Row>
   <Row>
-  <Col xs={2} md={2}>
-              <Sidebar />
+    <Col xs={2} md={2}>
+        <Sidebar />
     </Col>
     <Col xs={10} md={10}>
     <div className="new">
