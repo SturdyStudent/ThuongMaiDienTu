@@ -9,18 +9,6 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 --Utility
-create function fn_getTenNXB(@idNXB int)
-returns nvarchar(max)
-as
-begin
-	declare @ten nvarchar(max)
-	set @ten = (select TenNXB from NXB WHERE NXB.MaNXB = @idNXB)
-	return @ten
-end
-go
-
-select dbo.fn_getTenNXB(1) as ten
-go
 
 CREATE PROCEDURE [dbo].[GiaoThanhCong](
 	@MaDonHang INT

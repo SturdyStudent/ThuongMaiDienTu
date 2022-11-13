@@ -17,6 +17,13 @@ CREATE TABLE [dbo].[ChuDe](
 )
 GO
 
+CREATE TABLE [dbo].[LoaiKH](
+	[MaLoaiKH] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	[UuDaiMienPhiVanChuyen] [bit] NULL,
+	[UuDaiSinhNhat] [bit] NULL,
+	[UuDaiKhachHangThanThiet] [bit] NULL
+)
+GO
 
 CREATE TABLE [dbo].[KhachHang](
 	[MaKH] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
@@ -28,9 +35,17 @@ CREATE TABLE [dbo].[KhachHang](
 	[DienThoai] [nvarchar](20) NULL,
 	[GioiTinh] [nvarchar](3) NULL,
 	[NgaySinh] [date] NULL,
+	[DaXacNhan] [Bit] NULL,
+	[MaOTP] [int] NULL,
+	[DiemTichLuy] [int] NULL,
+	[DiemDaSuDung] [int] NULL,
+	[MaLoaiKH] [int] NULL
 )
 GO
 
+ALTER TABLE [dbo].[KhachHang] ADD CONSTRAINT [FK_KhachHang_LoaiKH] FOREIGN KEY ([MaLoaiKH])
+REFERENCES [dbo].[LoaiKH] ([MaLoaiKH])
+GO
 
 CREATE TABLE [dbo].[NhanVien](
 	[MaNV] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
@@ -64,7 +79,7 @@ GO
 CREATE TABLE [dbo].[Sach](
 	[MaSach] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	[TenSach] [nvarchar](50) NULL,
-	[GiaBan] [money](50) NULL,
+	[GiaBan] [money] NULL,
 	[MoTa] [nvarchar](max) NULL,
 	[AnhBia] [nvarchar](max) NULL,
 	[NgayCapNhat] [date] NULL,
@@ -105,16 +120,19 @@ CREATE TABLE [dbo].[Voucher](
 	[NgayBatDau] [date] NULL,
 	[NgayKetThuc] [date] NULL,
 	[TriGiaGiam] [money] NULL,
-	[DieuKienVoucher] [nvarchar](50) NULL,
+	[LoaiVoucher] [nvarchar](50) NULL,
 	[SoLuong] [bigint] NULL,
 	[HieuLuc] [bit] NULL,
+	[MucToiThieuCan] [money] NULL,
+	[MucToiDaCan] [money] NULL,
+	[GhiChu] [nvarchar] (50) NULL
 )
 GO
 
 
 CREATE TABLE [dbo].[DonHang](
 	[MaDonHang] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
-	[DaThanhToan] [bit] NULL,
+	[DaThanhToan] [smallint] NULL,
 	[TinhTrangGiaoHang] [bit] NULL,
 	[NgayDat] [date] NULL,
 	[NgayGiao] [date] NULL,
@@ -126,6 +144,7 @@ CREATE TABLE [dbo].[DonHang](
 	[HinhThucGiaoHang] [nvarchar](20) NULL,
 	[IDVoucher] [int] NULL,
 	[ThanhTien] [money] NULL,
+	[MaNV] [int] NULL
 )
 GO
 
@@ -136,7 +155,9 @@ ALTER TABLE [dbo].[DonHang] CHECK CONSTRAINT [FK_DonHang_Voucher]
 
 ALTER TABLE [dbo].[DonHang] ADD  CONSTRAINT [FK_DonHang_KhachHang] FOREIGN KEY([MaKH])
 REFERENCES [dbo].[KhachHang] ([MaKH])
-GO
+
+ALTER TABLE [dbo].[DonHang] ADD CONSTRAINT [FK_DonHang_NhanVien] FOREIGN KEY ([MaNV])
+REFERENCES [dbo].[NhanVien] ([MaNV])
 
 ALTER TABLE [dbo].[DonHang] CHECK CONSTRAINT [FK_DonHang_KhachHang]
 GO
@@ -165,28 +186,6 @@ ALTER TABLE [dbo].[ChiTietDonHang] CHECK CONSTRAINT [FK_ChiTietDonHang_Sach]
 GO
 
 
-
-CREATE TABLE [dbo].[GiaoHang](
-	[MaGH] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
-	[MaNV] [int] NULL,
-	[MaDonHang] [int] NULL,
-	[NgayGiao] [date] NULL,
-)
-GO
-
-ALTER TABLE [dbo].[GiaoHang] ADD  CONSTRAINT [FK_GiaoHang_DonHang] FOREIGN KEY([MaDonHang])
-REFERENCES [dbo].[DonHang] ([MaDonHang])
-GO
-
-ALTER TABLE [dbo].[GiaoHang] CHECK CONSTRAINT [FK_GiaoHang_DonHang]
-GO
-
-ALTER TABLE [dbo].[GiaoHang] ADD  CONSTRAINT [FK_GiaoHang_NhanVien] FOREIGN KEY([MaNV])
-REFERENCES [dbo].[NhanVien] ([MaNV])
-GO
-
-ALTER TABLE [dbo].[GiaoHang] CHECK CONSTRAINT [FK_GiaoHang_NhanVien]
-GO
 
 
 
