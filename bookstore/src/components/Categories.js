@@ -1,27 +1,23 @@
 import "../components/Categories.css"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import {ChangeHistoryIcon} from '@mui/material/ChangeHistory';
-import { AccessAlarm, ThreeDRotation } from '@mui/icons-material';
+import {IoCaretUpOutline} from "react-icons/io5"
+import {dataTest} from '../DataCategories'
 export default function Category(){
-    const dataTest=[
-        {
-            "name":"hoang"
-        },
-        {
-            "name":"hoang"
-        },
-        {
-            "name":"hoang"
-        },
-    ]
+    
     return(<>
-        <ul className="ul-cate">
+    <div className="category-icons">
+    <IoCaretUpOutline></IoCaretUpOutline>
+    </div>
+   
+    <div className="category-items"> 
+         <ul className="ul-cate">
             {dataTest.map((data,index)=>{
                 return(
-                    <li  className="li-cate" key={index}>{data.name}<ThreeDRotation/></li>
+                    <li  className="li-cate" key={index}>{data.name}</li>
                 )
             })}
             
         </ul>
+    </div>
+   
     </>)
 }
