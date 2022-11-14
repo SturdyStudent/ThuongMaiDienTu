@@ -1,0 +1,25 @@
+.ul-cate{
+    list-style: none;
+    top: auto; 
+    z-index: 1000;
+    position: relative;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: auto;
+    position: relative;
+    text-transform: uppercase;
+    float: left;
+    cursor: default;
+    background: rgba(25, 25, 25, 0.9);
+    padding: 10px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    color: #fff;
+}
+.li-cate{
+    text-align: -webkit-match-parent;
+}
+.ul-cate span{
+    color: #fff;
+}

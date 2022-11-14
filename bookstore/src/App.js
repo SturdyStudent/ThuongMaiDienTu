@@ -14,6 +14,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { baseUrl } from './baseUrl';
+import Categories from './components/Categories';
 
 function App() {
   const [stripePromise, setStripePromise] = useState();
@@ -28,6 +29,7 @@ function App() {
     <div className="App" style={{ "backgroundColor": "#fffbf3" }}>
       <Router>
         <Routes>
+          <Route path="/Categories" element={<Categories />} />
           <Route path="/" element={<HomePage />} />
           <Route path="/results" element={<SearchResults />}></Route>
           <Route path="/details">

@@ -5,13 +5,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faUser, faHeart, faCartShopping } from '@fortawesome/free-solid-svg-icons'
 import Logo from '../assets/logo.png'
 import _ from 'lodash'
-
+import Categories from "./Categories"
 function Header() {
     const isSupportPage = true;
     const isLoggedIn = true;
     let onSelected = true;
     let userNav = <>Đăng nhập</>;
-
+    const [showCate,setStateCate]=useState(false);
     const cartItemFromLocalStore = localStorage.getItem("CART_ITEMS");
     const [cartItems, setCartItems] = useState();
     const [userNavItems, setUserNavItems] = useState('');
@@ -95,17 +95,21 @@ function Header() {
                 <nav className="navbar navbar-expand" style={{ "width": "100%" }}>
                     <div className="container">
                         <div className="collapse navbar-collapse" id="navbarNav">
-                            <ul id="menu-main-nav" className="navbar-nav nav-fill w-100">
+                            <div id="menu-main-nav" className="navbar-nav nav-fill w-100">
                                 <li id="menu-item-42" className="nav-item  menu-item-42">
                                     <Link to={"/"} className='nav-link'>
                                         TRANG CHỦ
                                     </Link>
                                 </li>
-                                <li id="menu-item-963" className="nav-item menu-item menu-item-type-post_type menu-item-object-page menu-item-963">
-                                    <Link to={"/"} className='nav-link'>
+                                <div className="category">
+                                <li id="menu-item-963" className="nav-item menu-item menu-item-type-post_type menu-item-object-page menu-item-963" onMouseEnter={()=>setStateCate(true)} onMouseLeave={()=>setStateCate(false)}>
+                                    <Link to={"/Categories"} className='nav-link'>
                                         THỂ LOẠI
                                     </Link>
+                                    
                                 </li>
+                                </div>
+                               
                                 <li id="menu-item-40" className="nav-item menu-item menu-item-type-post_type menu-item-object-page menu-item-40">
                                     <Link to={"/coupons"} className='nav-link'>
                                         MÃ GIẢM GIÁ
@@ -121,11 +125,14 @@ function Header() {
                                         HỎI ĐÁP SẢN PHẨM
                                     </Link>
                                 </li>
-                            </ul>
+                            </div>
                         </div>
                     </div>
                 </nav>
+                
             </nav>}
+            {/* category */}
+            {showCate?<Categories><i style="color:#FFF"><FontAwesomeIcon icon="fa-solid fa-triangle" /></i></Categories>: null}
         </div>
     )
 }

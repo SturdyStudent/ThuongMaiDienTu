@@ -343,11 +343,13 @@ CREATE PROCEDURE [dbo].[InsertVoucher](
 @TriGiaGiam money,
 @DieuKienVoucher nvarchar(50),
 @Soluong int,
-@Hieuluc bit
+@Hieuluc bit,
+@MucToiDaCan money,
+@MucToiThieuCan money
 )
 AS
-	INSERT INTO Voucher(CodeVoucher, NgayBatDau, NgayKetThuc, TriGiaGiam, DieuKienVoucher, SoLuong, HieuLuc)
-	VALUES (@CODEVoucher, @NgayBatDau, @NgayKeyThuc, @TriGiaGiam, @DieuKienVoucher, @Soluong, @Hieuluc)
+	INSERT INTO Voucher(CodeVoucher, NgayBatDau, NgayKetThuc, TriGiaGiam, LoaiVoucher, SoLuong, HieuLuc,MucToiDaCan,MucToiThieuCan)
+	VALUES (@CODEVoucher, @NgayBatDau, @NgayKeyThuc, @TriGiaGiam, @DieuKienVoucher, @Soluong, @Hieuluc,@MucToiDaCan,@MucToiThieuCan)
 GO
 
 
@@ -602,8 +604,9 @@ AS
 	WHERE TacGia.MaTacGia = @MaTacGia
 GO
 
+--drop  PROCEDURE  [dbo].[UpdateVoucher]
 
-CREATE PROCEDURE [dbo].[UpdateVoucher](
+Create PROCEDURE [dbo].[UpdateVoucher](
 @IDVoucher int,
 @CodeVoucher nvarchar(max),
 @NgayBatDau date,
@@ -611,7 +614,10 @@ CREATE PROCEDURE [dbo].[UpdateVoucher](
 @TriGiaGiam money,
 @DieuKienVoucher nvarchar(50),
 @Soluong bigint,
-@HieuLuc bit
+@HieuLuc bit,
+@MucToiDaCan money,
+@MucToiThieuCan money
+
 )
 AS
 	BEGIN
@@ -621,9 +627,11 @@ AS
 			Voucher.NgayBatDau = @NgayBatDau,
 			Voucher.NgayKetThuc = @NgayKetThuc,
 			Voucher.TriGiaGiam = @TriGiaGiam,
-			Voucher.DieuKienVoucher = @DieuKienVoucher,
+			Voucher.LoaiVoucher = @DieuKienVoucher,
 			Voucher.SoLuong = @Soluong,
-			Voucher.HieuLuc = @HieuLuc
+			Voucher.HieuLuc = @HieuLuc,
+			Voucher.MucToiDaCan = @MucToiDaCan,
+			Voucher.MucToiThieuCan = @MucToiThieuCan
 		WHERE Voucher.IDVoucher = @IDVoucher
 	END
 GO
