@@ -17,7 +17,7 @@ const BookDatatable = () => {
   const [data, setData] = useState(dataRows);
 
 useEffect(() => {
-    axios.get(`${BaseUrl}/book/two`)
+    axios.get(`${BaseUrl}/book/`)
         .then(data => {
             let count = 0;
             let dataObj = [];
