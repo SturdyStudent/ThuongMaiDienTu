@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import { BaseUrl, UtiUrl } from "../../helpers/baseUrl";
 import axios from "axios";
 
-const BookDatatable = () => {
+const BookDatatable = (props) => {
   let dataRows = [];
   let dataColumns = bookColumns;
   let addAction = (
@@ -118,7 +118,7 @@ useEffect(() => {
         return (
           <div className="cellAction">
             <Link
-              to = "/books/detail"
+              to = {`/books/${params.id}`}
               style= {{textDecoration:"none"}}
               state={{id:params.row.MaSach}}
             >

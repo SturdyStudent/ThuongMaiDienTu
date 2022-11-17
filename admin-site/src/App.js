@@ -34,10 +34,11 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./style/dark.scss";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
+import Detail from "./pages/books/Detail";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
-
+  // const {getId,setId}=useState();
   return (
     <div className={darkMode ? "app dark" : "app"}>
       <BrowserRouter>
@@ -117,7 +118,7 @@ function App() {
                 />
               </Route>
               <Route path='books'>
-                <Route index element={<BookList />} />
+                <Route index element={<BookList/>} />
                 <Route
                   path="new"
                   element={<NewBook />}
@@ -125,6 +126,10 @@ function App() {
                 <Route
                   path="edit"
                   element={<BookEdit title="Sửa thông tin Sách" />}
+                />
+                <Route
+                  path=":id"
+                  element={<Detail/>}
                 />
               </Route>
               <Route path='publishers'>
