@@ -5,9 +5,7 @@ export default function Category(){
     
     return(<>
     <div className="category-icons">
-    <IoCaretUpOutline></IoCaretUpOutline>
     </div>
-   
     <div className="category-items"> 
          <ul className="ul-cate">
             {dataTest.map((data,index)=>{

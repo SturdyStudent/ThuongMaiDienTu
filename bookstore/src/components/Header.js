@@ -6,6 +6,8 @@ import { faSearch, faUser, faHeart, faCartShopping } from '@fortawesome/free-sol
 import Logo from '../assets/logo.png'
 import _ from 'lodash'
 import Categories from "./Categories"
+import {IoCaretUpOutline} from "react-icons/io5"
+
 function Header() {
     const isSupportPage = true;
     const isLoggedIn = true;
@@ -103,8 +105,9 @@ function Header() {
                                 </li>
                                 <div className="category">
                                 <li id="menu-item-963" className="nav-item menu-item menu-item-type-post_type menu-item-object-page menu-item-963" onMouseEnter={()=>setStateCate(true)} onMouseLeave={()=>setStateCate(false)}>
+                                    
                                     <Link to={"/Categories"} className='nav-link'>
-                                        THỂ LOẠI
+                                        THỂ LOẠI <IoCaretUpOutline></IoCaretUpOutline>
                                     </Link>
                                     
                                 </li>
@@ -132,7 +135,7 @@ function Header() {
                 
             </nav>}
             {/* category */}
-            {showCate?<Categories><i style="color:#FFF"><FontAwesomeIcon icon="fa-solid fa-triangle" /></i></Categories>: null}
+            {showCate?<Categories></Categories>: null}
         </div>
     )
 }
