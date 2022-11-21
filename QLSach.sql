@@ -4,13 +4,6 @@ GO
 USE QLSach
 GO
 
-/****** Object:  Table [dbo].[DummyCD]    Script Date: 10/22/2022 12:55:27 PM ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
 CREATE TABLE [dbo].[ChuDe](
 	[MaChuDe] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	[TenChuDe] [nvarchar](50) NULL,
@@ -19,6 +12,7 @@ GO
 
 CREATE TABLE [dbo].[LoaiKH](
 	[MaLoaiKH] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	[LoaiKhachHang] [nvarchar](50) NULL,
 	[UuDaiMienPhiVanChuyen] [bit] NULL,
 	[UuDaiSinhNhat] [bit] NULL,
 	[UuDaiKhachHangThanThiet] [bit] NULL
@@ -54,6 +48,7 @@ CREATE TABLE [dbo].[NhanVien](
 	[GioiTinh] [nvarchar](3) NULL,
 	[Sdt] [nvarchar](50) NULL,
 	[DiaChi] [nvarchar](50) NULL,
+	[VaiTro] [nvarchar](50) NULL
 )
 GO
 
@@ -184,7 +179,3 @@ GO
 
 ALTER TABLE [dbo].[ChiTietDonHang] CHECK CONSTRAINT [FK_ChiTietDonHang_Sach]
 GO
-
-
-
-
