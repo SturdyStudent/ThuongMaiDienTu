@@ -1,5 +1,4 @@
 .category-items{
-   
     background: rgba(25, 25, 25, 0.9);
     padding: 10px;
     border-bottom-left-radius: 3px;
@@ -9,11 +8,24 @@
     flex-direction: row;
     flex-wrap:wrap;
     width: 50%;
+    position: absolute;
     height: auto;
     z-index: 1000;
     float: right;
-    margin-right: 20rem;
-   
+}
+.category-items::before{
+    content: "";
+    display: inline-block;
+    height: 0;
+    width: 0;
+    border-bottom: 15px solid #000;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 15px solid transparent;
+    position: absolute;
+    bottom: 0;
+    left: 340px;
+    transform: translateX(-50%);
 }
 .category-icons{
     margin-right: 37rem;
@@ -27,11 +39,5 @@
     top: auto; 
     position: relative;
     text-transform: uppercase;
-    padding: 1rem;
-    margin: 1rem;
-   
     cursor: default;
-
-
-
 }

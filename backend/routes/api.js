@@ -10,6 +10,7 @@ var userRouter = require("./user")
 var paymentRouter = require("./payment")
 
 var orderRouter = require('./order');
+var orderDetailRouter = require('./orderDetail');
 var employeeRouter = require('./employee');
 var shipmentRouter = require('./shipment');
 var voucherRouter = require('./voucher');
@@ -19,12 +20,13 @@ var app = express();
 
 app.use("/auth/", authRouter);
 app.use("/book/", bookRouter);
-// app.use("/book/", bookRouter);
-app.use('/order/', orderRouter)
+app.use('/order/', orderRouter);
+app.use('/orderDetail/', orderDetailRouter);
 app.use("/publisher/", publisherRouter);
 app.use("/category/", categoryRouter);
 app.use("/shipment/", shipmentRouter);
-app.use("/voucher/",voucherRouter)
+app.use("/voucher/",voucherRouter);
+app.use("/employee", employeeRouter);
 // app.use("/rating/", ratingRouter);
 app.use("/utility", utilityRouter);
 app.use("/author/", authorRouter);

@@ -22,24 +22,6 @@ exports.bookList = [
     }
 ];
 
-exports.bookList2 = [
-    (req, res) => {
-        try {
-            const waitPool = async () => {
-                let pool = await sql.connect(config);
-                books = await pool.request()
-                    .execute('SelectAllSach2');
-                return books;
-            }
-            waitPool().then((result) => {
-                return apiResponse.successResponseWithData(res, "Lấy danh sách sách thành công", result.recordsets[0]);
-            }).catch(err => { return apiResponse.ErrorResponse(res, err) });
-        } catch (err) {
-            return apiResponse.ErrorResponse(res, err);
-        }
-    }
-]
-
 exports.bookListById = [
     (req, res) => {
         try {
@@ -47,7 +29,7 @@ exports.bookListById = [
             const waitPool = async () => {
                 let pool = await sql.connect(config);
                 book = await pool.request()
-                    .input('MaSach', sql.Int, req.params.id)
+                    .input('idSach', sql.Int, req.params.id)
                     .execute('SelectSachById');
                 return book;
             }
