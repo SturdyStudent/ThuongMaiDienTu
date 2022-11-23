@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "build": "npm run build-babel",
-    "build-babel": "npx babel --plugins @babel/plugin-proposal-nullish-coalescing-operator ./node_modules/tedious -d ./build/src",
+    "build-babel": "npx babel --plugins @babel/plugin-proposal-nullish-coalescing-operator ./node_modules/mssql -d ./build/src",
     "start": "nodemon app.js",
     "dev": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
