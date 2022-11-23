@@ -24,7 +24,8 @@ function BookDetail() {
         SoLuongBan: 0,
         SoLuongTon: 0,
         SoLuotXem: 0,
-        TenSach: ""
+        TenSach: "",
+        TenTacGia: ""
     })
     const [publisher, setPublisher] = useState("default");
     const [author, setAuthor] = useState("default");

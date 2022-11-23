@@ -9,6 +9,11 @@
     margin-bottom: 5vh;
 }
 
+.remove-icon:hover {
+    color: crimson;
+    cursor: pointer;
+}
+
 .self-center-div {
     margin: 0px auto;
 }

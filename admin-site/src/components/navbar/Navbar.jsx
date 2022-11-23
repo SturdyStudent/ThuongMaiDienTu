@@ -5,7 +5,7 @@ import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNone
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
 import Container from 'react-bootstrap/Container'
-import { Row,Col } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Logo from '../../assets/images/logo.png'
 
@@ -14,26 +14,26 @@ const Navbar = () => {
   return (
     <Container fluid id="navbar">
       <Row>
-        <Col xs={2} md={2}>
+        {/* <Col xs={2} md={2}>
           <div class="navbar-logo">
             <Link to="/" style={{ textDecoration: "none" }}>
               <img src={Logo} alt="..." height="60" />
             </Link>
           </div>
-        </Col>
+        </Col> */}
         <Col xs={9} md={9} id="search-bar">
-        <input type="text" placeholder="Search..." />
-            <SearchOutlinedIcon fontSize="large"/>
+          <input type="text" placeholder="Search..." />
+          <SearchOutlinedIcon fontSize="large" />
         </Col>
         <Col xs={1} md={1} id="nav-dark-icon">
           <Row>
-              <Col>
+            <Col>
               <DarkModeOutlinedIcon fontSize="medium"
-              onClick={() => dispatch({ type: "TOGGLE" })}/>             
-              </Col>
-              <Col>
-              <NotificationsNoneOutlinedIcon fontSize="medium"/>
-              </Col>
+                onClick={() => dispatch({ type: "TOGGLE" })} />
+            </Col>
+            <Col>
+              <NotificationsNoneOutlinedIcon fontSize="medium" />
+            </Col>
           </Row>
         </Col>
       </Row>

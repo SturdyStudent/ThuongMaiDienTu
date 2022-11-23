@@ -37,7 +37,7 @@ exports.orderItemId = [
                 return order;
             }
             waitPool().then((result) => {
-                return apiResponse.successResponseWithData(res, "Lấy id đơn hàng thành công", result.recordsets[0]);
+                return apiResponse.successResponseWithData(res, "Lấy đơn hàng thành công", result.recordsets[0]);
             }).catch(err => { return apiResponse.ErrorResponse(res, err) });
         } catch (err) {
             return apiResponse.ErrorResponse(res, err);
@@ -57,25 +57,46 @@ exports.orderCreate = [
     body("HinhThucThanhToan").notEmpty().withMessage("Tên thể loại không được bỏ trống."),
     body("HinhThucGiaoHang").notEmpty().withMessage("Tên thể loại không được bỏ trống."),
     body("ThanhTien").notEmpty().withMessage("Tên thể loại không được bỏ trống."),
+    body("MaNV").notEmpty().withMessage("Không được để trống nhân viên giao hàng"),
     sanitizeBody("*").escape(),
     (req, res) => {
         try {
+    
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
                 return apiResponse.validationErrorWithData(res, "Lỗi xác thực", errors.array());
             }
             else {
                 const waitPool = async () => {
+                
+                    let addedOrder;
                     let timestamp = "";
                     let daystamp = new Date().getDate();
                     let monthstamp = new Date().getMonth();
                     let yearstamp = new Date().getFullYear();
                     timestamp = yearstamp + "-" + monthstamp + "-" + daystamp;
                     let pool = await sql.connect(config);
-                    Order = {
+               
+
+                    const orderDetail = String(req.body.ChitietDH).replace(/&quot;/g, '"').replace(/&#x5C;/g, '\\');
+                    const orderedBooks = JSON.parse(orderDetail);
+    
+                    const Chitiet_donhang_type = new sql.Table('Chitiet_donhang_type');
+    
+                    Chitiet_donhang_type.create = true;
+                    Chitiet_donhang_type.columns.add('MaSach', sql.Int)
+                    Chitiet_donhang_type.columns.add('SoLuong', sql.Int);
+                    Chitiet_donhang_type.columns.add('DonGia', sql.Int);
+    
+                    orderedBooks.forEach(item => {
+                        Chitiet_donhang_type.rows.add(item.MaSach, item.SoLuong, item.GiaBan);
+                    })
+                      
+
+                    let Order = {
                         DaThanhToan: req.body.DaThanhToan,
                         TinhTrangGiaoHang: req.body.TinhTrangGiaoHang,
-                        NgayDat: timestamp,
+                        NgayDat: req.body.NgayDat,
                         MaKH: req.body.MaKH,
                         TenNguoiNhan: req.body.TenNguoiNhan,
                         DienThoaiNguoiNhan: req.body.DienThoaiNguoiNhan,
@@ -85,38 +106,40 @@ exports.orderCreate = [
                         IDVoucher: req.body.IDVoucher,
                         ThanhTien: req.body.ThanhTien
                     }
-                    if(Order.IDVoucher == null || Order.IDVoucher == "") //Dùng để kiểm tra có sử dụng voucher hay không
+                    if (Order.IDVoucher == null || Order.IDVoucher == "") //Dùng để kiểm tra có sử dụng voucher hay không
                     {
                         addedOrder = await pool.request()
                         .input('DaThanhToan', sql.Bit, Order.DaThanhToan)
-                        .input('TinhTrangGiaoHang', sql.Bit, Order.TinhTrangGiaoHang)
+                        .input('TinhTrangGiaoHang', sql.SmallInt, Order.TinhTrangGiaoHang)
                         .input('NgayDat', sql.Date, Order.NgayDat)
                         .input('MaKH', sql.Int, Order.MaKH)
                         .input('TenNguoiNhan', sql.NVarChar(50), Order.TenNguoiNhan)
                         .input('DienThoaiNguoiNhan', sql.NVarChar(50), Order.DienThoaiNguoiNhan)
-                        .input('DiaChiGiao', sql.NVarChar(50), Order.DiaChiGiao)
-                        .input('HinhThucThanhToan', sql.NVarChar(20), Order.HinhThucThanhToan)
-                        .input('HinhThucGiaoHang', sql.NVarChar(20), Order.HinhThucGiaoHang)
+                        .input('DiaChiGiao', sql.NVarChar(sql.MAX), Order.DiaChiGiao)
+                        .input('HinhThucThanhToan', sql.NVarChar(50), Order.HinhThucThanhToan)
+                        .input('HinhThucGiaoHang', sql.NVarChar(50), Order.HinhThucGiaoHang)
                         .input('ThanhTien', sql.Money, Order.ThanhTien)
+                        .input('MaNV', sql.Int, req.body.MaNV)
+                        .input('ChiTietDH', sql.TYPES.TVP, Chitiet_donhang_type)
                         .execute('InsertDonHangNotVoucher');
                     }
-                    else
-                    {
+                    else {
                         addedOrder = await pool.request()
                         .input('DaThanhToan', sql.Bit, Order.DaThanhToan)
-                        .input('TinhTrangGiaoHang', sql.Bit, Order.TinhTrangGiaoHang)
+                        .input('TinhTrangGiaoHang', sql.SmallInt, Order.TinhTrangGiaoHang)
                         .input('NgayDat', sql.Date, Order.NgayDat)
                         .input('MaKH', sql.Int, Order.MaKH)
                         .input('TenNguoiNhan', sql.NVarChar(50), Order.TenNguoiNhan)
                         .input('DienThoaiNguoiNhan', sql.NVarChar(50), Order.DienThoaiNguoiNhan)
-                        .input('DiaChiGiao', sql.NVarChar(50), Order.DiaChiGiao)
-                        .input('HinhThucThanhToan', sql.NVarChar(20), Order.HinhThucThanhToan)
-                        .input('HinhThucGiaoHang', sql.NVarChar(20), Order.HinhThucGiaoHang)
-                        .input('IDVoucher', sql.Int, Order.IDVoucher)
+                        .input('DiaChiGiao', sql.NVarChar(sql.MAX), Order.DiaChiGiao)
+                        .input('HinhThucThanhToan', sql.NVarChar(50), Order.HinhThucThanhToan)
+                        .input('HinhThucGiaoHang', sql.NVarChar(50), Order.HinhThucGiaoHang)
                         .input('ThanhTien', sql.Money, Order.ThanhTien)
+                        .input('MaNV', sql.Int, req.body.MaNV)
+                        .input('IDVoucher', sql.Int, req.body.IDVoucher)
+                        .input('ChiTietDH', sql.TYPES.TVP, Chitiet_donhang_type)
                         .execute('InsertDonHangHaveVoucher');
                     }
-                    
                     return addedOrder;
                 }
                 waitPool().then((data) => {
@@ -175,21 +198,40 @@ exports.orderUpdate = [
                 return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
             }
             else {
+                const orderDetail = String(req.body.ChitietDH).replace(/&quot;/g, '"');
+                const orderedBooks = JSON.parse(orderDetail);
+
+                const Chitiet_donhang_type = new sql.Table('Chitiet_donhang_type');
+
+                Chitiet_donhang_type.create = true;
+                Chitiet_donhang_type.columns.add('MaSach', sql.Int)
+                Chitiet_donhang_type.columns.add('SoLuong', sql.Int);
+                Chitiet_donhang_type.columns.add('DonGia', sql.Int);
+
+                orderedBooks.forEach(item => {
+                    Chitiet_donhang_type.rows.add(item.MaSach, item.SoLuong, item.DonGia);
+                })
+
                 const waitPool = async () => {
                     let pool = await sql.connect(config);
                     updatedOrder = await pool.request()
-                        .input('MaDonHang', sql.Int, req.params.id)
-                        .input('DaThanhToan', sql.Int, rreq.body.DaThanhToan)
-                        .input('TinhTrangGiaoHang', sql.NVarChar(50), req.body.TinhTrangGiaoHang)
-                        .input('NgayGiao', sql.NVarChar(50), req.body.NgayGiao)
-                        .input('TenNguoiNhan', sql.NVarChar(50), req.body.TenNguoiNhan)
-                        .input('DienThoaiNguoiNhan', sql.NVarChar(50), req.body.DienThoaiNguoiNhan)
-                        .input('DiaChiGiao', sql.NVarChar(50), req.body.DiaChiGiao)
+                        .input('DaThanhToan', sql.Bit, Order.DaThanhToan)
+                        .input('TinhTrangGiaoHang', sql.SmallInt, Order.TinhTrangGiaoHang)
+                        .input('NgayDat', sql.Date, Order.NgayDat)
+                        .input('MaKH', sql.Int, Order.MaKH)
+                        .input('TenNguoiNhan', sql.NVarChar(50), Order.TenNguoiNhan)
+                        .input('DienThoaiNguoiNhan', sql.NVarChar(50), Order.DienThoaiNguoiNhan)
+                        .input('DiaChiGiao', sql.NVarChar(50), Order.DiaChiGiao)
+                        .input('HinhThucThanhToan', sql.NVarChar(50), Order.HinhThucThanhToan)
+                        .input('HinhThucGiaoHang', sql.NVarChar(50), Order.HinhThucGiaoHang)
+                        .input('ThanhTien', sql.Money, Order.ThanhTien)
+                        .input('MaNV', sql.Int, req.body.MaNV)
+                        .input('ChiTietDH', sql.TYPES.TVP, Chitiet_donhang_type)
                         .execute('UpdateDonHang');
                     return updatedOrder;
                 }
                 waitPool().then((data) => {
-                    return apiResponse.successResponseWithData(res, "Sửa chủ đề thành công", data.recordsets[0]);
+                    return apiResponse.successResponseWithData(res, "Sửa đơn hàng thành công", data.recordsets[0]);
                 }).catch(err => { return apiResponse.ErrorResponse(res, err) });
             }
         } catch (err) {

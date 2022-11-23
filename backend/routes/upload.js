@@ -1,6 +1,6 @@
 var express = require("express");
-// const multer = require('multer')
-// const apiResponse = require('../helpers/apiResponse')
+const multer = require('multer')
+const apiResponse = require('../helpers/apiResponse')
 
 var fileName;
 const storage = multer.diskStorage({
@@ -16,13 +16,13 @@ const storage = multer.diskStorage({
     }
 })
 
-// const upload = multer({ storage: storage })
+const upload = multer({ storage: storage })
 
 var router = express.Router();
-// router.get("/", (req, res) => {
-//     res.send("Trang upload ảnh");
-// })
-// router.post("/", upload.single('file'), (req, res) => {
-//     return apiResponse.successResponseWithData(res, "Upload ảnh thành công", fileName);
-// });
+router.get("/", (req, res) => {
+    res.send("Trang upload ảnh");
+})
+router.post("/", upload.single('file'), (req, res) => {
+    return apiResponse.successResponseWithData(res, "Upload ảnh thành công", fileName);
+});
 module.exports = router;

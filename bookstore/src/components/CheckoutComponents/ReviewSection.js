@@ -3,14 +3,32 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faX } from '@fortawesome/free-solid-svg-icons'
 import { useSelector } from 'react-redux'
 import { loadImageUrl } from '../../baseUrl'
+import { actCalculateTotalPrice } from '../../actions/index'
+import { useDispatch } from 'react-redux'
+import _ from 'lodash'
 
 function ReviewSection() {
     const shippingInfo = useSelector(state => state.orderState);
     const [items, setItems] = useState();
+    const dispatch = useDispatch();
+
     useEffect(() => {
         let oldItems = JSON.parse(localStorage.getItem("CART_ITEMS") || "[]");
         setItems(oldItems);
     }, [])
+
+    const handleRemoveItem = (e, item) => {
+        e.preventDefault();
+        let oldItems = JSON.parse(localStorage.getItem("CART_ITEMS") || "[]");
+        dispatch(actCalculateTotalPrice(Date.now()));
+        if (Array(oldItems.length).length === 1) {
+            alert("Không được phép xóa toàn bộ hàng trong giỏ");
+        } else {
+            _.remove(oldItems, _.matchesProperty('idSach', item.idSach));
+            setItems(oldItems);
+            localStorage.setItem("CART_ITEMS", JSON.stringify(oldItems));
+        }
+    }
 
     return (
         <div>
@@ -39,11 +57,10 @@ function ReviewSection() {
                                         <h4 className='mt-2 fw-bold'>{item.tenSach}</h4>
                                         <div className='mt-2'>x{item.soLuong} cuốn</div>
                                         <div className='mt-2'>{Number(item.tongTien).toLocaleString()} VNĐ</div>
-                                        <div className='mt-2'><FontAwesomeIcon icon={faX} /> Loại bỏ</div>
+                                        <div className='mt-2 remove-icon' onClick={e => handleRemoveItem(e, item)}><FontAwesomeIcon icon={faX} /> Loại bỏ</div>
                                     </div>
                                 </div>
                             )}
-
                         </div>
                     </blockquote>
                     <blockquote className="blockquote blockquote-custom bg-white mt-4 p-5 shadow rounded">

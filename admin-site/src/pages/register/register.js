@@ -5,7 +5,6 @@ import DelayLink from '../../helpers/delayLink';
 import '../login/PartnerLoginPage.css'
 import { HalfMalf } from 'react-spinner-animated';
 import 'react-spinner-animated/dist/index.css'
-// import { axiosConfig } from '../../axiosConfig';
 import BaseUrl from '../../helpers/baseUrl';
 
 function Register() {
@@ -28,18 +27,15 @@ function Register() {
     const [wardName, setWardName] = useState('');
     const [displayError, setDisplayError] = useState();
 
-    // const [redirect, setRedirect] = useState(false);
 
     const getLocationUrl = "https://provinces.open-api.vn/api/"
 
     const changeAdminName = e => setAdminName(e.target.value);
     const changeAddress = e => setAddress(e.target.value);
     const changePhoneNumber = e => setPhoneNumber(e.target.value);
-    const changeBrandName = e => setBrandName(e.target.value);
     const changeEmail = e => setEmail(e.target.value);
     const changePassword = e => setPassword(e.target.value);
     const changeConfirmPass = e => setConfirmPassword(e.target.value);
-    const changeRole = e => setRole(e.target.value);
     const changeProvinceId = e => setProvinceId(e.target.value);
     const changeDistrictId = e => {
         setDistrictId(e.target.value);
@@ -164,21 +160,12 @@ function Register() {
                                     <input type="number" name="phone-number" value={phoneNumber} onChange={e => changePhoneNumber(e)} className='p-2 mb-3' placeholder='Nhập số điện thoại' ></input>
                                 </div>
                             </div>
-                            <p className='fw-bold'>Tên thương hiệu:</p>
-                            <input type="text" name='brandname' value={brandName} onChange={e => changeBrandName(e)} className='col-md-12 p-2 mb-3' placeholder='Nhập tên thương hiệu' ></input><br />
                             <p className='fw-bold'>Email:</p>
                             <input type="email" name="email" value={email} onChange={e => changeEmail(e)} className='col-md-12 p-2 mb-3' placeholder='Nhập tài khoản email' ></input>
                             <p className='fw-bold'>Mật khẩu</p>
                             <input type="password" name='pass' onChange={e => changePassword(e)} value={password} className='col-md-12 p-2 mb-3' placeholder='Nhập mật khẩu' ></input><br />
                             <p className='fw-bold'>Nhập lại mật khẩu</p>
                             <input type="password" name="rePass" value={confirmPassword} onChange={e => changeConfirmPass(e)} className='col-md-12 p-2 mb-3' placeholder='Nhập lại mật khẩu' ></input>
-                            <p className='fw-bold'>Vai trò: &nbsp;<span>
-                                <select name="role-select" id="role-select" value={role} onChange={e => changeRole(e)} className='p-1'>
-                                    <option value={"admin"}>Quản trị hệ thống</option>
-                                    <option value={"deliverBoy"}>Nhân viên giao hàng</option>
-                                </select>
-                            </span></p>
-
                             <input type="submit" className='border-0 p-2 text-white col-md-12' value="Đăng kí" name='submit' style={{ "backgroundColor": "#FF5F1F" }} ></input>
                             {<p className='text-danger fw-bold mt-2'>{displayError}</p>}
                             <div className='text-center mt-3'> <b>Đã có tài khoản?</b> &nbsp;

@@ -13,12 +13,11 @@ exports.orderDetailList = [
             const waitPool = async () => {
                 let pool = await sql.connect(config);
                 orderDetailList = await pool.request()
-                    .input('idDonHang', sql.Int, req.body.id)
-                    .execute('SelectIdDonHang');
+                    .execute('SelectAllCTDHang');
                 return orderDetailList;
             }
             waitPool().then((result) => {
-                return apiResponse.successResponseWithData(res, "Lấy danh sách đơn hàng thành công", result.recordsets[0]);
+                return apiResponse.successResponseWithData(res, "Lấy danh sách chi tiết đơn hàng thành công", result.recordsets[0]);
             }).catch(err => { return apiResponse.ErrorResponse(res, err) });
         } catch (err) {
             return apiResponse.ErrorResponse(res, err);
@@ -35,12 +34,12 @@ exports.orderItemListId = [
             const waitPool = async () => {
                 let pool = await sql.connect(config);
                 order = await pool.request()
-                    .input('idDonHang', sql.Int, req.body.id)
-                    .execute('SelectIdDonHang');
+                    .input('idDonHang', sql.Int, req.params.id)
+                    .execute('SelectChitietDHByID');
                 return order;
             }
             waitPool().then((result) => {
-                return apiResponse.successResponseWithData(res, "Lấy id đơn hàng thành công", result.recordsets[0]);
+                return apiResponse.successResponseWithData(res, "Lấy chi tiết đơn hàng thành công", result.recordsets[0]);
             }).catch(err => { return apiResponse.ErrorResponse(res, err) });
         } catch (err) {
             return apiResponse.ErrorResponse(res, err);

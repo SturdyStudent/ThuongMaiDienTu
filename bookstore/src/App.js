@@ -10,10 +10,12 @@ import CouponPage from './pages/CouponPage';
 import ProductFAQ from './pages/ProductFAQ';
 import OrderHistory from './pages/OrderHistory';
 import OrderView from './pages/OrderView';
+import VerifyOtpPage from './pages/VerifyOtpPage';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { baseUrl } from './baseUrl';
+import ProtectedRoute from './ProtectedRoute';
 
 function App() {
   const [stripePromise, setStripePromise] = useState();
@@ -28,21 +30,23 @@ function App() {
     <div className="App" style={{ "backgroundColor": "#fffbf3" }}>
       <Router>
         <Routes>
+          <Route element={<ProtectedRoute />}>
+            <Route path="/checkout" element={<BookCheckout stripePromise={stripePromise} />}></Route>
+            <Route path="/cart" element={<ShopingCart />}></Route>
+            <Route path='/order'>
+              <Route path='view' element={<OrderView stripePromise={stripePromise} />}></Route>
+              <Route path='history' element={<OrderHistory />}></Route>
+            </Route>
+          </Route>
           <Route path="/" element={<HomePage />} />
           <Route path="/results" element={<SearchResults />}></Route>
           <Route path="/details">
             <Route path='/details/:id' element={<BookDetail />} />
           </Route>
-          <Route path="/cart" element={<ShopingCart />}></Route>
           <Route path="/checkout-login" element={<CheckoutLogin />}></Route>
-          <Route path="/checkout" element={<BookCheckout stripePromise={stripePromise} />}></Route>
-          <Route path="/checkout-payment" element={<CheckoutLogin />}></Route>
           <Route path='/coupons' element={<CouponPage />}></Route>
           <Route path='/faqs' element={<ProductFAQ />}></Route>
-          <Route path='/order'>
-            <Route path='view' element={<OrderView stripePromise={stripePromise} />}></Route>
-            <Route path='history' element={<OrderHistory />}></Route>
-          </Route>
+          <Route path='/verify-otp' element={<VerifyOtpPage />}></Route>
         </Routes>
       </Router>
     </div>

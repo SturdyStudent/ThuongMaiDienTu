@@ -31,7 +31,7 @@ function CartDisplay({ item, callback }) {
         callback(Date.now());
         oldItems[(_.findIndex(oldItems, _.matchesProperty('idSach', item.idSach)))] = { ...item, anhBia: cartItem.AnhBia, tenSach: cartItem.TenSach, soLuong: itemQty, tongTien: (itemQty * cartItem.GiaBan) || 0 };
         localStorage.setItem("CART_ITEMS", JSON.stringify(oldItems));
-    }, [itemQty, cartItem, callback, item])
+    }, [itemQty, cartItem])
 
     useEffect(() => {
         const fetchBook = async () => {
@@ -39,7 +39,7 @@ function CartDisplay({ item, callback }) {
             setCartItem(result.data.data[0]);
         }
         fetchBook();
-    }, [cartItem, item.idSach])
+    }, [item.idSach])
 
     useEffect(() => {
         try {

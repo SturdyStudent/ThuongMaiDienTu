@@ -10,16 +10,18 @@ function CheckoutCard() {
     const [placeOrder, setPlaceOrder] = useState(true);
     const [prevSection, setPrevSection] = useState(false);
 
+    const currentTotalPrice = useSelector(state => state.totalCartPrice);
     const currentSection = useSelector(state => state.currentCheckoutSection);
     const currentAllowNext = useSelector(state => state.allowNext);
 
+    const oldItems = JSON.parse(localStorage.getItem("CART_ITEMS") || "[]");
+
     useEffect(() => {
-        let oldItems = JSON.parse(localStorage.getItem("CART_ITEMS") || "[]");
         let total = 0;
         _.forEach(oldItems, (item) => {
             setTotalPrice(total += item.tongTien);
         })
-    }, [])
+    }, [oldItems, currentTotalPrice])
 
     const handleChangeNextSection = () => {
         if (currentSection === 0 && currentAllowNext) {

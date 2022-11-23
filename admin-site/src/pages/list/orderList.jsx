@@ -1,26 +1,17 @@
 import "./list.scss"
 import Sidebar from "../../components/sidebar/Sidebar"
 import Navbar from "../../components/navbar/Navbar"
-import Container from 'react-bootstrap/Container'
-import { Row, Col } from "react-bootstrap";
+import OrderDatatable from "../../components/datatable/OrderDatatable"
 const List = () => {
   return (
     <>
-      <Container fluid>
-        <Row>
-          <Col>
-            <Navbar />
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={2} md={2}>
-            <Sidebar />
-          </Col>
-          <Col xs={10} md={10}>
-
-          </Col>
-        </Row>
-      </Container>
+      <div className="list">
+        <Sidebar />
+        <div className="listContainer">
+          <Navbar />
+          <OrderDatatable />
+        </div>
+      </div>
     </>
   )
 }

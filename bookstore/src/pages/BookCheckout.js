@@ -9,7 +9,6 @@ import PaymentSection from '../components/CheckoutComponents/PaymentSection'
 import ReviewSection from '../components/CheckoutComponents/ReviewSection'
 import { useSelector } from 'react-redux'
 
-
 function BookCheckout({ stripePromise }) {
     const currentStage = useSelector(state => state.currentCheckoutSection);
 

@@ -3,18 +3,38 @@ import './Header.css'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faUser, faHeart, faCartShopping } from '@fortawesome/free-solid-svg-icons'
+import { useSelector } from 'react-redux'
 import Logo from '../assets/logo.png'
 import _ from 'lodash'
+import axios from 'axios'
+import { baseUrl } from '../baseUrl'
 
 function Header() {
     const isSupportPage = true;
-    const isLoggedIn = true;
-    let onSelected = true;
-    let userNav = <>Đăng nhập</>;
 
+    let onSelected = true;
+
+    let userNav = <>
+        <Link to={'/checkout-login'} style={{ textDecoration: "none", color: "black" }}>
+            Đăng nhập
+        </Link>
+    </>;
+
+    const currentTotalPrice = useSelector(state => state.totalCartPrice);
+    const loginState = useSelector(state => state.logginState);
+    const isLoggedIn = loginState.auth;
+    const userId = loginState.id;
     const cartItemFromLocalStore = localStorage.getItem("CART_ITEMS");
     const [cartItems, setCartItems] = useState();
     const [userNavItems, setUserNavItems] = useState('');
+    const [userName, setUserName] = useState('');
+
+    useEffect(() => {
+        axios.get(`${baseUrl}/user/${userId}`)
+            .then(result => {
+                setUserName(result.data.data[0].TaiKhoan);
+            })
+    }, [userId]);
 
     useEffect(() => {
         let oldItems = JSON.parse(cartItemFromLocalStore || "[]");
@@ -23,13 +43,12 @@ function Header() {
         } else {
             setCartItems();
         }
-    }, [cartItemFromLocalStore])
+    }, [cartItemFromLocalStore, currentTotalPrice])
 
     if (isLoggedIn) {
-        userNav = <span onMouseOver={() => handleNavModal()}>Tài khoản <br /><span style={{ "color": "red", textDecoration: "underline" }}>Trần Thành Đạt</span></span>;
+        userNav = <span onMouseOver={() => handleNavModal()}>Tài khoản <br /><span style={{ "color": "red", textDecoration: "underline" }}>{userName}</span></span>;
     }
     const handleNavModal = () => {
-
         setUserNavItems(<div style={{ "position": "absolute", zIndex: "100" }} className='shadow bg-white mt-5 nav-header-modal' onMouseOver={() => { handleNavModal(); onselect = true }} onMouseLeave={() => { onSelected = false; handleRemoveNavModal(); }}>
             <Link to={'/order/history'} style={{ "textDecoration": "none", color: "black" }}>
                 <div className='text-start nav-header-item ps-3 pe-3 pt-2 pb-2'>Đơn hàng của tôi</div>
@@ -65,9 +84,9 @@ function Header() {
                     </div>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav ms-auto">
-                            <li className="nav-item nav-header-menu" onMouseOver={() => handleNavModal()} onMouseMove={() => handleNavModal()} onMouseLeave={() => handleRemoveNavModal()}>
-                                <FontAwesomeIcon icon={faUser} color="red" />
-                                <a className="nav-link active" aria-current="page" href="/#" style={{ "fontWeight": "bold", "color": "black" }}>{userNav}</a>
+                            <li className="nav-item nav-header-menu" >
+                                <FontAwesomeIcon icon={faUser} color="red" onMouseLeave={() => handleRemoveNavModal()} />
+                                <div className="nav-link active pt-0" aria-current="page" style={{ "fontWeight": "bold", "color": "black" }}>{userNav}</div>
                             </li>
                             {userNavItems}
                             <li className="nav-item nav-header-menu">
@@ -80,10 +99,9 @@ function Header() {
                                         {cartItems}
                                     </div>}
                                     <FontAwesomeIcon icon={faCartShopping} color="red" />
-                                    <div className="nav-link active mt-0 pt-0" aria-current="page" href="/cart" style={{ "fontWeight": "bold", "color": "black", textDecoration: "none" }}>Giỏ hàng</div>
+                                    <div className="nav-link active mt-0 pt-0" aria-current="page" style={{ "fontWeight": "bold", "color": "black", textDecoration: "none" }}>Giỏ hàng</div>
                                 </li>
                             </Link>
-
                         </ul>
                     </div>
                 </div>

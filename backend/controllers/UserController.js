@@ -30,8 +30,8 @@ exports.userListById = [
             const waitPool = async () => {
                 let pool = await sql.connect(config);
                 customers = await pool.request()
-                    .input("MaKH", sql.Int, req.params.id)
-                    .execute('SelectKhachHangById');
+                    .input("idKhachHang", sql.Int, req.params.id)
+                    .execute('SelectIdKhachHang');
                 return customers;
             }
             waitPool().then((result) => {
@@ -55,7 +55,6 @@ exports.userCreate = [
                     .input("Email", sql.NVarChar(50), value)
                     .query("SELECT * FROM KhachHang WHERE Email = @Email");
                 if (result.recordset.length > 0) {
-                    console.log("vô hàm");
                     return Promise.reject("Email đã được sử dụng");
                 }
             })
@@ -79,7 +78,7 @@ exports.userCreate = [
                     .input('DienThoai', sql.VarChar(50), req.body.DienThoai)
                     .input('GioiTinh', sql.NVarChar(3), req.body.GioiTinh)
                     .input('NgaySinh', sql.Date, req.body.NgaySinh)
-                    .execute('InsertKhachHang');
+                    .execute('InsertKhachHangFromAdmin');
                 return customers;
             }
             waitPool().then((result) => {
@@ -90,6 +89,7 @@ exports.userCreate = [
         }
     }
 ];
+
 exports.userDelete = [
     function (req, res) {
         let deletedUser;
@@ -98,7 +98,7 @@ exports.userDelete = [
                 let pool = await sql.connect(config);
                 deletedUser = await pool.request()
                     .input('MaKH', sql.NVarChar(50), req.params.id)
-                    .execute('DeleteKH');
+                    .execute('DeleteKhachHang');
                 return deletedUser;
             }
             waitPool().then((data) => {

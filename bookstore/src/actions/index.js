@@ -43,3 +43,23 @@ export const actNotAllowNext = () => {
         'type': types.NOT_ALLOW_NEXT
     }
 }
+
+export const actLogin = (userId) => {
+    return {
+        'type': types.LOGGED_IN,
+        userId
+    }
+}
+
+export const actLogout = () => {
+    return {
+        'type': types.LOGGED_OUT
+    }
+}
+
+export const actCalculateTotalPrice = (totalPrice) => {
+    return {
+        'type': types.TOTAL_PRICE,
+        totalPrice
+    }
+}

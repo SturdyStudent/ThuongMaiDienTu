@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 const config = {
-  server: process.env.DB_SERVER_TWO,
+  server: process.env.DB_SERVER,
   user: process.env.DB_USER,
   password: process.env.DB_PASS,
   database: 'QLSach',
@@ -15,8 +15,7 @@ const config = {
     trustedConnection: true,
     enableArithPort: true,
     trustServerCertificate: true,
-    // instancename: 'DESKTOP-JEDQHDP'
-    instancename: 'LOCALIZE'
+    instancename: 'DESKTOP-JEDQHDP'
   },
   port: 1433,
 }

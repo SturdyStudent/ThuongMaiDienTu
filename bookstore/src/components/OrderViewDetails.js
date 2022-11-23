@@ -6,10 +6,13 @@ import Cover from '../assets/bookCover.png'
 import ReviewModal from '../components/ReviewModal'
 import SuccessNotification from './SuccessNotification'
 import FailNotification from './FailNotification'
+import { useDispatch } from 'react-redux';
+import { actOrderSetState } from '../actions/index'
 import { useStripe } from '@stripe/react-stripe-js';
 
 function OrderViewDetails() {
     const stripe = useStripe();
+    const dispatch = useDispatch();
     const [openReviewModal, setOpenReviewModal] = useState(false);
     const [successNotification, setSuccessNotification] = useState(false);
     const [failureNotification, setFailureNotification] = useState(false);
@@ -31,17 +34,32 @@ function OrderViewDetails() {
             switch (paymentIntent.status) {
                 case "succeeded":
                     setSuccessNotification(true);
+                    dispatch(actOrderSetState({
+                        TenNguoiNhan: null,
+                        DienThoaiNguoiNhan: null,
+                        DiaChiGiao: null
+                    }));
                     localStorage.setItem("CART_ITEMS", []);
                     break;
                 case "requires_payment_method":
-                    setFailureNotification(true)
+                    setFailureNotification(true);
+                    dispatch(actOrderSetState({
+                        TenNguoiNhan: null,
+                        DienThoaiNguoiNhan: null,
+                        DiaChiGiao: null
+                    }));
                     break;
                 default:
-                    setFailureNotification(true)
+                    setFailureNotification(true);
+                    dispatch(actOrderSetState({
+                        TenNguoiNhan: null,
+                        DienThoaiNguoiNhan: null,
+                        DiaChiGiao: null
+                    }));
                     break;
             }
         });
-    }, [stripe]);
+    }, [stripe, dispatch]);
 
     return (
         <div>

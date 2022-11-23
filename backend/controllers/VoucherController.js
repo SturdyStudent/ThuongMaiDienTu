@@ -15,7 +15,7 @@ exports.voucherList = [
                 return vouchers;
             }
             waitPool().then((result) => {
-                return apiResponse.successResponseWithData(res, "Lấy danh sách tác giả thành công", result.recordsets[0]);
+                return apiResponse.successResponseWithData(res, "Lấy danh sách voucher thành công", result.recordsets[0]);
             }).catch(err => { return apiResponse.ErrorResponse(res, err) });
         } catch (err) {
             return apiResponse.ErrorResponse(res, err);
@@ -35,7 +35,7 @@ exports.voucherItemId = [
                 return voucher;
             }
             waitPool().then((result) => {
-                return apiResponse.successResponseWithData(res, "Lấy id voucher thành công", result.recordsets[0]);
+                return apiResponse.successResponseWithData(res, "Lấy voucher  thành công", result.recordsets[0]);
             }).catch(err => { return apiResponse.ErrorResponse(res, err) });
         } catch (err) {
             return apiResponse.ErrorResponse(res, err);
@@ -57,7 +57,7 @@ exports.voucherItemName = [
             }
             waitPool().then((result) => {
                 return apiResponse.successResponseWithData(res, "Lấy code voucher thành công", result.recordsets[0]);
-            }).catch(err => {return apiResponse.ErrorResponse(res, err) });
+            }).catch(err => { return apiResponse.ErrorResponse(res, err) });
         } catch (err) {
             return apiResponse.ErrorResponse(res, err);
         }
@@ -72,7 +72,7 @@ exports.voucherCreate = [
     body("NgayKetThuc").notEmpty().withMessage("Không được bỏ trống trường ngày kết thúc"),
     body("TriGiaGiam").notEmpty().withMessage("Không được bỏ trống trường trị giá giảm"),
     body("DieuKienVoucher").notEmpty().withMessage("Không được bỏ trống trường điều kiện voucher"),
-    body("SoLuong").notEmpty().withMessage("Không được bỏ trống trường số lượng"),
+    body("Soluong").notEmpty().withMessage("Không được bỏ trống trường số lượng"),
     body("Hieuluc").notEmpty().withMessage("Không được bỏ trống trường hiệu lực"),
     sanitizeBody("*").escape(),
     (req, res) => {
@@ -90,7 +90,7 @@ exports.voucherCreate = [
                         .input('NgayKetThuc', sql.Date, req.body.NgayKetThuc)
                         .input('TriGiaGiam', sql.Money, req.body.TriGiaGiam)
                         .input('DieuKienVoucher', sql.NVarChar(50), req.body.DieuKienVoucher)
-                        .input('SoLuong', sql.Int, req.body.SoLuong)
+                        .input('SoLuong', sql.Int, req.body.Soluong)
                         .input('Hieuluc', sql.Bit, req.body.Hieuluc)
                         .execute('InsertVoucher');
                     return addedVoucher;

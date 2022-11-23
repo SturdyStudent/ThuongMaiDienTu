@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Elements } from '@stripe/react-stripe-js';
 import { baseUrl } from '../../baseUrl'
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { actOrderSetState } from '../../actions/index'
+
 import CheckoutForm from '../CheckoutForm';
 import Select from 'react-select'
 import axios from 'axios'
@@ -9,6 +11,8 @@ import axios from 'axios'
 function PaymentSection({ stripePromise }) {
   const [clientSecret, setClientSecret] = useState();
   const [isPayByCard, setPayByCard] = useState({ value: false, label: "Thanh toán tiền mặt khi nhận hàng" });
+  const dispatch = useDispatch();
+
   useEffect(() => {
     if (isPayByCard === false) {
       setClientSecret();
@@ -56,6 +60,15 @@ function PaymentSection({ stripePromise }) {
     { value: false, label: "Thanh toán tiền mặt khi nhận hàng" },
     { value: true, label: "Thanh toán bằng thẻ tín dụng" },
   ]
+
+  const handleSubmit = (e) => {
+    dispatch(actOrderSetState({
+      TenNguoiNhan: null,
+      DienThoaiNguoiNhan: null,
+      DiaChiGiao: null
+    }))
+  }
+
   return (
     <div>
       <h5>LỰA CHỌN THANH TOÁN</h5><br />
@@ -79,7 +92,7 @@ function PaymentSection({ stripePromise }) {
               <div style={{ fontSize: "0.8em" }}>{orderInfo.DiaChiGiao}</div>
             </div>
           </blockquote>
-          <button className="btn btn-primary mt-4" id="submit">
+          <button className="btn btn-primary mt-4" onClick={e => handleSubmit(e)} id="submit">
             <span id="button-text">
               {"Thanh toán ngay"}
             </span>

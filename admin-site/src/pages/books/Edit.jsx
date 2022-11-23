@@ -37,7 +37,7 @@ const Edit = ({ title }) => {
         axios.post(`${BaseUrl}/upload`, data)
             .then((result) => {
                 setImgCover(result.data.data);
-                handleSubmit();
+                handleSubmit(imgCover);
             }).catch(err => console.log(err));
     };
 
@@ -47,7 +47,7 @@ const Edit = ({ title }) => {
         id = location.state.id;
     } catch (err) {
     }
-
+console.log(id);
     const focusField = useRef();
     useEffect(() => {
         focusField.current.focus();
@@ -258,7 +258,6 @@ const Edit = ({ title }) => {
                                 </div>
                             </div>
                         </div>
-
                         <div className="col-md-12 text-center mb-5 mt-5">
                             <input type={"submit"} className="btn btn-primary text-white p-2 ps-3 pe-3" value={"Cập nhật"}></input>
                         </div>

@@ -3,6 +3,10 @@
     margin: 0px 2vw;
 }
 
+.cursor-pointer:hover {
+    cursor: pointer;
+}
+
 .text-align-center {
     text-align: center;
 }
@@ -13,6 +17,10 @@
 
 .fontweight {
     font-weight: 500;
+}
+
+#resend-otp-link:hover {
+    cursor: pointer;
 }
 
 .AnotherLoginMethod {

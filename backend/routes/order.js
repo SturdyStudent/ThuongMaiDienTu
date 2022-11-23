@@ -22,7 +22,7 @@ router.get("/time", function(req,res) {
         res.send(time);
     }
 });
-
+router.get("/:id", OrderController.orderItemId);
 router.post("/create", OrderController.orderCreate);
 router.put("/update/:id", OrderController.orderUpdate);
 router.delete("/delete/:id", OrderController.orderDelete);
