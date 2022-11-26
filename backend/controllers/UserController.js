@@ -119,7 +119,7 @@ exports.userDelete = [
             const waitPool = async () => {
                 let pool = await sql.connect(config);
                 deletedUser = await pool.request()
-                    .input('MaKH', sql.NVarChar(50), req.params.id)
+                    .input('MaKH', sql.Int, req.params.id)
                     .execute('DeleteKhachHang');
                 return deletedUser;
             }

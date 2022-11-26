@@ -169,7 +169,7 @@ REFERENCES [dbo].[NhanVien] ([MaNV])
 ALTER TABLE [dbo].[DonHang] CHECK CONSTRAINT [FK_DonHang_KhachHang]
 GO
 
-CREATE TABLE ChiTietDonHang(
+CREATE TABLE [dbo].ChiTietDonHang(
 	[MaCTDH] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	[MaDonHang] [int] NOT NULL,
 	[MaSach] [int] NULL,

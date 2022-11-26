@@ -201,23 +201,6 @@ const Edit = ({ title }) => {
     }
 
     const handleCreateOrder = () => {
-        console.log({
-            "DaThanhToan": isPaidStatus.value,
-            "TinhTrangGiaoHang": deliveryState.value,
-            "NgayDat": orderDate,
-            "NgayGiao": deliverDate,
-            "MaKH": userId,
-            "TenNguoiNhan": receiverName,
-            "DienThoaiNguoiNhan": receiverPhone,
-            "DiaChiGiao": receiverAddress,
-            "HinhThucThanhToan": paymentMethod.value,
-            "HinhThucGiaoHang": "Giao thông thường",
-            "IDVoucher": voucher.value,
-            "ThanhTien": total,
-            "MaNV": deliveryBoi.MaNV,
-            "ChitietDH": JSON.stringify(orderBooks)
-        })
-
         axios.post(`${BaseUrl}/order/create`, {
             "DaThanhToan": isPaidStatus.value,
             "TinhTrangGiaoHang": deliveryState.value,
@@ -242,15 +225,6 @@ const Edit = ({ title }) => {
     }
     
     const handleUpdateOrder = () => {
-        // axios({
-        //     method: 'put',
-        //     url: `${BaseUrl}/order/update/${id}`,
-        //     data: postObj,
-        //     headers: {'Content-Type': 'application/json;charset=UTF-8'}
-        // }).then(res => {
-        //     console.log(res);
-        // })
-
         axios.put(`${BaseUrl}/order/update/${id}`, {
             "DaThanhToan": isPaidStatus.value,
             "TinhTrangGiaoHang": deliveryState.value,

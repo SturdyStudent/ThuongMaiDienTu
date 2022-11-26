@@ -53,6 +53,21 @@ export default function CheckoutForm() {
             return;
         }
         setIsLoading(true);
+        console.log({
+            "DaThanhToan": 1,
+            "TinhTrangGiaoHang": 1,
+            "NgayDat": format(new Date(), 'yyyy-MM-dd'),
+            "MaKH": userId,
+            "TenNguoiNhan": shippingInfo.TenNguoiNhan,
+            "DienThoaiNguoiNhan": shippingInfo.DienThoaiNguoiNhan,
+            "DiaChiGiao": shippingInfo.DiaChiGiao,
+            "HinhThucThanhToan": "Thanh toán bằng thẻ",
+            "HinhThucGiaoHang": "Giao thông thường",
+            "IDVoucher": 1,
+            "ThanhTien": totalPrice,
+            "MaNV":1,
+            "ChitietDH": JSON.stringify(orderDetails)
+        })
         
         axios.post(`${baseUrl}/order/create`, {
             "DaThanhToan": 1,
@@ -66,7 +81,7 @@ export default function CheckoutForm() {
             "HinhThucGiaoHang": "Giao thông thường",
             "IDVoucher": 1,
             "ThanhTien": totalPrice,
-            "MaNV":1,
+            "MaNV": 1,
             "ChitietDH": JSON.stringify(orderDetails)
         }).then(result => {
             localStorage.setItem('ORDER_ID', result.data.data[0].MaDonHang);
@@ -100,7 +115,6 @@ export default function CheckoutForm() {
                     {isLoading ? <div className="spinner" id="spinner"></div> : "Thanh toán ngay"}
                 </span>
             </button>
-
             {message && <div id="payment-message">{message}</div>}
         </form>
     )

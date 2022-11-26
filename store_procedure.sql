@@ -115,8 +115,11 @@ CREATE PROCEDURE [dbo].[SelectAllDonHang]
 AS
 SELECT * FROM DonHang
 GO
-
 CREATE PROCEDURE [dbo].[SelectAllKhachHang]
+AS
+SELECT * FROM KhachHang
+GO
+CREATE PROCEDURE [dbo].[SelectAllLoaiKhachHang]
 AS
 	SELECT kh.*, lkh.LoaiKhachHang 
 	FROM KhachHang kh, LoaiKH lkh 
@@ -132,6 +135,18 @@ CREATE PROCEDURE [dbo].[SelectAllSach]
 AS
 	Select *
 	From LoaiKH
+GO
+CREATE PROCEDURE [dbo].[SelectAllSachByViews] @Limit int
+AS
+	SELECT TOP (@Limit) *
+	FROM Sach
+	ORDER BY SoLuotXem DESC  
+GO
+CREATE PROCEDURE [dbo].[SelectAllSachBySales] @Limit int
+AS
+	SELECT TOP (@Limit) *
+	FROM Sach
+	ORDER BY SoLuongBan DESC  
 GO
 
 CREATE PROCEDURE [dbo].[SelectAllNhanVien]
@@ -870,21 +885,20 @@ AS
 	Delete from Voucher where Voucher.IDVoucher = @IDVoucher;
 GO
 
-
-
 delete from Sach
 delete from NXB
 delete from TacGia
 delete from ChuDe
 delete from DonHang
 delete from ChiTietDonHang
+delete from KhachHang
 
 select * from Sach
 select * from TacGia
 select * from NXB
 select * from ChuDe
 select * from DonHang
-select TenSach from ChiTietDonHang, Sach where MaDonHang = 2 and ChiTietDonHang.MaSach = Sach.MaSach
+select * from KhachHang
 
 -------------Xóa primary index ---------------
 DBCC CHECKIDENT ('[Sach]', RESEED, 0);
@@ -898,6 +912,8 @@ GO
 DBCC CHECKIDENT ('[DonHang]', RESEED, 0);
 GO
 DBCC CHECKIDENT ('[ChiTietDonHang]', RESEED, 0);
+GO
+DBCC CHECKIDENT ('[KhachHang]', RESEED, 0);
 GO
 
 INSERT INTO TacGia (TenTacGia, TieuSu, DiaChi) VALUES (N'Victor Hugo', N'Không có', N'Không có');
@@ -1080,19 +1096,19 @@ INSERT INTO Sach (TenSach, GiaBan, MoTa, AnhBia, NgayCapNhat, SoLuongTon, MaNXB,
 INSERT INTO Sach (TenSach, GiaBan, MoTa, AnhBia, NgayCapNhat, SoLuongTon, MaNXB, MaChuDe, MaTacGia, SoLuotXem, SoLuongBan) VALUES (N'Đối Thoại Với Thượng Đế', '160000', N'"Bước vào cuộc sống là từng ngày ta buông thả Tâm và Trí mình trôi theo dòng ""nhân duyên, sinh khởi"" để sau đó rước lấy sợ hãi, bám víu cái giả hư và quan niệm càng sai lầm về tự ngã. Ajahm Chah, bậc minh triết nổi tiếng Á Đông, đã nhấn mạnh ""giáo pháp tự nó phát khởi phù hợp với nhu cầu tức thời, nó phải sống trong hiện tại  mới đúng là chánh Pháp""."', 'doithoaivoi.png', '2022-10-24', '541', '3', '4', '27', '10196', '221');
 GO
 
-INSERT INTO NHANVIEN (HoTenNV, NgaySinh, GioiTinh, Sdt, DiaChi, VaiTro) VALUES (N'Nguyễn Văn A', '2001-12-23', N'Nam', N'0903655478', N'Đang cập nhật', N'Admin');
-INSERT INTO NHANVIEN (HoTenNV, NgaySinh, GioiTinh, Sdt, DiaChi, VaiTro) VALUES (N'Nguyễn Văn B', '2001-10-10', N'Nam', N'0921652478', N'Đang cập nhật', N'GiaoHang');
-INSERT INTO NHANVIEN (HoTenNV, NgaySinh, GioiTinh, Sdt, DiaChi, VaiTro) VALUES (N'Nguyễn Văn C', '2001-08-12', N'Nữ', N'0303565458', N'Đang cập nhật', N'GiaoHang');
+INSERT INTO NHANVIEN (HoTenNV, Sdt, DiaChi, VaiTro, Email, MatKhau) VALUES (N'Nguyễn Văn A', N'0903655478', N'Đang cập nhật', N'Admin', 'vana@gmail.com', 'matkhau');
+INSERT INTO NHANVIEN (HoTenNV, Sdt, DiaChi, VaiTro, Email, MatKhau) VALUES (N'Nguyễn Văn B', N'0921652478', N'Đang cập nhật', N'GiaoHang','vana@gmail.com', 'matkhau');
+INSERT INTO NHANVIEN (HoTenNV, Sdt, DiaChi, VaiTro, Email, MatKhau) VALUES (N'Nguyễn Văn C', N'0303565458', N'Đang cập nhật', N'GiaoHang','vana@gmail.com', 'matkhau');
 GO
 
 INSERT INTO KhachHang (HoTen, TaiKhoan, MatKhau, Email, DiaChi, DienThoai, GioiTinh, NgaySinh)
-VALUES (N'Nguyễn Văn D', 'userOne', 'passOne', 'email@gmail.com', 'Đang cập nhật','090477352', 'Nam', '1998-08-02');
+VALUES (N'Nguyễn Văn Dũng', 'userOne', 'passOne', 'email@gmail.com', 'Đang cập nhật','090477352', 'Nam', '1998-08-02');
 INSERT INTO KhachHang (HoTen, TaiKhoan, MatKhau, Email, DiaChi, DienThoai, GioiTinh, NgaySinh)
-VALUES (N'Lê Minh E', 'userTwo', 'passTwo', 'email@gmail.com', 'Đang cập nhật','090477352', 'Nam', '1998-09-09');
+VALUES (N'Lê Minh Em', 'userTwo', 'passTwo', 'email@gmail.com', 'Đang cập nhật','090477352', 'Nam', '1998-09-09');
 INSERT INTO KhachHang (HoTen, TaiKhoan, MatKhau, Email, DiaChi, DienThoai, GioiTinh, NgaySinh)
-VALUES (N'Trần Ngọc F', 'userThree', 'passThree', 'email@gmail.com', 'Đang cập nhật','090477352', 'Nữ', '2001-06-05');
+VALUES (N'Trần Ngọc Phượng', 'userThree', 'passThree', 'email@gmail.com', 'Đang cập nhật','090477352', N'Nữ', '2001-06-05');
 INSERT INTO KhachHang (HoTen, TaiKhoan, MatKhau, Email, DiaChi, DienThoai, GioiTinh, NgaySinh)
-VALUES (N'Lê Hồng G', 'userFour', 'passFour', 'email@gmail.com', 'Đang cập nhật','090477352', 'Nữ', '2000-03-15');
+VALUES (N'Lê Hồng Gấm', 'userFour', 'passFour', 'email@gmail.com', 'Đang cập nhật','090477352', N'Nữ', '2000-03-15');
 INSERT INTO KhachHang (HoTen, TaiKhoan, MatKhau, Email, DiaChi, DienThoai, GioiTinh, NgaySinh)
-VALUES (N'Lê Đức H', 'userFive', 'passFive', 'email@gmail.com', 'Đang cập nhật','090477352', 'Nam', '1999-01-30');
+VALUES (N'Lê Đức Hòa', 'userFive', 'passFive', 'email@gmail.com', 'Đang cập nhật','090477352', 'Nam', '1999-01-30');
 GO

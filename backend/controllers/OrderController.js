@@ -77,10 +77,9 @@ exports.orderCreate = [
                     
 
                     const orderDetail = String(req.body.ChitietDH).replace(/&quot;/g, '"').replace(/&#x5C;/g, '\\');
-                    console.log(req.body);
                     const orderedBooks = JSON.parse(orderDetail);
     
-                    console.log(orderedBooks);
+                    console.log("order",orderedBooks);
                     const Chitiet_donhang_type = new sql.Table('Chitiet_donhang_type');
     
                     Chitiet_donhang_type.create = true;
