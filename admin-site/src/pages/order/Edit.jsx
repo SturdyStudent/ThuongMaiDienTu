@@ -10,7 +10,7 @@ import Select from 'react-select'
 import { format } from 'date-fns'
 import _ from 'lodash'
 import axios from "axios";
-import BaseUrl from "../../helpers/baseUrl";
+import {BaseUrl} from "../../helpers/baseUrl";
 import SuccessModal from "../../components/modal/SuccessModalNotification";
 import { useLocation } from "react-router-dom";
 
@@ -201,6 +201,23 @@ const Edit = ({ title }) => {
     }
 
     const handleCreateOrder = () => {
+        console.log({
+            "DaThanhToan": isPaidStatus.value,
+            "TinhTrangGiaoHang": deliveryState.value,
+            "NgayDat": orderDate,
+            "NgayGiao": deliverDate,
+            "MaKH": userId,
+            "TenNguoiNhan": receiverName,
+            "DienThoaiNguoiNhan": receiverPhone,
+            "DiaChiGiao": receiverAddress,
+            "HinhThucThanhToan": paymentMethod.value,
+            "HinhThucGiaoHang": "Giao thông thường",
+            "IDVoucher": voucher.value,
+            "ThanhTien": total,
+            "MaNV": deliveryBoi.MaNV,
+            "ChitietDH": JSON.stringify(orderBooks)
+        })
+
         axios.post(`${BaseUrl}/order/create`, {
             "DaThanhToan": isPaidStatus.value,
             "TinhTrangGiaoHang": deliveryState.value,
@@ -217,6 +234,7 @@ const Edit = ({ title }) => {
             "MaNV": deliveryBoi.MaNV,
             "ChitietDH": JSON.stringify(orderBooks)
         }).then(result => {
+            console.log(result.data.data[0]);
             setSuccessNotification(result.data.message);
         }).catch(e =>
             console.log(e)

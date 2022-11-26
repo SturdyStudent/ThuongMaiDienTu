@@ -6,6 +6,7 @@ import { format } from "date-fns";
 import SuccessModal from '../../components/modal/SuccessModalNotification'
 import BaseUrl from '../../helpers/baseUrl'
 import axios from 'axios'
+import { Col, Container, Row } from "react-bootstrap";
 
 const New = ({ title, id }) => {
 
@@ -85,12 +86,17 @@ const New = ({ title, id }) => {
   }
 
   return (
-    <div className="new">
+    <>
+      <Container fluid>
+        <Row>
+          <Col><Navbar/></Col>
+        </Row>
+        <Row>
+          <Col xs={2} s={2} md={2} lg={2}><Sidebar/></Col>
+          <Col xs={10} s={10} md={10} lg={10}>
+          <div className="new">
       {successNotification && <SuccessModal successNotification={successNotification} />}
-      <Sidebar />
       <div className="newContainer">
-        <Navbar />
-
         <div className="top">
           <h1>{title}</h1>
         </div>
@@ -144,6 +150,10 @@ const New = ({ title, id }) => {
         </div>
       </div>
     </div>
+          </Col>
+        </Row>
+      </Container>
+    </>
   );
 };
 

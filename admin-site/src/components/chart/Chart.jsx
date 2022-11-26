@@ -10,7 +10,7 @@ import {
 import { useEffect, useState } from "react";
 import axios from "axios"
 import _ from 'lodash'
-import BaseUrl from "../../helpers/baseUrl" 
+import {BaseUrl} from "../../helpers/baseUrl" 
 
 let chartData = [];
 const Chart = ({ aspect, title }) => {

@@ -3,7 +3,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { voucherColumns } from "../../datatablesource";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import baseUrl from '../../helpers/baseUrl'
+import {BaseUrl} from '../../helpers/baseUrl'
 import axios from 'axios'
 
 const VoucherDatatable = () => {
@@ -13,7 +13,7 @@ const VoucherDatatable = () => {
     const [data, setData] = useState(dataRows);
 
     useEffect(() => {
-        axios.get(`${baseUrl}/voucher/`)
+        axios.get(`${BaseUrl}/voucher/`)
             .then(data => {
                 let count = 0;
                 let dataObj = [];
@@ -29,7 +29,7 @@ const VoucherDatatable = () => {
     }, [dataColumns])
 
     const handleDelete = (id, MaVoucher) => {
-        axios.delete(`${baseUrl}/vouchers/delete/${MaVoucher}`)
+        axios.delete(`${BaseUrl}/vouchers/delete/${MaVoucher}`)
             .then(() => {
                 setData(data.filter((item) => item.id !== id));
             }).catch((err) => {

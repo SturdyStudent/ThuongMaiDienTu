@@ -45,7 +45,7 @@ function CartDisplay({ item, callback }) {
         try {
             axios.get(`${baseUrl}/author/${cartItem.MaTacGia}`)
                 .then(result => {
-                    let obj = result.data.data[0].TenTacGia;
+                    let obj = result.data.TenTacGia;
                     setAuthorName(obj);
                 });
         } catch (err) {

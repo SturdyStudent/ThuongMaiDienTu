@@ -41,6 +41,7 @@ function Login({ callbackChangeRegisterPage }) {
         }).then((res) => {
             if (res.data.auth === true) {
                 dispatch(actLogin(res.data.id));
+                console.log("hô lá");
                 auth.login(() => {
                     setTimeout(() => {
                         setRedirect(true);

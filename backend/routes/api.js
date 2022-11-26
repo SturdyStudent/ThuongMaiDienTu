@@ -12,6 +12,7 @@ var userRouter = require("./user")
 var paymentRouter = require("./payment")
 var orderDetailRouter = require("./orderDetail")
 var orderRouter = require('./order');
+var orderDetailRouter = require('./orderDetail');
 var shipmentRouter = require('./shipment');
 var voucherRouter = require('./voucher');
 var utilityRouter = require('./utility');
@@ -21,10 +22,13 @@ var app = express();
 app.use("/adminAuth/", adminRouter);
 app.use("/clientAuth/", clientAuthRouter);
 app.use("/book/", bookRouter);
-app.use('/order/', orderRouter)
+app.use('/order/', orderRouter);
+app.use('/orderDetail/', orderDetailRouter);
 app.use("/publisher/", publisherRouter);
 app.use("/category/", categoryRouter);
 app.use("/shipment/", shipmentRouter);
+app.use("/voucher/",voucherRouter);
+app.use("/employee", employeeRouter);
 app.use("/voucher/", voucherRouter);
 app.use("/employee/", employeeRouter);
 app.use("/orderDetail/", orderDetailRouter);

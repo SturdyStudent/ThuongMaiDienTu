@@ -37,6 +37,7 @@ function BookDetail() {
         let fetchBook = async () => {
             let result = await axios.get(`${baseUrl}/book/${id}`);
             setItem(result.data.data[0]);
+            console.log(result.data);
         }
         fetchBook();
     }, [id])

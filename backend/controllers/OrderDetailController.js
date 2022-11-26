@@ -4,7 +4,7 @@ const apiResponse = require("../helpers/apiResponse");
 const sql = require('mssql')
 const config = require("../dbConfig");
 
-/* Lấy danh sách sản phẩm chi tiết của đơn hàng */
+/* Lấy danh sách chi tiết*/
 //Chức năng này có thể không cần
 exports.orderDetailList = [
     function (req, res) {
@@ -25,7 +25,7 @@ exports.orderDetailList = [
     }
 ];
 
-/* lấy đơn hàng theo Id */
+/* lấy chi tiết đơn hàng theo Id */
 //Chức năng này có thể không cần
 exports.orderItemListId = [
     function (req, res) {
@@ -82,10 +82,6 @@ exports.orderDetailCreate = [
 ];
 
 //Xóa chi tiết đơn hàng
-/*
-WARNING: Xóa 1 đơn hàng có thể dẫn tới xóa hết các chi tiết 
-đơn hàng có liên quan đến id đơn hàng đó nên chỉnh lại bảng chi tiết
-*/
 exports.orderDetailDelete = [
     function (req, res) {
         try {
@@ -113,7 +109,7 @@ exports.orderDetailDelete = [
     }
 ];
 
-
+//Cập nhật chi tiết đơn hàng
 exports.orderDetailUpdate = [
     body("MaDonHang").notEmpty().withMessage("Mã đơn hàng không tồn tại."),
     body("MaSach").notEmpty().withMessage("Mã sách không tồn tại."),

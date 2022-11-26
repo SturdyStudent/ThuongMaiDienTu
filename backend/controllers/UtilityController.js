@@ -49,12 +49,70 @@ exports.DescVoucher = [
                         .execute('DescVoucher');
                     return SubstractVoucher;
                 }
-                waitPool().then((data) => {
-                    return apiResponse.successResponseWithData(res, "số lượng voucher đã giảm", data.recordsets[0]);
+                waitPool().then((result) => {
+                    return apiResponse.successResponseWithData(res, "số lượng voucher đã giảm", result);
                 }).catch(err => { return apiResponse.ErrorResponse(res, err) });
             }
         } catch (err) {
             //throw error in json response with status 500. 
+            return apiResponse.ErrorResponse(res, err);
+        }
+    }
+]
+
+exports.HienTenNXB = [
+    (req,res) => {
+        try {
+            const waitPool = async () => {
+                let pool = await sql.connect(config);
+                let TenNXB = await pool.request()
+                    .input('idNXB', sql.Int, req.headers.idnxb)
+                    .query('select dbo.fn_getTenNXB(@idNXB) as TenNXB');
+                return TenNXB;
+            }
+            waitPool().then((data) => {
+                return apiResponse.successResponseWithData(res, "Lấy tên thành công", data.recordsets[0]);
+            }).catch(err => { return apiResponse.ErrorResponse(res, err) });
+        }
+        catch (err) {
+            return apiResponse.ErrorResponse(res, err);
+        }
+    }
+]
+exports.HienTenChuDe = [
+    (req,res) => {
+        try {
+            const waitPool = async () => {
+                let pool = await sql.connect(config);
+                let TheLoai = await pool.request()
+                    .input('idChuDe', sql.Int, req.headers.idChuDe)
+                    .query('select dbo.fn_getTenNXB(@idChuDe) as ChuDe');
+                return TheLoai;
+        }
+        waitPool().then((data) => {
+            return apiResponse.successResponseWithData(res, "Hiện chủ đề thành công", data.recordsets[0]);
+        }).catch(err => { return apiResponse.ErrorResponse(res, err) });
+        }
+        catch(err) {
+            return apiResponse.ErrorResponse(res, err);
+        }
+    }
+]
+exports.HienTenTacGia = [
+    (req, res) => {
+        try {
+            const waitPool = async () => {
+                let pool = await sql.connect(config);
+                let TacGia = await pool.request()
+                    .input('idTacGia', sql.Int, req.headers.idTacGia)
+                    .query('select dbo.fn_getTenTacGia(@idTacGia) as TacGia');
+                return TacGia;
+            }
+            waitPool().then((data) => {
+                return apiResponse.successResponseWithData(res, 'Hiện tên tác giả thành công', data.recordsets[0]);
+            }).catch(err => { return apiResponse.ErrorResponse(res, err) });
+        }
+        catch(err) {
             return apiResponse.ErrorResponse(res, err);
         }
     }

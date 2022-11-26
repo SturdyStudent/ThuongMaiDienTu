@@ -1,6 +1,7 @@
 const BookController = require('../controllers/BookController')
 const express = require('express');
-
+const sql = require('mssql')
+const config = require("../dbConfig");
 const router = express.Router();
 
 router.get('/', BookController.bookList);

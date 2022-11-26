@@ -28,6 +28,7 @@ AS
 	SET DonHang.TinhTrangGiaoHang = 1
 	WHERE DonHang.MaDonHang = @MaDonHang
 GO
+GO
 
 -------------------Đăng nhập khách hàng-----------------------------
 CREATE PROC [dbo].[DangNhapKhachHang]
@@ -92,30 +93,34 @@ AS
 SELECT * FROM ChiTietDonHang
 GO
 
+CREATE PROCEDURE [dbo].[SelectCTDHangById](
+@IdDonHang int
+)
+AS
+SELECT * FROM DonHang
+GO
+
+--select all
+CREATE PROCEDURE [dbo].[SelectAllCD]
+AS
+SELECT * FROM GiaoHang
+GO
+
+CREATE PROCEDURE [dbo].[SelectAllCTDHang]
+AS
+SELECT * FROM KhachHang
+GO
+
 CREATE PROCEDURE [dbo].[SelectAllDonHang]
 AS
 SELECT * FROM DonHang
 GO
 
-CREATE PROCEDURE [dbo].[SelectAllGiaoHang]
-AS
-SELECT * FROM GiaoHang
-GO
-
 CREATE PROCEDURE [dbo].[SelectAllKhachHang]
 AS
-SELECT * FROM KhachHang
-GO
-
-
-CREATE PROCEDURE [dbo].[SelectAllNhanVien]
-AS
-	SELECT * from NhanVien
-GO
-
-CREATE PROCEDURE [dbo].[SelectAllNXB]
-AS
-	SELECT * from NXB
+	SELECT kh.*, lkh.LoaiKhachHang 
+	FROM KhachHang kh, LoaiKH lkh 
+	where kh.MaKH = lkh.MaLoaiKH
 GO
 CREATE PROCEDURE [dbo].[SelectSachById]
 	@MaSach int
@@ -125,26 +130,27 @@ AS
 GO
 CREATE PROCEDURE [dbo].[SelectAllSach]
 AS
-	SELECT * from Sach
-	WHERE SoLuongTon > 0
+	Select *
+	From LoaiKH
 GO
 
-CREATE PROCEDURE [dbo].[SelectAllSachByViews](
-@Limit int)
+CREATE PROCEDURE [dbo].[SelectAllNhanVien]
 AS
-	SELECT TOP (@Limit) * FROM Sach WHERE SoLuongTon > 0 ORDER BY SoLuotXem DESC 
+	SELECT * 
+	from NhanVien
 GO
 
-CREATE PROCEDURE [dbo].[SelectAllSachBySales](
-@Limit int)
+CREATE PROCEDURE [dbo].[SelectAllNXB]
 AS
-	SELECT TOP (@Limit) * FROM Sach WHERE SoLuongTon > 0 ORDER BY SoLuongBan DESC 
+	SELECT * 
+	from NXB
 GO
 
-CREATE PROCEDURE [dbo].[SelectSachChayHang](
-@Limit int)
+CREATE PROCEDURE [dbo].[SelectAllSach]
 AS
-	SELECT TOP (@Limit) * FROM Sach WHERE SoLuongTon = 0 ORDER BY SoLuotXem DESC 
+	SELECT s.MaSach, s.TenSach, s.AnhBia, s.GiaBan, n.TenNXB, cd.TenChuDe ,t.TenTacGia, s.MoTa, s.NgayCapNhat, s.SoLuongBan, s.SoLuongTon, s.SoLuotXem 
+	from Sach s, NXB n, TacGia t, ChuDe cd
+	WHERE s.SoLuongTon >= 0 and s.MaNXB = n.MaNXB and s.MaTacGia = t.MaTacGia and s.MaChuDe = cd.MaChuDe
 GO
 
 CREATE PROCEDURE [dbo].[SelectAllTacGia]
@@ -162,9 +168,8 @@ AS
 	SELECT * from Voucher
 GO
 
-
 --Select id
-CREATE PROCEDURE [dbo].[SelectIdChuDe] (
+CREATE PROCEDURE [dbo].[SelectChuDeById] (
 @idChuDe int
 )
 AS
@@ -172,7 +177,7 @@ AS
 	WHERE ChuDe.MaChuDe = @idChuDe
 GO
 
-CREATE PROCEDURE [dbo].[SelectTenChuDe] (
+CREATE PROCEDURE [dbo].[SelectChuDeByName] (
 @TenChuDe nvarchar(50)
 )
 AS
@@ -181,11 +186,13 @@ AS
 GO
 
 
-CREATE PROCEDURE [dbo].[SelectIdNXB] (
+CREATE PROCEDURE [dbo].[SelectNXBById] (
 @idNXB int
 )
 AS
-	Select * from NXB WHERE NXB.MaNXB = @idNXB
+	Select * 
+	from NXB 
+	WHERE NXB.MaNXB = @idNXB
 GO
 
 CREATE PROCEDURE [dbo].[SelectNXBById]
@@ -199,68 +206,81 @@ CREATE PROCEDURE [dbo].[SelectTenNXB] (
 @TenNXB nvarchar(50)
 )
 AS
-	Select * from NXB WHERE NXB.TenNXB LIKE @TenNXB
+	Select * 
+	from NXB 
+	WHERE NXB.TenNXB LIKE @TenNXB
 GO
 
 
-CREATE PROCEDURE [dbo].[SelectIdTacGia] (
+CREATE PROCEDURE [dbo].[SelectTacGiaById] (
 @idTacGia int
 )
 AS
-	Select * from TacGia WHERE TacGia.MaTacGia = @idTacGia
+	Select * 
+	from TacGia 
+	WHERE TacGia.MaTacGia = @idTacGia
 GO
 
 
-CREATE PROCEDURE [dbo].[SelectTenTacGia] (
+CREATE PROCEDURE [dbo].[SelectTacGiaByName] (
 @TenTacGia nvarchar(50)
 )
 AS
-	Select * from TacGia WHERE TacGia.TenTacGia LIKE @TenTacGia
+	Select * 
+	from TacGia 
+	WHERE TacGia.TenTacGia LIKE @TenTacGia
 GO
 
-
-
-CREATE PROCEDURE [dbo].[SelectIdSach] (
+CREATE PROCEDURE [dbo].[SelectSachById] (
 @idSach int
 )
 AS
-	Select * from Sach WHERE Sach.MaSach = @idSach
+	Select s.MaSach, s.TenSach, s.AnhBia, s.GiaBan, n.TenNXB, cd.TenChuDe ,t.TenTacGia, s.MoTa, s.NgayCapNhat, s.SoLuongBan, s.SoLuongTon, s.SoLuotXem
+	from Sach s, NXB n, TacGia t, ChuDe cd
+	WHERE s.MaSach = @idSach and s.MaNXB = n.MaNXB and s.MaTacGia = t.MaTacGia and s.MaChuDe = cd.MaChuDe
 GO
 
-
-CREATE PROCEDURE [dbo].[SelectTenSach] (
+CREATE PROCEDURE [dbo].[SelectSachByName] (
 @TenSach nvarchar(50)
 )
 AS
-	Select * from Sach WHERE Sach.TenSach LIKE @TenSach
+	Select * 
+	from Sach 
+	WHERE Sach.TenSach LIKE @TenSach
 GO
 
 
-CREATE PROCEDURE [dbo].[SelectIdKhachHang] (
+CREATE PROCEDURE [dbo].[SelectKhachHangById] (
 @idKhachHang int
 )
 AS
-	Select * from KhachHang WHERE KhachHang.MaKH = @idKhachHang
+	Select kh.HoTen, kh.Email, kh.GioiTinh ,kh.DienThoai, kh.DiemTichLuy, kh.DiemDaSuDung, kh.NgaySinh, lkh.LoaiKhachHang
+	from KhachHang kh, LoaiKH lkh
+	WHERE kh.MaKH = @idKhachHang and lkh.MaLoaiKH = kh.MaLoaiKH
 GO
 
 
-CREATE PROCEDURE [dbo].[SelectTenKhachHang] (
+CREATE PROCEDURE [dbo].[SelectKhachHangByName] (
 @TenKhachHang nvarchar(50)
 )
 AS
-	Select * from KhachHang WHERE KhachHang.HoTen LIKE @TenKhachHang
+	Select * 
+	from KhachHang 
+	WHERE KhachHang.HoTen LIKE @TenKhachHang
 GO
 
 
-CREATE PROCEDURE [dbo].[SelectIdNhanVien] (
+CREATE PROCEDURE [dbo].[SelectNhanVienById] (
 @idNhanVien int
 )
 AS
-	Select * from NhanVien WHERE NhanVien.MaNV = @idNhanVien
+	Select * 
+	from NhanVien 
+	WHERE NhanVien.MaNV = @idNhanVien
 GO
 
 
-CREATE PROCEDURE [dbo].[SelectTenNhanVien] (
+CREATE PROCEDURE [dbo].[SelectNhanVienByTen] (
 @TenNhanVien nvarchar(50)
 )
 AS
@@ -286,7 +306,7 @@ CREATE PROCEDURE [dbo].[SelectChitietDHByID](
 @idDonHang int
 )
 AS
-	Select * from ChiTietDonHang ct WHERE ct.MaDonHang = @idDonHang
+	Select * from ChiTietDonHang ct, Sach, TacGia, ChuDe WHERE ct.MaDonHang = @idDonHang AND Sach.MaSach = ct.MaSach AND TacGia.MaTacGia = Sach.MaTacGia AND ChuDe.MaChuDe = Sach.MaChuDe
 GO
 
 CREATE PROCEDURE [dbo].[SelectIdGiaoHang] (
@@ -305,21 +325,30 @@ AS
 GO
 
 
-CREATE PROCEDURE [dbo].[SelectTenVoucher](
+CREATE PROCEDURE [dbo].[SelectVoucherByName](
 @CodeVoucher nvarchar(50)
 )
 AS
 	SELECT * from Voucher WHERE Voucher.CodeVoucher like @CodeVoucher
 GO
 
+CREATE PROCEDURE GetMaKHByEmail(@Email nvarchar(50))
+AS
+	SELECT * FROM KhachHang Where KhachHang.Email = @Email
+GO
+
 
 --Insert
-CREATE PROCEDURE [dbo].[InsertChuDe](
+ALTER PROCEDURE [dbo].[InsertChuDe](
 @TenChuDe	nvarchar(50)
 )
 AS
 	INSERT INTO ChuDe(TenChuDe)
 	VALUES (@TenChuDe);
+
+	declare @identity int
+	set @identity = (select scope_identity())
+	SELECT * from ChuDe WHERE MaChuDe = @identity
 GO
 
 CREATE PROCEDURE [dbo].[InsertChiTietDonHang](
@@ -358,7 +387,8 @@ CREATE PROCEDURE [dbo].[InsertDonHangNotVoucher](
 AS
 	Declare @NgayGiao date
 	Set @NgayGiao = DATEADD(day, 7, @NgayDat)
-	begin
+	BEGIN TRAN
+		SET XACT_ABORT ON;
 		INSERT INTO DonHang(DaThanhToan, TinhTrangGiaoHang, NgayDat, NgayGiao,
 		MaKH, TenNguoiNhan, DienThoaiNguoiNhan, DiaChiGiao, HinhThucThanhToan,
 		HinhThucGiaoHang, ThanhTien, MaNV)
@@ -371,26 +401,15 @@ AS
 		INSERT INTO ChiTietDonHang(MaDonHang, MaSach, SoLuong, DonGia)
 		SELECT @identity, MaSach, SoLuong, DonGia
 		FROM @ChiTietDH
-	end
+
+		select * from DonHang where MaDonHang = @identity
+	COMMIT
 GO
+
 select * from ChuDe where MaChuDe = 11
 insert into ChuDe(TenChuDe) values (N'Kiến trúc')
 SELECT SCOPE_IDENTITY() AS [SCOPE_IDENTITY];  
 GO  
-
-select * from DonHang
-
-DECLARE @order_details Chitiet_donhang_type;
-
-INSERT INTO @order_details
-SELECT 4, 5, 105000
-UNION
-SELECT 3, 10, 105000;
-
-exec InsertDonHangHaveVoucher @DaThanhToan = 1, @TinhTrangGiaoHang = 1, @NgayDat = '2022-11-20', @MaKH = 1, @TenNguoiNhan = N'Nguyễn Thiện Nhân', @DienThoaiNguoiNhan = '0123456789', @DiaChiGiao = N'192 Hoàng Hoa Thám Quận Tân Sơn Phường 10 TP Vũng Tàu', @HinhThucThanhToan = N'Thanh toán bằng tiền mặt', @HinhThucGiaoHang = N'Giao hàng thông thường', @IDVoucher = 2, @ThanhTien = 210000, @MaNV = 1, @ChiTietDH = @order_details  
-
-select * from DonHang
-select * from ChiTietDonHang
 
 CREATE PROCEDURE [dbo].[InsertDonHangHaveVoucher](
 @DaThanhToan bit,
@@ -408,9 +427,12 @@ CREATE PROCEDURE [dbo].[InsertDonHangHaveVoucher](
 @ChiTietDH Chitiet_donhang_type readonly
 )
 AS
-	Declare @NgayGiao date
+	Declare @NgayGiao date,
+	@SoLuong int
 	Set @NgayGiao = DATEADD(day, 7, @NgayDat)
-	begin
+	BEGIN TRAN
+		SET XACT_ABORT ON;
+		
 		INSERT INTO DonHang(DaThanhToan, TinhTrangGiaoHang, NgayDat, NgayGiao,
 		MaKH, TenNguoiNhan, DienThoaiNguoiNhan, DiaChiGiao, HinhThucThanhToan,
 		HinhThucGiaoHang, IDVoucher, ThanhTien, MaNV)
@@ -423,7 +445,9 @@ AS
 		INSERT INTO ChiTietDonHang(MaDonHang, MaSach, SoLuong, DonGia)
 		SELECT @identity, MaSach, SoLuong, DonGia
 		FROM @ChiTietDH
-	end
+
+		select * from DonHang where MaDonHang = @identity
+	COMMIT
 GO
 
 CREATE PROCEDURE [dbo].[InsertNhanVien](
@@ -514,12 +538,22 @@ GO
 
 CREATE PROCEDURE [dbo].[InsertNXB](
 @TenNXB	nvarchar(50),
-@DiaChi	nvarchar(50),
-@DienThoai nvarchar(50)
+@DiaChi	nvarchar(50) = NULL,
+@DienThoai nvarchar(50) = NULL
 )
 AS
-	INSERT INTO NXB (TenNXB, Diachi, DienThoai)
-	VALUES (@TenNXB, @DiaChi, @DienThoai);
+	IF @DiaChi IS NULL 
+		BEGIN
+			SET @DiaChi = N'Đang cập nhật'
+		END
+	IF @DienThoai IS NULL
+		BEGIN
+			SET @DienThoai = N'Đang cập nhật'
+		END
+	BEGIN
+		INSERT INTO NXB (TenNXB, Diachi, DienThoai)
+		VALUES (@TenNXB, @DiaChi, @DienThoai)
+	END
 GO
 
 CREATE PROCEDURE [dbo].[InsertSach](
@@ -534,21 +568,39 @@ CREATE PROCEDURE [dbo].[InsertSach](
 @MaTacGia int
 )
 AS
-	INSERT INTO Sach(TenSach, GiaBan, MoTa,AnhBia,NgayCapNhat,SoLuongTon,MaNXB,MaChuDe, MaTacGia)
-	VALUES (@TenSach, @GiaBan, @MoTa,@AnhBia,@NgayCapNhat,@SoLuongTon,@MaNXB,@MaChuDe, @MaTacGia)
+	INSERT INTO Sach(TenSach, GiaBan, MoTa,AnhBia,NgayCapNhat,SoLuongTon,MaNXB,MaChuDe, MaTacGia, SoLuotXem, SoLuongBan)
+	VALUES (@TenSach, @GiaBan, @MoTa,@AnhBia,@NgayCapNhat,@SoLuongTon,@MaNXB,@MaChuDe, @MaTacGia, 0, 0)
 GO
 
 
 CREATE PROCEDURE [dbo].[InsertTacGia](
 @TenTacGia	nvarchar(50),
-@HinhTacGia nvarchar(max),
-@DiaChi nvarchar(50),
-@TieuSu nvarchar(max),
-@DienThoai	NVARCHAR(50)
+@HinhTacGia nvarchar(max) = NULL,
+@DiaChi nvarchar(50) = NULL,
+@TieuSu nvarchar(max) = NULL,
+@DienThoai	NVARCHAR(50) = NULL
 )
 AS
-	INSERT INTO TacGia(TenTacGia, HinhTacGia, DiaChi, TieuSu, DienThoai)
-	VALUES (@TenTacGia,@HinhTacGia, @DiaChi, @TieuSu,@DienThoai);
+	IF @HinhTacGia IS NULL
+		BEGIN
+			SET @HinhTacGia = N'Đang cập nhật'
+		END
+	IF @DiaChi IS NULL
+		BEGIN
+			SET @DiaChi = N'Đang cập nhật'
+		END
+	IF @TieuSu IS NULL
+		BEGIN
+			SET @TieuSu = N'Đang cập nhật'
+		END
+	IF @DienThoai IS NULL
+		BEGIN
+			SET @DienThoai = N'Đang cập nhật'
+		END
+	BEGIN
+		INSERT INTO TacGia(TenTacGia, HinhTacGia, DiaChi, TieuSu, DienThoai)
+		VALUES (@TenTacGia,@HinhTacGia, @DiaChi, @TieuSu,@DienThoai)
+	END
 GO
 
 
@@ -604,7 +656,8 @@ CREATE PROCEDURE [dbo].[UpdateKhachHang](
 @DiaChi nvarchar(MAX),
 @DienThoai nvarchar(20),
 @GioiTinh nvarchar(3),
-@NgaySinh date
+@NgaySinh date,
+@MaLoaiKH int
 )
 AS
 	UPDATE KhachHang
@@ -616,7 +669,8 @@ AS
 		KhachHang.DiaChi = @DiaChi,
 		KhachHang.DienThoai = @DienThoai,
 		KhachHang.GioiTinh = @GioiTinh,
-		KhachHang.NgaySinh = @NgaySinh
+		KhachHang.NgaySinh = @NgaySinh,
+		KhachHang.MaLoaiKH = @MaLoaiKH
 	WHERE KhachHang.MaKH = @MaKH
 GO
 
@@ -626,7 +680,8 @@ CREATE PROCEDURE [dbo].[UpdateNhanVien](
 @NgaySinh date,
 @GioiTinh nvarchar(3),
 @Sdt nvarchar(50),
-@DiaChi nvarchar(50)
+@DiaChi nvarchar(50),
+@VaiTro nvarchar(50)
 )
 AS
 	UPDATE NhanVien
@@ -635,7 +690,8 @@ AS
 		NhanVien.NgaySinh = @NgaySinh,
 		NhanVien.GioiTinh = @GioiTinh,
 		NhanVien.Sdt = @Sdt,
-		NhanVien.DiaChi = @DiaChi
+		NhanVien.DiaChi = @DiaChi,
+		NhanVien.VaiTro = @VaiTro
 	WHERE NhanVien.MaNV = @MaNV
 GO
 
@@ -655,7 +711,6 @@ AS
 	WHERE NXB.MaNXB = @MaNXB
 GO
 
-
 CREATE PROCEDURE [dbo].[UpdateSach](
 @MaSach int,
 @TenSach nvarchar(50),
@@ -666,7 +721,9 @@ CREATE PROCEDURE [dbo].[UpdateSach](
 @SoLuongTon int,
 @MaNXB int,
 @MaChuDe int,
-@MaTacGia int
+@MaTacGia int,
+@SoLuotXem int,
+@SoLuongBan int
 )
 AS
 	UPDATE Sach
@@ -679,10 +736,11 @@ AS
 		Sach.SoLuongTon = @SoLuongTon,
 		Sach.MaNXB = @MaNXB,
 		Sach.MaChuDe = @MaChuDe,
-		Sach.MaTacGia = @MaTacGia
+		Sach.MaTacGia = @MaTacGia,
+		Sach.SoLuotXem = @SoLuotXem,
+		Sach.SoLuongBan = @SoLuongBan
 	WHERE Sach.MaSach = @MaSach
 GO
-
 
 CREATE PROCEDURE [dbo].[UpdateTacGia](
 @MaTacGia int,
@@ -703,14 +761,13 @@ AS
 	WHERE TacGia.MaTacGia = @MaTacGia
 GO
 
-
-CREATE PROCEDURE [dbo].[UpdateVoucher](
+Create PROCEDURE [dbo].[UpdateVoucher](
 @IDVoucher int,
 @CodeVoucher nvarchar(max),
 @NgayBatDau date,
 @NgayKetThuc date,
 @TriGiaGiam money,
-@DieuKienVoucher nvarchar(50),
+@LoaiVoucher nvarchar(50),
 @Soluong bigint,
 @HieuLuc bit,
 @MucToiThieuCan money,
@@ -733,16 +790,13 @@ AS
 	END
 GO
 
-
 --delete
-
 CREATE PROCEDURE [dbo].[DeleteChuDe](
 	@MaChuDe int
 )
 AS
 	Delete from ChuDe where ChuDe.MaChuDe = @MaChuDe;
 GO
-
 
 CREATE PROCEDURE [dbo].[DeleteChiTietDonHang](
 	@MaCTDH int
@@ -751,12 +805,12 @@ AS
 	Delete from ChiTietDonHang where ChiTietDonHang.MaCTDH = @MaCTDH;
 GO
 
-
 CREATE PROCEDURE [dbo].[DeleteDonHang](
 	@MaDonHang int
 )
 AS
 	Delete from DonHang where DonHang.MaDonHang = @MaDonHang;
+	Delete from ChiTietDonHang where ChiTietDonHang.MaDonHang = @MaDonHang;
 GO
 
 
@@ -799,14 +853,15 @@ AS
 	Delete from Sach where Sach.MaSach = @MaSach;
 GO
 
-
 CREATE PROCEDURE [dbo].[DeleteTacGia](
 	@MaTacGia int
 )
 AS
+	Delete from TacGia 
+	where TacGia.MaTacGia = @MaTacGia;
+GO
 	Delete from TacGia where TacGia.MaTacGia = @MaTacGia;
 GO
-
 
 CREATE PROCEDURE [dbo].[DeleteVoucher](
 	@IDVoucher int
@@ -830,7 +885,6 @@ select * from NXB
 select * from ChuDe
 select * from DonHang
 select TenSach from ChiTietDonHang, Sach where MaDonHang = 2 and ChiTietDonHang.MaSach = Sach.MaSach
-
 
 -------------Xóa primary index ---------------
 DBCC CHECKIDENT ('[Sach]', RESEED, 0);

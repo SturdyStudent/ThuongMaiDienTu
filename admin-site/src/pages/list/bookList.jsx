@@ -2,16 +2,19 @@ import "./list.scss"
 import Sidebar from "../../components/sidebar/Sidebar"
 import Navbar from "../../components/navbar/Navbar"
 import BookDatatable from "../../components/datatable/BookDatatable"
+import { Container, Row, Col } from "react-bootstrap"
 
 const List = () => {
     return (
-        <div className="list">
-            <Sidebar />
-            <div className="listContainer">
-                <Navbar />
-                <BookDatatable />
-            </div>
-        </div>
+        <Container fluid>
+            <Row>
+                <Col><Navbar /></Col>
+            </Row>
+            <Row>
+                <Col xs={2} md={2} lg={2}><Sidebar /></Col>
+                <Col xs={10} md={10} lg={10}><BookDatatable /></Col>
+            </Row>
+        </Container>
     )
 }
 

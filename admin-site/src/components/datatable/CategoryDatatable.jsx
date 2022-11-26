@@ -3,17 +3,17 @@ import { DataGrid } from "@mui/x-data-grid";
 import { categoryColumns } from "../../datatablesource";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import baseUrl from '../../helpers/baseUrl'
+import {BaseUrl} from '../../helpers/baseUrl'
 import axios from 'axios'
 
 const CategoryDatatable = () => {
     let dataRows = [];
     let dataColumns = categoryColumns;
-    let addAction = <Link to="/categories/new" className="link">Thêm</Link>
+    let addAction = <Link to="/categories/new" className="link">Thêm mới thể loại</Link>
     const [data, setData] = useState(dataRows);
 
     useEffect(() => {
-        axios.get(`${baseUrl}/category/`)
+        axios.get(`${BaseUrl}/category/`)
             .then(data => {
                 let count = 0;
                 let dataObj = [];
@@ -29,7 +29,7 @@ const CategoryDatatable = () => {
     }, [dataColumns])
 
     const handleDelete = (id, MaChuDe) => {
-        axios.delete(`${baseUrl}/category/delete/${MaChuDe}`)
+        axios.delete(`${BaseUrl}/category/delete/${MaChuDe}`)
             .then(() => {
                 setData(data.filter((item) => item.id !== id));
             }).catch((err) => {
@@ -60,7 +60,6 @@ const CategoryDatatable = () => {
     return (
         <div className="datatable">
             <div className="datatableTitle">
-                Thêm mới thể loại
                 {addAction}
             </div>
             <DataGrid

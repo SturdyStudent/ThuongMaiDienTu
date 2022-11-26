@@ -57,18 +57,16 @@ exports.orderCreate = [
     body("HinhThucThanhToan").notEmpty().withMessage("Tên thể loại không được bỏ trống."),
     body("HinhThucGiaoHang").notEmpty().withMessage("Tên thể loại không được bỏ trống."),
     body("ThanhTien").notEmpty().withMessage("Tên thể loại không được bỏ trống."),
-    body("MaNV").notEmpty().withMessage("Không được để trống nhân viên giao hàng"),
     sanitizeBody("*").escape(),
     (req, res) => {
         try {
-    
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
-                return apiResponse.validationErrorWithData(res, "Lỗi xác thực", errors.array());
+                return apiResponse.validationErrorWithData(res, "Lỗi xác thực", errors.array());  
             }
             else {
                 const waitPool = async () => {
-                
+                 
                     let addedOrder;
                     let timestamp = "";
                     let daystamp = new Date().getDate();
@@ -76,20 +74,26 @@ exports.orderCreate = [
                     let yearstamp = new Date().getFullYear();
                     timestamp = yearstamp + "-" + monthstamp + "-" + daystamp;
                     let pool = await sql.connect(config);
-               
+                    
 
                     const orderDetail = String(req.body.ChitietDH).replace(/&quot;/g, '"').replace(/&#x5C;/g, '\\');
+                    console.log(req.body);
                     const orderedBooks = JSON.parse(orderDetail);
     
+                    console.log(orderedBooks);
                     const Chitiet_donhang_type = new sql.Table('Chitiet_donhang_type');
     
                     Chitiet_donhang_type.create = true;
                     Chitiet_donhang_type.columns.add('MaSach', sql.Int)
                     Chitiet_donhang_type.columns.add('SoLuong', sql.Int);
                     Chitiet_donhang_type.columns.add('DonGia', sql.Int);
-    
+                    
                     orderedBooks.forEach(item => {
-                        Chitiet_donhang_type.rows.add(item.MaSach, item.SoLuong, item.GiaBan);
+                        if(item.idSach !== null){
+                            Chitiet_donhang_type.rows.add(item.idSach, item.soLuong, item.tongTien);
+                        }else{
+                            Chitiet_donhang_type.rows.add(item.MaSach, item.SoLuong, item.GiaBan);
+                        }
                     })
                       
 

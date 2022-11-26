@@ -18,6 +18,8 @@ function ProtectedRoute() {
             }
         }).then(result => {
             let allowLogin = (auth.isAuthenticated() && result.data.auth);
+            console.log("result", result.data.auth);
+            console.log("authen", auth.isAuthenticated());
             setLoaded(false);
             setIsLoggedIn(allowLogin);
             if (allowLogin === true) {

@@ -43,6 +43,28 @@ exports.userListById = [
     }
 ];
 
+exports.userByEmail = [
+    (req, res) => {
+        let customers;
+        console.log(req.body);
+        try {
+            const waitPool = async () => {
+                let pool = await sql.connect(config);
+                customers = await pool.request()
+                    .input("Email", sql.NVarChar(50), req.body.Email)
+                    .execute('GetMaKHByEmail');
+                return customers;
+            }
+            waitPool().then((result) => {
+                return apiResponse.successResponseWithData(res, "Lấy danh sách khách hàng thành công", result.recordsets[0]);
+            }).catch(err => { return apiResponse.ErrorResponse(res, err) });
+        } catch (err) {
+            return apiResponse.ErrorResponse(res, err);
+        }
+    }
+];
+
+
 exports.userCreate = [
     body("HoTen").notEmpty().withMessage("Không được bỏ trống tên khách hàng").isLength({ min: 3 }).trim().withMessage("Số lượng kí tự phải lớn hơn 3."),
     body("DiaChi").notEmpty().withMessage("Không được bỏ trống địa chỉ").isLength({ min: 5 }).trim()

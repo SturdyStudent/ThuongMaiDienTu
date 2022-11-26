@@ -32,16 +32,16 @@ function App() {
         <Routes>
           <Route element={<ProtectedRoute />}>
             <Route path="/checkout" element={<BookCheckout stripePromise={stripePromise} />}></Route>
-            <Route path="/cart" element={<ShopingCart />}></Route>
-            <Route path='/order'>
-              <Route path='view' element={<OrderView stripePromise={stripePromise} />}></Route>
-              <Route path='history' element={<OrderHistory />}></Route>
-            </Route>
           </Route>
           <Route path="/" element={<HomePage />} />
           <Route path="/results" element={<SearchResults />}></Route>
+          <Route path="/cart" element={<ShopingCart />}></Route>
           <Route path="/details">
             <Route path='/details/:id' element={<BookDetail />} />
+          </Route>
+          <Route path='/order'>
+              <Route path='view' element={<OrderView stripePromise={stripePromise} />}></Route>
+              <Route path='history' element={<OrderHistory />}></Route>
           </Route>
           <Route path="/checkout-login" element={<CheckoutLogin />}></Route>
           <Route path='/coupons' element={<CouponPage />}></Route>

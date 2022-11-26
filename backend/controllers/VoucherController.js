@@ -123,7 +123,7 @@ exports.voucherDelete = [
                     return deletedVoucher;
                 }
                 waitPool().then((data) => {
-                    return apiResponse.successResponseWithData(res, "xóa tác giả thành công", data.recordsets[0]);
+                    return apiResponse.successResponseWithData(res, "xóa voucher thành công", data.recordsets[0]);
                 }).catch(err => { return apiResponse.ErrorResponse(res, err) });
             }
         } catch (err) {
@@ -165,7 +165,7 @@ exports.voucherUpdate = [
                     return updatedVoucher;
                 }
                 waitPool().then((data) => {
-                    return apiResponse.successResponseWithData(res, "Sửa chủ đề thành công", data.recordsets[0]);
+                    return apiResponse.successResponseWithData(res, "Sửa voucher thành công", data.recordsets[0]);
                 }).catch(err => { return apiResponse.ErrorResponse(res, err) });
             }
         } catch (err) {

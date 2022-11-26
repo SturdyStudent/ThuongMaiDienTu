@@ -11,7 +11,7 @@ const jwt = require("jsonwebtoken")
 exports.register = [
     body("HoTen").notEmpty().withMessage("Không được bỏ trống tên khách hàng").isLength({ min: 3 }).trim().withMessage("Số lượng kí tự phải lớn hơn 3."),
     body("TaiKhoan").notEmpty().withMessage("Không được bỏ trống tài khoản"),
-    body("MatKhau").notEmpty().withMessage("Không được bỏ trống mật khẩu").isLength({ min: 6 }).trim().matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)
+    body("MatKhau").notEmpty().withMessage("Không được bỏ trống mật khẩu").isLength({ min: 8 }).trim().matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)
         .withMessage("Password phải có ít nhất 8 kí tự, 1 chữ viết hoa, 1 chữ viết thường và 1 số bất kì, và không chứa kí tự đặc biệt"),
     body("XacNhanMatKhau").notEmpty().withMessage("Không được bỏ trống xác nhận mật khẩu").custom((value, { req }) => {
         if (value !== req.body.MatKhau) {
@@ -32,6 +32,7 @@ exports.register = [
             let addedUser;
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
+                console.log(errors.array());
                 return apiResponse.validationErrorWithData(res, "Lỗi xác thực", errors.array());
             } else {
                 bcrypt.hash(req.body.MatKhau, 10, function (err, hash) {
@@ -42,13 +43,13 @@ exports.register = [
                         let pool = await sql.connect(config);
                         addedUser = await pool.request()
                             .input('HoTen', sql.NVarChar(50), req.body.HoTen)
-                            .input('TaiKhoan', sql.VarChar(50), req.body.TaiKhoan)
-                            .input('MatKhau', sql.VarChar(sql.MAX), hash)
+                            .input('TaiKhoan', sql.NVarChar(50), req.body.TaiKhoan)
+                            .input('MatKhau', sql.NVarChar(sql.MAX), hash)
                             .input('Email', sql.NVarChar(100), req.body.Email)
                             .input('DiaChi', sql.NVarChar(200), req.body.DiaChi)
                             .input('DienThoai', sql.VarChar(50), req.body.DienThoai)
                             .input('GioiTinh', sql.NVarChar(3), req.body.GioiTinh)
-                            .input('NgaySinh', sql.DateTime, req.body.NgaySinh)
+                            .input('NgaySinh', sql.Date, req.body.NgaySinh)
                             .input('MaOtp', otp)
                             .execute('InsertKhachHang')
                         return addedUser;

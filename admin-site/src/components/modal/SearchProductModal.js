@@ -3,7 +3,7 @@ import './ReviewModal.css'
 import { Navigate } from 'react-router-dom';
 import Cover from '../../assets/images/bookCover.png'
 import axios from 'axios';
-import BaseUrl from '../../helpers/baseUrl'
+import {BaseUrl} from '../../helpers/baseUrl'
 import { Element } from 'react-scroll'
 import _ from 'lodash'
 import { loadImageUrl } from '../../helpers/baseUrl';

@@ -6,6 +6,7 @@ import SuccessModal from '../../components/modal/SuccessModalNotification'
 import { useRef, useEffect, useState } from 'react'
 import { useLocation } from "react-router-dom";
 import BaseUrl from "../../helpers/baseUrl";
+import { Col, Container, Row } from "react-bootstrap";
 
 const Edit = ({ title }) => {
     const [publisherName, setPublisherName] = useState('');
@@ -87,11 +88,16 @@ const Edit = ({ title }) => {
 
     return (
         <>
-            <div className="new" style={{ height: "100%" }}>
-                <Sidebar />
+        <Container fluid>
+            <Row>
+                <Col><Navbar/></Col>
+            </Row>
+            <Row>
+                <Col xs={2} md={2} lg={2}><Sidebar/></Col>
+                <Col xs={10} md={10} lg={10}>
+                <div className="new" style={{ height: "100%" }}>
                 {successNotification && <SuccessModal successNotification={successNotification} />}
                 <div className="newContainer">
-                    <Navbar />
                     <div className="top">
                         <h1>{title}</h1>
                     </div>
@@ -113,7 +119,7 @@ const Edit = ({ title }) => {
                                 <div className="me-4 fw-bold col-md-3">
                                     <label>Số điện thoại xuất bản:</label>
                                 </div>
-                                <input className="p-1 col-md-7" ref={focusField} type={"number"} value={publisherPhone || ''} onChange={e => changePublisherPhone(e)} placeholder="Nhập số điện thoại nhà xuất bản"></input>
+                                <input className="p-1 col-md-7" ref={focusField} type={"text"} value={publisherPhone || ''} onChange={e => changePublisherPhone(e)} placeholder="Nhập số điện thoại nhà xuất bản"></input>
                             </div>
                         </div>
                         <div className="col-md-12 text-center mt-5 mb-5">
@@ -122,6 +128,10 @@ const Edit = ({ title }) => {
                     </form>
                 </div>
             </div>
+                </Col>
+            </Row>
+        </Container>
+            
         </>
     );
 };

@@ -1,0 +1,203 @@
+body {
+    font-family:Arial, Helvetica, sans-serif;
+    font-weight: 400;
+    margin: 0px;
+    padding: 0px;
+    overflow-x: hidden;
+    color: #333333;
+}
+#flashsale-slider .tabs-xem-them {
+    text-align: center;
+    margin-top: 5px;
+}
+
+element.style {
+    float: left;
+    list-style: none;
+    position: relative;
+    width: 270px;
+    margin-right: 45px;
+}
+#flashsale-slider .tabs-xem-them {
+    text-align: center;
+    margin-top: 5px;
+}
+@media (min-width: 992px){
+    .tabs-xem-them.xem-them-item-aaa {
+        height: 80px;
+    }
+}
+#flashsale-slider .flashsale-item {
+    max-width: 18em;
+    margin-right: 0.5em !important;
+    margin-bottom: 10px;
+}
+.tabs-xem-them.xem-them-item-aaa {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tabs-xem-them {
+    clear: both;
+}
+@media (min-width: 992px){
+    .xem-them-item-aaa a {
+        box-shadow: 2px 3px 5px #ccc;
+        font-size: 14px;
+        color: #fff!important;
+        font-weight: bold;
+        text-align: center;
+        padding: 10px;
+        border-radius: 25px;
+        width: 220px;
+        display: inline-block;
+        background-image: linear-gradient(to right, #ff9800, #F7695D);
+        transition: transform .2s;
+    }
+}
+.flashsale-item .new-label-pro-sale {
+    background-color: #F7941E;
+    width: 44px;
+    height: 44px;
+    border-radius: 22px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    margin-top: 0px !important;
+    z-index: 1;
+}
+.flashsale-item .ma-box-content {
+    padding: 0 0 10px 0;
+}
+.flashsale-item .ma-box-content .products {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+#flashsale-slider .product-name-no-ellipsis, #flashsale-page .product-name-no-ellipsis, #flashsale-page-mobile .product-name-no-ellipsis {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    margin-top: 0.5em;
+}
+.flashsale-item .product-name-no-ellipsis {
+    display: block;
+}
+.flashsale-item .flashsale-price {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.flashsale-item .flashsale-price, .wrap-item .price-label, .item-inner .price-label {
+    position: relative;
+    margin-top: 4px;
+}
+.flashsale-item .progress {
+    border-radius: 20px;
+    margin-bottom: 0px;
+    text-align: center;
+    margin-top: 5px;
+    background-color: rgba(210, 33, 33, 0.4);
+    background-image: none;
+    margin-left: 10px;
+    margin-right: 10px;
+    position: relative;
+    height: 18px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+.flashsale-item .progress-value {
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    color: #ffffff;
+    font-size: 1em;
+}
+.flashsale-item .progress-bar {
+    background-image: linear-gradient(to bottom, #D22121 0%, #D22121 100%);
+}
+.bx-has-pager .bx-prev {
+    left: 0px;
+    background: url(https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/fa-angle-left_32_8_8e8c8c_none.png) no-repeat !important;
+    background-size: 30px 30px !important;
+    opacity: 0.7;
+    width: 34px !important;
+    height: 34px !important;
+    border-radius: 19px;
+    border: 1px solid #000000 !important;
+    background-position: -1px 1px !important;
+}
+.bx-has-pager .bx-controls-direction a {
+    position: absolute;
+    top: 50%;
+    margin-top: -16px;
+    outline: 0px none;
+    width: 33px;
+    height: 48px;
+    text-indent: -9999px;
+    z-index: 99;
+    border: none;
+}
+#flashsale-slider .bx-prev {
+    margin-left: -15px;
+}
+
+.flex-direction-nav a.flex-prev, .bx-wrapper .bx-controls a.bx-prev {
+    right: 25px;
+    background: url(https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/fa-angle-left_32_8_8e8c8c_none.png) 0 0 no-repeat;
+}
+.bx-wrapper .bx-controls a {
+    display: block;
+}
+.bx-wrapper .bx-controls a {
+    right: -15px !important;
+}
+.bx-wrapper .bx-controls a {
+    display: block;
+}
+
+.bx-wrapper .bx-controls a {
+    right: -15px !important;
+}
+.bx-has-pager .bx-controls-direction a {
+    position: absolute;
+    top: 50%;
+    margin-top: -16px;
+    outline: 0px none;
+    width: 33px;
+    height: 48px;
+    text-indent: -9999px;
+    z-index: 99;
+    border: none;
+}
+.flex-direction-nav a, .bx-wrapper .bx-controls a {
+    width: 19px;
+    height: 19px;
+    position: absolute;
+    top: 0;
+    margin-top: -66px;
+    text-indent: -9999px;
+    border: 0;
+    /* right: 5px; */
+}
+.bx-has-pager .bx-next {
+    background: url(https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/fa-angle-right_32_8_8e8c8c_none.png) no-repeat 100% 100% !important;
+    background-size: 30px 30px !important;
+    opacity: 0.7;
+    width: 34px !important;
+    height: 34px !important;
+    border-radius: 19px;
+    border: 1px solid #1b1818 !important;
+    background-position: 3px 1px !important;
+}
+.std {
+    font-size: 13px;
+}
+a {
+    color: #646464;
+}
+

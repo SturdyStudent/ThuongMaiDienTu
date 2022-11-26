@@ -3,17 +3,17 @@ import { DataGrid } from "@mui/x-data-grid";
 import { orderColumns } from "../../datatablesource";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import baseUrl from '../../helpers/baseUrl'
+import {BaseUrl} from '../../helpers/baseUrl'
 import axios from 'axios'
 
-const UserDatatable = () => {
+const OrderDatatable = () => {
     let dataRows = [];
     let dataColumns = orderColumns;
     let addAction = <Link to="/orders/new" className="link" state>Thêm</Link>
     const [data, setData] = useState(dataRows);
 
     useEffect(() => {
-        axios.get(`${baseUrl}/order/`)
+        axios.get(`${BaseUrl}/order/`)
             .then(data => {
                 let count = 0;
                 let dataObj = [];
@@ -29,7 +29,7 @@ const UserDatatable = () => {
     }, [dataColumns])
 
     const handleDelete = (id, MaOrder) => {
-        axios.delete(`${baseUrl}/publisher/delete/${MaOrder}`)
+        axios.delete(`${BaseUrl}/order/delete/${MaOrder}`)
             .then(() => {
                 setData(data.filter((item) => item.id !== id));
             }).catch((err) => {
@@ -75,4 +75,4 @@ const UserDatatable = () => {
     );
 };
 
-export default UserDatatable;
+export default OrderDatatable;

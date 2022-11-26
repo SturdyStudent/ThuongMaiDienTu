@@ -4,7 +4,7 @@ const config = {
   server: process.env.DB_SERVER,
   user: process.env.DB_USER,
   password: process.env.DB_PASS,
-  database: 'QLSach',
+  database: 'QLSachs',
   pool: {
     min: 0,
     max: 10,
@@ -16,6 +16,7 @@ const config = {
     trustServerCertificate: true,
     instancename: 'DESKTOP-JEDQHDP'
   },
-  port: 1433,
+  port: 1433
+
 }
 module.exports = config;

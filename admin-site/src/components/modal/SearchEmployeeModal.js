@@ -5,7 +5,7 @@ import Cover from '../../assets/images/bookCover.png'
 import SearchInput, { createFilter } from 'react-search-input'
 import axios from 'axios';
 import { Element } from 'react-scroll'
-import BaseUrl from '../../helpers/baseUrl';
+import {BaseUrl} from '../../helpers/baseUrl';
 import _ from 'lodash'
 
 export default function SearchEmployeeModal({ changeSelectedEmployee, callbackSetOpenEmployeeModal }) {

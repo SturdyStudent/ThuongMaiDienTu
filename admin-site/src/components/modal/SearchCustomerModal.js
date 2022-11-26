@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import './ReviewModal.css'
 import { Navigate } from 'react-router-dom';
-import Cover from '../../assets/images/bookCover.png'
-import SearchInput, { createFilter } from 'react-search-input'
 import axios from 'axios';
 import { Element } from 'react-scroll'
-import BaseUrl from '../../helpers/baseUrl';
+import { BaseUrl} from '../../helpers/baseUrl';
 import _ from 'lodash'
 
 export default function SearchModal({ changeSelectedUser, callbackSetOpenModal }) {

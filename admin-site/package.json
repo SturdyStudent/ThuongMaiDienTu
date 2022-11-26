@@ -15,6 +15,7 @@
     "bootstrap": "^5.2.1",
     "date-fns": "^2.29.3",
     "lodash": "^4.17.21",
+    "mocha": "^10.1.0",
     "react": "^17.0.2",
     "react-bootstrap": "^2.5.0",
     "react-circular-progressbar": "^2.0.4",
@@ -26,9 +27,11 @@
     "react-select": "^5.6.0",
     "react-select-country-list": "^2.2.3",
     "react-spinner-animated": "^3.1.1",
+    "react-spinner-animated": "^3.1.1",
     "react-switch": "^7.0.0",
     "recharts": "^2.1.9",
     "sass": "^1.49.9",
+    "selenium-webdriver": "^4.5.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

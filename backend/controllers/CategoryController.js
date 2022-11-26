@@ -61,7 +61,7 @@ exports.categoryCreate = [
                     return addedCategory;
                 }
                 waitPool().then((data) => {
-                    return apiResponse.successResponseWithData(res, "Thêm chủ đề thành công", data.recordsets[0]);
+                    return apiResponse.successResponseWithData(res, "Thêm chủ đề thành công", data.recordsets[0][0]);
                 }).catch(err => { return apiResponse.ErrorResponse(res, err) });
             }
         } catch (err) {

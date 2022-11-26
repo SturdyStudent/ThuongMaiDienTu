@@ -1,16 +1,21 @@
+DROP DATABASE IF EXISTS [QLSach]
 
-CREATE DATABASE QLSachs
+CREATE DATABASE QLSach
 GO
 
 USE QLSachs
 GO
 
-/****** Object:  Table [dbo].[DummyCD]    Script Date: 10/22/2022 12:55:27 PM ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
+DROP TABLE IF EXISTS [ChuDe]
+DROP TABLE IF EXISTS [LoaiKH]
+DROP TABLE IF EXISTS [KhachHang]
+DROP TABLE IF EXISTS [NhanVien]
+DROP TABLE IF EXISTS [NXB]
+DROP TABLE IF EXISTS [TacGia]
+DROP TABLE IF EXISTS [Sach]
+DROP TABLE IF EXISTS [Voucher]
+DROP TABLE IF EXISTS [DonHang]
+DROP TABLE IF EXISTS [ChiTietDonHang]
 
 CREATE TABLE [dbo].[ChuDe](
 	[MaChuDe] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
@@ -30,7 +35,7 @@ CREATE TABLE [dbo].[KhachHang](
 	[MaKH] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	[HoTen] [nvarchar](50) NULL,
 	[TaiKhoan] [nvarchar](50) NULL,
-	[MatKhau] [nvarchar](50) NULL,
+	[MatKhau] [varchar](max) NULL,
 	[Email] [nvarchar](50) NULL,
 	[DiaChi] [nvarchar](max) NULL,
 	[DienThoai] [nvarchar](20) NULL,
@@ -133,8 +138,8 @@ GO
 
 CREATE TABLE [dbo].[DonHang](
 	[MaDonHang] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
-	[DaThanhToan] [bit] NULL,
-	[TinhTrangGiaoHang] [smallint] NULL,
+	[DaThanhToan] [smallint] NULL,
+	[TinhTrangGiaoHang] [bit] NULL,
 	[NgayDat] [date] NULL,
 	[NgayGiao] [date] NULL,
 	[MaKH] [int] NULL,

@@ -7,7 +7,7 @@ import DriveFolderUploadOutlinedIcon from '@mui/icons-material/DriveFolderUpload
 import { useLocation } from "react-router-dom";
 import { format } from 'date-fns'
 import axios from 'axios'
-import BaseUrl from "../../helpers/baseUrl";
+import {BaseUrl, UtiUrl} from "../../helpers/baseUrl";
 
 const Edit = ({ title }) => {
     const [bookName, setBookName] = useState('');
@@ -55,7 +55,7 @@ console.log(id);
 
     useEffect(() => {
         try {
-            axios.get(`${BaseUrl}/author/`)
+            axios.get(`${BaseUrl}/author`)
                 .then(result => {
                     let obj = result.data.data;
                     setAuthorOptions(obj);
@@ -66,7 +66,7 @@ console.log(id);
     }, []);
     useEffect(() => {
         try {
-            axios.get(`${BaseUrl}/publisher/`)
+            axios.get(`${BaseUrl}/publisher`)
                 .then(result => {
                     let obj = result.data.data;
                     setPublisherOptions(obj);
@@ -77,7 +77,7 @@ console.log(id);
     }, []);
     useEffect(() => {
         try {
-            axios.get(`${BaseUrl}/category/`)
+            axios.get(`${BaseUrl}/category`)
                 .then(result => {
                     let obj = result.data.data;
                     setCategoryOptions(obj);
@@ -192,7 +192,7 @@ console.log(id);
                                     <label>Nhà xuất bản:</label>
                                 </div>
                                 <select className="p-1 col-md-7 text-center" defaultValue={publisher} type={"number"} onChange={e => setPublisher(e.target.value)}  >
-                                    <option value="default">---------  Chọn Nhà xuất bản  ----------</option>
+                                    <option value="default" disabled>---------  Chọn Nhà xuất bản  ----------</option>
                                     {publisherOptions && publisherOptions.map((item) => {
                                         return (
                                             <option value={item.MaNXB} key={item.MaNXB} selected={item.MaNXB === publisher}>{item.TenNXB}</option>
@@ -205,7 +205,7 @@ console.log(id);
                                     <label>Thể loại:</label>
                                 </div>
                                 <select className="p-1 col-md-7 text-center" type={"number"} defaultValue={category} onChange={e => setCategory(e.target.value)}  >
-                                    <option value="default">----------&nbsp;&nbsp;&nbsp;&nbsp;   Chọn Thể loại   &nbsp;&nbsp;&nbsp;&nbsp;----------</option>
+                                    <option value="default" disabled>----------&nbsp;&nbsp;&nbsp;&nbsp;   Chọn Thể loại   &nbsp;&nbsp;&nbsp;&nbsp;----------</option>
                                     {categoryOptions && categoryOptions.map((item) => {
                                         return (
                                             <option key={item.MaChuDe} value={item.MaChuDe} selected={item.MaChuDe === category}>{item.TenChuDe}</option>
@@ -218,7 +218,7 @@ console.log(id);
                                     <label>Tác giả:</label>
                                 </div>
                                 <select className="p-1 col-md-7 text-center" defaultValue={author} type={"number"} onChange={e => setAuthor(e.target.value)} >
-                                    <option value="default">----------&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Chọn Tác giả     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;----------</option>
+                                    <option value="default" disabled>----------&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Chọn Tác giả     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;----------</option>
                                     {authorOptions && authorOptions.map((item) => {
                                         return (
                                             <option key={item.MaTacGia} value={item.MaTacGia} selected={item.MaTacGia === author}>{item.TenTacGia}</option>
@@ -226,13 +226,13 @@ console.log(id);
                                     })}
                                 </select>
                             </div>
-                            <div>{imgCover && imgCover} a</div>
+                            <div>{imgCover && imgCover} </div>
                             <div className="d-flex row mb-4">
                                 <div className="me-4 fw-bold col-md-3">
                                     <label>Hình sách:</label>
                                 </div>
                                 <div className="col-md-7">
-                                    <div className="formInput" style={{ width: "100px", height: "130px" }}>
+                                    <div className="formInput" style={{ width: "100%", height: "200px" }}>
                                         <img
                                             src={
                                                 file

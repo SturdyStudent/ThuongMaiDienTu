@@ -77,8 +77,8 @@ export const orderColumns = [
 export const bookColumns = [
   { field: "id", headerName: "Mã sách", width: 70 },
   { field: "TenSach", headerName: "Tên sách", width: 170 },
-  { field: "GiaBan", headerName: "Gía bán", width: 170 },
-  { field: "MoTa", headerName: "Mô tả Nội dung", width: 170 },
+  { field: "GiaBan", headerName: "Giá bán", width: 100 },
+  // { field: "MoTa", headerName: "Mô tả Nội dung", width: 200 },
   {
     field: "AnhBia", headerName: "Ảnh bìa", width: 70,
     renderCell: (params) => {
@@ -105,7 +105,7 @@ export const categoryColumns = [
 export const publisherColumns = [
   { field: "id", headerName: "Mã nhà xuất bản", width: 170 },
   { field: "TenNXB", headerName: "Tên nhà xuất bản", width: 170 },
-  { field: "Diachi", headerName: "Địa chỉ", width: 170 },
+  { field: "DiaChi", headerName: "Địa chỉ", width: 170 },
   { field: "DienThoai", headerName: "Điện thoại", width: 170 }
 ];
 
@@ -120,7 +120,7 @@ export const authorColumns = [
     renderCell: (params) => {
       return (
         <div className="cellWithImg">
-          <img className="cellImg" width={"100px"} height={"100px"} src={params.row.authorImage} alt="avatar" />
+          <img className="cellImg" width={"100px"} height={"100px"} src={`http://127.0.0.1:3002/public/${params.row.authorImage}`} alt="avatar" />
         </div>
       );
     },
