@@ -385,6 +385,7 @@ CREATE TYPE [dbo].[Chitiet_donhang_type] AS TABLE
 )
 GO
 
+
 CREATE PROCEDURE [dbo].[InsertDonHangNotVoucher](
 @DaThanhToan bit,
 @TinhTrangGiaoHang smallint,
@@ -420,11 +421,6 @@ AS
 		select * from DonHang where MaDonHang = @identity
 	COMMIT
 GO
-
-select * from ChuDe where MaChuDe = 11
-insert into ChuDe(TenChuDe) values (N'Kiến trúc')
-SELECT SCOPE_IDENTITY() AS [SCOPE_IDENTITY];  
-GO  
 
 CREATE PROCEDURE [dbo].[InsertDonHangHaveVoucher](
 @DaThanhToan bit,
@@ -892,6 +888,7 @@ delete from ChuDe
 delete from DonHang
 delete from ChiTietDonHang
 delete from KhachHang
+delete from NhanVien
 
 select * from Sach
 select * from TacGia
@@ -899,6 +896,7 @@ select * from NXB
 select * from ChuDe
 select * from DonHang
 select * from KhachHang
+select * from NhanVien
 
 -------------Xóa primary index ---------------
 DBCC CHECKIDENT ('[Sach]', RESEED, 0);
@@ -914,6 +912,8 @@ GO
 DBCC CHECKIDENT ('[ChiTietDonHang]', RESEED, 0);
 GO
 DBCC CHECKIDENT ('[KhachHang]', RESEED, 0);
+GO
+DBCC CHECKIDENT ('[NhanVien]', RESEED, 0);
 GO
 
 INSERT INTO TacGia (TenTacGia, TieuSu, DiaChi) VALUES (N'Victor Hugo', N'Không có', N'Không có');
@@ -1096,9 +1096,9 @@ INSERT INTO Sach (TenSach, GiaBan, MoTa, AnhBia, NgayCapNhat, SoLuongTon, MaNXB,
 INSERT INTO Sach (TenSach, GiaBan, MoTa, AnhBia, NgayCapNhat, SoLuongTon, MaNXB, MaChuDe, MaTacGia, SoLuotXem, SoLuongBan) VALUES (N'Đối Thoại Với Thượng Đế', '160000', N'"Bước vào cuộc sống là từng ngày ta buông thả Tâm và Trí mình trôi theo dòng ""nhân duyên, sinh khởi"" để sau đó rước lấy sợ hãi, bám víu cái giả hư và quan niệm càng sai lầm về tự ngã. Ajahm Chah, bậc minh triết nổi tiếng Á Đông, đã nhấn mạnh ""giáo pháp tự nó phát khởi phù hợp với nhu cầu tức thời, nó phải sống trong hiện tại  mới đúng là chánh Pháp""."', 'doithoaivoi.png', '2022-10-24', '541', '3', '4', '27', '10196', '221');
 GO
 
-INSERT INTO NHANVIEN (HoTenNV, Sdt, DiaChi, VaiTro, Email, MatKhau) VALUES (N'Nguyễn Văn A', N'0903655478', N'Đang cập nhật', N'Admin', 'vana@gmail.com', 'matkhau');
-INSERT INTO NHANVIEN (HoTenNV, Sdt, DiaChi, VaiTro, Email, MatKhau) VALUES (N'Nguyễn Văn B', N'0921652478', N'Đang cập nhật', N'GiaoHang','vana@gmail.com', 'matkhau');
-INSERT INTO NHANVIEN (HoTenNV, Sdt, DiaChi, VaiTro, Email, MatKhau) VALUES (N'Nguyễn Văn C', N'0303565458', N'Đang cập nhật', N'GiaoHang','vana@gmail.com', 'matkhau');
+INSERT INTO NHANVIEN (HoTenNV, Sdt, DiaChi, VaiTro, Email, MatKhau) VALUES (N'Nguyễn Văn An', N'0903655478', N'Đang cập nhật', N'Admin', 'vana@gmail.com', 'matkhau');
+INSERT INTO NHANVIEN (HoTenNV, Sdt, DiaChi, VaiTro, Email, MatKhau) VALUES (N'Trần Trung Bình', N'0921652478', N'Đang cập nhật', N'GiaoHang','vana@gmail.com', 'matkhau');
+INSERT INTO NHANVIEN (HoTenNV, Sdt, DiaChi, VaiTro, Email, MatKhau) VALUES (N'Hồ Thị Nhàn', N'0303565458', N'Đang cập nhật', N'GiaoHang','vana@gmail.com', 'matkhau');
 GO
 
 INSERT INTO KhachHang (HoTen, TaiKhoan, MatKhau, Email, DiaChi, DienThoai, GioiTinh, NgaySinh)
@@ -1112,3 +1112,11 @@ VALUES (N'Lê Hồng Gấm', 'userFour', 'passFour', 'email@gmail.com', 'Đang c
 INSERT INTO KhachHang (HoTen, TaiKhoan, MatKhau, Email, DiaChi, DienThoai, GioiTinh, NgaySinh)
 VALUES (N'Lê Đức Hòa', 'userFive', 'passFive', 'email@gmail.com', 'Đang cập nhật','090477352', 'Nam', '1999-01-30');
 GO
+
+declare @table_type as Chitiet_donhang_type
+insert into @table_type(MaSach, SoLuong, DonGia) values(1, 2, 100000)
+insert into @table_type(MaSach, SoLuong, DonGia) values(2, 3, 105000)
+insert into @table_type(MaSach, SoLuong, DonGia) values(3, 4, 110000)
+
+EXEC InsertDonHangHaveVoucher @DaThanhToan=1, @TinhTrangGiaoHang = 2, @NgayDat = '2012-12-12',@MaKH = 6, @TenNguoiNhan = N'Tràn Thành Lộc', @DienThoaiNguoiNhan = N'0395325632', @DiaChiGiao=N'108 Phạm Thế Hiển Phường 10 Quận Bình Thuận Tỉnh Trường Thuận TP Hà Nội', @HinhThucThanhToan = N'Thanh toán bằng thẻ', @HinhThucGiaoHang = N'Giao hàng thông thường', @IDVoucher = 1,@ThanhTien = '310000', @MaNV='4', @ChiTietDH = @table_type
+select * from ChiTietDonHang
