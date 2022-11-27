@@ -4,7 +4,7 @@ const apiResponse = require("../helpers/apiResponse");
 const sql = require('mssql')
 const config = require("../dbConfig");
 
-/* Lấy danh sách sản phẩm chi tiết của đơn hàng */
+/* Lấy danh sách chi tiết*/
 //Chức năng này có thể không cần
 exports.orderDetailList = [
     function (req, res) {
@@ -13,8 +13,7 @@ exports.orderDetailList = [
             const waitPool = async () => {
                 let pool = await sql.connect(config);
                 orderDetailList = await pool.request()
-                    .input('idDonHang', sql.Int, req.body.id)
-                    .execute('SelectIdDonHang');
+                    .execute('SelectAllCTDHang');
                 return orderDetailList;
             }
             waitPool().then((result) => {
@@ -26,7 +25,7 @@ exports.orderDetailList = [
     }
 ];
 
-/* lấy đơn hàng theo Id */
+/* lấy chi tiết đơn hàng theo Id */
 //Chức năng này có thể không cần
 exports.orderItemListId = [
     function (req, res) {
@@ -36,11 +35,11 @@ exports.orderItemListId = [
                 let pool = await sql.connect(config);
                 order = await pool.request()
                     .input('idDonHang', sql.Int, req.body.id)
-                    .execute('SelectIdDonHang');
+                    .execute('SelectCTDHangById');
                 return order;
             }
             waitPool().then((result) => {
-                return apiResponse.successResponseWithData(res, "Lấy id đơn hàng thành công", result.recordsets[0]);
+                return apiResponse.successResponseWithData(res, "Lấy danh sách của id đơn hàng thành công", result.recordsets[0]);
             }).catch(err => { return apiResponse.ErrorResponse(res, err) });
         } catch (err) {
             return apiResponse.ErrorResponse(res, err);
@@ -83,10 +82,6 @@ exports.orderDetailCreate = [
 ];
 
 //Xóa chi tiết đơn hàng
-/*
-WARNING: Xóa 1 đơn hàng có thể dẫn tới xóa hết các chi tiết 
-đơn hàng có liên quan đến id đơn hàng đó nên chỉnh lại bảng chi tiết
-*/
 exports.orderDetailDelete = [
     function (req, res) {
         try {
@@ -114,7 +109,7 @@ exports.orderDetailDelete = [
     }
 ];
 
-
+//Cập nhật chi tiết đơn hàng
 exports.orderDetailUpdate = [
     body("MaDonHang").notEmpty().withMessage("Mã đơn hàng không tồn tại."),
     body("MaSach").notEmpty().withMessage("Mã sách không tồn tại."),

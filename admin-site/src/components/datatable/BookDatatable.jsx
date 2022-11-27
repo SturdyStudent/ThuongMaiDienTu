@@ -30,9 +30,9 @@ useEffect(() => {
                     AnhBia: data.data.data[count].AnhBia,
                     NgayCapNhat: data.data.data[count].NgayCapNhat,
                     SoLuongTon: data.data.data[count].SoLuongTon,
-                    MaNXB: data.data.data[count].MaNXB,
-                    MaChuDe: data.data.data[count].MaChuDe,
-                    MaTacGia: data.data.data[count].MaTacGia,
+                    MaNXB: data.data.data[count].TenNXB,
+                    MaChuDe: data.data.data[count].TenChuDe,
+                    MaTacGia: data.data.data[count].TenTacGia,
                     SoLuotXem: data.data.data[count].SoLuotXem,
                     SoLuongBan: data.data.data[count].SoLuongBan
                 }

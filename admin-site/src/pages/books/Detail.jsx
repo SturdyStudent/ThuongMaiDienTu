@@ -3,50 +3,44 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { BaseUrl, UtiUrl } from "../../helpers/baseUrl";
+import { BaseUrl } from "../../helpers/baseUrl";
 import { useLocation } from "react-router-dom";
 const Detail = () => {
-    const [book, setBook] = useState(null);
+    const [book, setBook] = useState([]);
     const location=useLocation();
-    const id=location.pathname.toString().split('/')[2];
+    
     useEffect(() => {
-        console.log(book);
         async function fetchId() {
-                await axios.get(`${BaseUrl}/book/${id}`)
-            .then(async (res) => {
-                    await setBook(res.data)
+            const id=location.pathname.toString().split('/')[2];
+            let url = `${BaseUrl}/book/${id}`;
+            await axios.get(url)
+            .then(res => {
+                setBook(res);
                 })
-            .catch(
-                function(err){
-                    console.log(err)
-                });
+            .catch(err => console.log(err.message));
         }
         fetchId();
-        console.log(book);
     },[]);
-    let bookDetail = {
-        MaSach: 1,
-        TenSach: "Những người khốn khổ",
-        MaChuDe: 1,
-        MaNXB: 1,
-        MaTacGia: 1,
-        MoTa: "update",
-
-
-    }
+    let bookDetail = book.data;
+    console.log(typeof(bookDetail));
+    Object.entries(bookDetail).forEach(([key, value]) => {
+        console.log(key, value);
+    })
     return(
-        <Container fluid>
+        <>
+            <Container fluid>
             <Row>
                 <Col><Navbar/></Col>
             </Row>
             <Row>
                 <Col xs={2} md={2} lg={2}><Sidebar/></Col>
                 <Col>
-                    <Row>{bookDetail.MaSach}</Row>
-                    <Row></Row>
+                    <Row>
+                    </Row>
                 </Col>
             </Row>
         </Container>
+        </>
     )
 }
 

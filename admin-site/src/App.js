@@ -9,7 +9,7 @@ import NewRating from './pages/ratings/New'
 import NewOrder from './pages/order/New'
 import NewAuthor from './pages/Author/New'
 import NewBook from './pages/books/New'
-import NewPublisher from './pages/publisher/New'
+import NewPublisher from './pages/Publisher/New'
 import NewCategory from './pages/Category/New'
 import UserEdit from "./pages/users/Edit";
 import VoucherEdit from './pages/vouchers/Edit'
@@ -17,7 +17,7 @@ import RatingEdit from './pages/ratings/Edit'
 import OrderEdit from './pages/order/Edit'
 import AuthorEdit from './pages/Author/Edit'
 import BookEdit from './pages/books/Edit'
-import PublisherEdit from './pages/publisher/Edit'
+import PublisherEdit from './pages/Publisher/Edit'
 import CategoryEdit from './pages/Category/Edit'
 import VoucherList from "./pages/list/voucherList";
 import RatingList from './pages/list/ratingList';

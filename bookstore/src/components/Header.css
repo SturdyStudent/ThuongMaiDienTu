@@ -11,22 +11,21 @@
 }
 
 .nav-header-item::before {
-    border-width: 9px;
-    border-style: solid;
-    border-color: transparent transparent rgb(255, 255, 255);
+    border-color: transparent transparent rgb(0, 0, 0);
     border-image: initial;
     margin-left: -9px;
     bottom: 100%;
     left: 40%;
-    content: " ";
+    content: "";
     height: 0px;
     width: 0px;
     position: absolute;
     pointer-events: none;
+    transform: rotateX(-20px);
 }
 
 .nav-header-item::after {
-    content: " ";
+    content: "";
     background: transparent;
     height: 20px;
     width: 150px;
