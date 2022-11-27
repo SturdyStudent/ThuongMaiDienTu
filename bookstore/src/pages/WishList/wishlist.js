@@ -1,10 +1,10 @@
 import React from 'react'
-import '../../node_modules/bootstrap/dist/css/bootstrap.css'
-import Header from '../components/Header'
-import Banner from '../assets/advertiseBanner.png'
-import Footer from '../components/Footer'
+import '../../../node_modules/bootstrap/dist/css'
+import Header from '../../components/Header'
+import Banner from '../../assets/advertiseBanner.png'
+import Footer from '../../components/Footer'
 import "./wishlist.css"
-export default function HomePage() {
+export default function WishListHomePage() {
 
     <div>
          <Header />

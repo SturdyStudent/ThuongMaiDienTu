@@ -15,7 +15,8 @@ import { useEffect, useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { baseUrl } from './baseUrl';
 import Categories from './components/Categories';
-import ActionHomePage from './Genre/Action';
+import ActionHomePage from '../src/pages/Genre/Action.js';
+import WishListHomePage from '../src/pages/WishList/wishlist'
 function App() {
   const [stripePromise, setStripePromise] = useState();
 
@@ -45,9 +46,8 @@ function App() {
             <Route path='view' element={<OrderView stripePromise={stripePromise} />}></Route>
             <Route path='history' element={<OrderHistory />}></Route>
           </Route>
-          <Route path='/ActionHomePage'element={<ActionHomePage />}>
-            
-          </Route>
+          <Route path='/ActionHomePage'element={<ActionHomePage />}></Route>
+          <Route path='/WishListHomePage'element={<WishListHomePage />}></Route>
         </Routes>
       </Router>
     </div>

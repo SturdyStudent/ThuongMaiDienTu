@@ -1,10 +1,10 @@
 import React from 'react'
-import '../../node_modules/bootstrap/dist/css/bootstrap.css'
-import Header from '../components/Header'
-import Banner from '../assets/advertiseBanner.png'
-import BookList from '../components/BookList'
-import SaleCard from '../components/SaleCard'
-import Footer from '../components/Footer'
+import '/node_modules/bootstrap/dist/css/bootstrap.css'
+import Header from '../../components/Header'
+import Banner from '../../assets/advertiseBanner.png'
+// import BookList from '../components/BookList'
+// import SaleCard from '../components/SaleCard'
+import Footer from '../../components/Footer'
 import  './Genres.css'
 
 
@@ -13,11 +13,11 @@ export default function ActionHomePage() {
         <div>
             <Header />
             <img src={Banner} style={{ "margin": "4vh" }} alt="banner" />
-            <BookList title={"SÁCH BÁN CHẠY"} />
-            <div style={{ "display": "flex", "justifyContent": "center" }}>
+            {/* <BookList title={"SÁCH BÁN CHẠY"} /> */}
+            {/* <div style={{ "display": "flex", "justifyContent": "center" }}>
                 <SaleCard />
                 <SaleCard />
-            </div>
+            </div> */}
     <div id="flashsale-slider" class="row" style={{"margin": "20px 0px 0px", "padding": "0px", "display": "block"}}>
         <div class="flashsale-header">
             <a href="/flashsale">
@@ -409,11 +409,11 @@ export default function ActionHomePage() {
             </div>
         </div>
      </div>
-                <BookList title={"SÁCH ĐANG HOT"} />
+                {/* <BookList title={"SÁCH ĐANG HOT"} />
             <div style={{ "display": "flex", "justifyContent": "center" }}>
                 <SaleCard />
                 <SaleCard />
-            </div>
+            </div> */}
             <Footer />
         </div>
         
