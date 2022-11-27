@@ -133,7 +133,7 @@ function Header() {
                 
         //     </nav>}
         // </div>
-        <>
+        <div>
             <Container fluid>
                 <Row>
                     <Col xs={2} md={2} lg={2}>
@@ -161,7 +161,7 @@ function Header() {
                             <Col>
                                 <FontAwesomeIcon icon={faHeart} color="red" />
                                 <a className="nav-link active" aria-current="page" href="/#" style={{ "fontWeight": "bold", "color": "black" }}>Whishlist</a>
-                            </li>
+                            </Col>
                             <Link to={"/cart"} style={{ textDecoration: "none" }}>
                                 <li className="nav-item nav-header-menu position-relative" >
                                     {cartItems && <div className='rounded-circle bg-success position-absolute fw-bold text-white' style={{ width: "30px", height: "30px", top: -10, right: 0 }}>
@@ -172,10 +172,10 @@ function Header() {
                                 </li>
                             </Link>
 
-                        </ul>
-                    </div>
-                </div>
-            </nav>
+                        </Row>
+                    </Col>
+                </Row>
+            </Container>
             {isSupportPage && <nav className="navbar navbar-expand-lg navbar-light " id='navbar-container'>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
