@@ -49,14 +49,14 @@ button {
     border: none;
     outline: none;
   }
-  form {
+  #addForm {
     width: 85%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin: auto;
   }
-  form input {
+  #addForm input {
     color: #3759ec;
     font-size: 18px;
     width: calc(100% - 80px);
@@ -67,7 +67,7 @@ button {
     box-shadow: 0px 0 40px rgba(55, 89, 236, 0.2);
     outline: none;
   }
-  form input::placeholder {
+  #addform input::placeholder {
     color: #abbaf7;
   }
   form button {
@@ -76,10 +76,10 @@ button {
     height: 60px;
     border-radius: 10px;
   }
-  form button:active {
+  #addForm button:active {
     background: #102ead;
   }
-  form button i {
+  #addForm button i {
     color: #fff;
     font-size: 20px;
     font-weight: bold;
