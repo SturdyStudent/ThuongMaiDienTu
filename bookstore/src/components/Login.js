@@ -41,7 +41,7 @@ function Login({ callbackChangeRegisterPage }) {
         }).then((res) => {
             if (res.data.auth === true) {
                 dispatch(actLogin(res.data.id));
-                console.log("hô lá");
+               
                 auth.login(() => {
                     setTimeout(() => {
                         setRedirect(true);
@@ -61,6 +61,7 @@ function Login({ callbackChangeRegisterPage }) {
             if (res.status === 200) {
                 setIsLoading(false);
                 document.cookie = `token=${res.data.data.token};SameSite=strict;Secure`;
+                localStorage.setItem("TOKEN", res.data.data.token);
                 adminAuthenticated();
             } else {
                 setDisplayError("Nhập sai tên đăng nhập hoặc mật khẩu");

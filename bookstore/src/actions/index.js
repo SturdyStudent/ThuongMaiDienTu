@@ -25,6 +25,13 @@ export const actOrderSetState = (orderState) => {
     }
 }
 
+export const actSearchTermState = (searchState) => {
+    return {
+        'type': types.SEARCH_TERM_STATE,
+        searchState
+    }
+}
+
 export const actNotificationSetState = (notificationState) => {
     return {
         'type': types.NOTIFICATION_STATE,

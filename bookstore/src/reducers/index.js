@@ -4,6 +4,7 @@ import { allowNext } from './allowNext';
 import { notificationState } from './notifications';
 import { totalCartPrice } from './totalCartPrice';
 import { logginState } from './isLoggedIn';
+import { searchTerm } from './searchTerm';
 
 import { combineReducers } from 'redux'
 
@@ -13,7 +14,8 @@ const appReducers = combineReducers({
     allowNext,
     notificationState,
     totalCartPrice,
-    logginState
+    logginState,
+    searchTerm
 });
 
 export default appReducers

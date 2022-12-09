@@ -5,8 +5,43 @@ const apiResponse = require("../helpers/apiResponse")
 const sql = require('mssql')
 const utility = require("../helpers/utility");
 const bcrypt = require("bcrypt")
+const nodemailer = require("nodemailer")
 const nodeoutlook = require("nodejs-nodemailer-outlook")
 const jwt = require("jsonwebtoken")
+
+const mailOption = {
+    from: 'Hi <powellbook@outlook.com>',
+    to: 'thanhdat5101@gmail.com',
+    subject: "Hello im here",
+    html: '<p>hello</p>'
+}
+
+let transporter = nodemailer.createTransport({
+    port: 587,
+    secure: false, 
+    service:"outlook",
+    auth:{
+        user: "powellbook@outlook.com",
+        pass: "AcerNitro5"
+    }
+})
+
+exports.test = [
+    (req, res) => {
+        let email = req.body.email;
+        let text = req.body.text;
+
+        mailOption.to = email;
+        mailOption.html = text;
+        
+        transporter.sendMail(mailOption, (err, info) => {
+            if(err){
+                console.log(err);
+            }
+            res.send(info);
+        }
+    )}
+]
 
 exports.register = [
     body("HoTen").notEmpty().withMessage("Không được bỏ trống tên khách hàng").isLength({ min: 3 }).trim().withMessage("Số lượng kí tự phải lớn hơn 3."),
