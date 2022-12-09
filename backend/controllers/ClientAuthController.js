@@ -9,40 +9,6 @@ const nodemailer = require("nodemailer")
 const nodeoutlook = require("nodejs-nodemailer-outlook")
 const jwt = require("jsonwebtoken")
 
-const mailOption = {
-    from: 'Hi <powellbook@outlook.com>',
-    to: 'thanhdat5101@gmail.com',
-    subject: "Hello im here",
-    html: '<p>hello</p>'
-}
-
-let transporter = nodemailer.createTransport({
-    port: 587,
-    secure: false, 
-    service:"outlook",
-    auth:{
-        user: "powellbook@outlook.com",
-        pass: "AcerNitro5"
-    }
-})
-
-exports.test = [
-    (req, res) => {
-        let email = req.body.email;
-        let text = req.body.text;
-
-        mailOption.to = email;
-        mailOption.html = text;
-        
-        transporter.sendMail(mailOption, (err, info) => {
-            if(err){
-                console.log(err);
-            }
-            res.send(info);
-        }
-    )}
-]
-
 exports.register = [
     body("HoTen").notEmpty().withMessage("Không được bỏ trống tên khách hàng").isLength({ min: 3 }).trim().withMessage("Số lượng kí tự phải lớn hơn 3."),
     body("TaiKhoan").notEmpty().withMessage("Không được bỏ trống tài khoản"),
@@ -264,5 +230,123 @@ exports.resendConfirmOtp = [
 exports.isAuth = [
     (req, res) => {
         res.send({ auth: true, id: req.userId });
+    }
+]
+
+exports.forgotPassword = [
+    body("email").isLength({ min: 5 }).trim().withMessage("Email không được để trống và có trên 5 kí tự.")
+                    .isEmail().withMessage("Email không hợp lệ."),
+    sanitizeBody("email").escape(),
+    (req, res) => {
+        try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return apiResponse.validationErrorWithData(res, "Lỗi xác thực.", errors.array());
+            } else {
+                const generatePassword = utility.randomPassword(10);
+                bcrypt.hash(generatePassword, 10, function (err, hash) {
+                    if(err){
+                        return apiResponse.ErrorResponse(res, err);
+                    }
+
+                    const waitPool = async () => {
+                        let pool = await sql.connect(config);
+                        validatedUser = await pool.request()
+                            .input('email', sql.NVarChar(50), req.body.email)
+                            .input('matkhau', sql.VarChar(sql.MAX), hash)
+                            .execute('QuenMatKhau')
+                        return validatedUser;
+                    }
+    
+                    waitPool().then(() => {
+                        let html = "<p>Qúi khách vui lòng đổi mật khẩu ngay sau khi đăng nhập.</p>Mật khẩu: <h3>" + generatePassword + "</h3>";
+                        nodeoutlook.sendEmail({
+                            auth: {
+                                user: process.env.EMAIL_SMTP_USERNAME,
+                                pass: process.env.EMAIL_SMTP_PASSWORD
+                            },
+                            from: process.env.EMAIL_SMTP_USERNAME,
+                            to: req.body.email,
+                            subject: "Cấp lại mật khẩu khách hàng PowellBookStore",
+                            html: html,
+                            onSuccess: () => {
+                                return apiResponse.successResponse(res, "Đã gửi lại mật khẩu.");
+                            }
+                        });
+                    }).catch(err => { return apiResponse.ErrorResponse(res, err) })   
+                })
+            }
+        } catch (err) {
+            return apiResponse.ErrorResponse(res, err);
+        }
+    }
+]
+
+exports.changePassword = [
+    body("email").isLength({ min: 5 }).trim().withMessage("Email không được để trống và có trên 5 kí tự.")
+                    .isEmail().withMessage("Email không hợp lệ."),
+    body("MatKhauCu").notEmpty().withMessage("Không được bỏ trống mật khẩu").isLength({ min: 8 }).trim().matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)
+                    .withMessage("Password phải có ít nhất 8 kí tự, 1 chữ viết hoa, 1 chữ viết thường và 1 số bất kì, và không chứa kí tự đặc biệt"),
+    body("MatKhauMoi").notEmpty().withMessage("Không được bỏ trống xác nhận mật khẩu").isLength({ min: 8 }).trim().matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)
+    .withMessage("Password phải có ít nhất 8 kí tự, 1 chữ viết hoa, 1 chữ viết thường và 1 số bất kì, và không chứa kí tự đặc biệt").
+    custom((value, { req }) => {
+                    if (value === req.body.MatKhauCu) {
+                        throw new Error("Mật khẩu mới không được trùng với mật khẩu cũ");
+                    }
+                    return true;
+                }),
+    body("XacNhanMatKhauMoi").notEmpty().withMessage("Không được bỏ trống xác nhận mật khẩu").
+    custom((value, { req }) => {
+                    if (value !== req.body.MatKhauMoi) {
+                        throw new Error("Xác nhận mật khẩu không trùng khớp");
+                    }
+                    return true;
+                }),
+    sanitizeBody("*").escape(),
+    (req, res) => {
+        try {
+            let validatedUser;
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return apiResponse.validationErrorWithData(res, "Lỗi xác thực.", errors.array());
+            } else {
+                const waitPoolTestLogin = async () => {
+                    let pool = await sql.connect(config);
+                    addedUser = await pool.request()
+                        .input('email', sql.NVarChar(50), req.body.email)
+                        .execute('DangNhapKhachHang')
+                    return addedUser;
+                }
+                waitPoolTestLogin().then((data) => {
+                    if (JSON.stringify(data.recordsets[0]) !== JSON.stringify([])) {
+                        let user = data.recordsets[0][0];
+                        bcrypt.compare(req.body.MatKhauCu, user.MatKhau, (err, same) => {
+                            if (same) {
+                                bcrypt.hash(req.body.MatKhauMoi, 10, function (err, hash) {
+                                    if(err){
+                                        return apiResponse.ErrorResponse(res, err);
+                                    }
+                                    
+                                    const waitPool = async () => {
+                                        let pool = await sql.connect(config);
+                                        validatedUser = await pool.request()
+                                            .input('email', sql.NVarChar(50), req.body.email)
+                                            .input('matkhaumoi', sql.VarChar(sql.MAX), hash)
+                                            .execute('DoiMatKhau')
+                                        return validatedUser;
+                                    }
+                
+                                    waitPool().then(() => {
+                                        return apiResponse.successResponseWithData(res, "Đổi mật khẩu thành công.", validatedUser);
+                                    }).catch(err => { return apiResponse.ErrorResponse(res, err) })   
+                                })
+                            }
+                        })
+                    }
+                })
+            }
+        } catch (err) {
+            return apiResponse.ErrorResponse(res, err);
+        }
     }
 ]

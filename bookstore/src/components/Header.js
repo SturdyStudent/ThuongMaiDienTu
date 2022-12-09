@@ -77,14 +77,9 @@ function Header() {
     }
 
     const logoutAccount = () => {
+        localStorage.removeItem("TOKEN");
         auth.logout();
         return <Navigate to={'/'} replace/>;
-    }
-
-    const handleMoveToAdvanceOption = (e) => {
-        e.stopPropagation();
-        setSearchTerm('toanbosach');
-        dispatch(actSearchTermState('toanbosach'));
     }
 
     const handleNavModal = () => {
@@ -96,7 +91,10 @@ function Header() {
             <div className='text-start nav-header-item ps-3 pe-3 pt-2 pb-2'>Quản lí đổi trả</div>
             <div className='text-start nav-header-item ps-3 pe-3 pt-2 pb-2'>Tài khoản của tôi</div>
             <div className='text-start nav-header-item ps-3 pe-3 pt-2 pb-2'>Đánh giá sản phẩm</div>
-            <Link to={'/'} onClick={() => logoutAccount()}>
+            <Link to={'/change-password'} style={{textDecoration:"none", color:"black"}}>
+                <div className='text-start nav-header-item ps-3 pe-3 pt-2 pb-2'>Đổi lại mật khẩu</div>
+            </Link>
+            <Link to={'/'} style={{textDecoration:"none", color:"black"}} onClick={() => logoutAccount()}>
                 <div className='text-start nav-header-item ps-3 pe-3 pt-2 pb-2'>Đăng xuất</div>
             </Link>
         </div>)

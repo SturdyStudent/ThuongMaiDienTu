@@ -5,6 +5,8 @@ import SearchResults from './pages/SearchResults';
 import BookDetail from './pages/BookDetail';
 import ShopingCart from './pages/ShopingCart';
 import CheckoutLogin from './pages/CheckoutLogin';
+import ChangePassword from './pages/ChangePassword';
+import ForgetPassword from './pages/ForgetPassword';
 import BookCheckout from './pages/BookCheckout';
 import CouponPage from './pages/CouponPage';
 import ProductFAQ from './pages/ProductFAQ';
@@ -44,6 +46,8 @@ function App() {
               <Route path='history' element={<OrderHistory />}></Route>
           </Route>
           <Route path="/checkout-login" element={<CheckoutLogin />}></Route>
+          <Route path="/forgot-password" element={<ForgetPassword />}></Route>
+          <Route path="/change-password" element={<ChangePassword />}></Route>
           <Route path='/coupons' element={<CouponPage />}></Route>
           <Route path='/faqs' element={<ProductFAQ />}></Route>
           <Route path='/verify-otp' element={<VerifyOtpPage />}></Route>

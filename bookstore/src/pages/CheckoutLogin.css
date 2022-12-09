@@ -6,7 +6,12 @@
 .cursor-pointer:hover {
     cursor: pointer;
 }
-
+.center-child{
+    margin: 0px auto;
+}
+.fit-content{
+    width: fit-content;
+}
 .text-align-center {
     text-align: center;
 }

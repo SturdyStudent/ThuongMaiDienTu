@@ -12,8 +12,6 @@ function ProtectedRoute() {
     const [loaded, setLoaded] = useState(true);
     const dispatch = useDispatch();
 
-    let loginState = localStorage.getItem("IS_LOGGED_IN");
-    console.log("login state", loginState);
     const fetchJWT = async () => {
         axios.get( `${baseUrl}/clientAuth/isAdminAuth`, {
             headers: {

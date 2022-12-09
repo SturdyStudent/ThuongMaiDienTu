@@ -41,7 +41,7 @@ function Login({ callbackChangeRegisterPage }) {
         }).then((res) => {
             if (res.data.auth === true) {
                 dispatch(actLogin(res.data.id));
-               
+                
                 auth.login(() => {
                     setTimeout(() => {
                         setRedirect(true);
@@ -91,7 +91,7 @@ function Login({ callbackChangeRegisterPage }) {
                 </div>
                 {<p className='text-danger fw-bold mt-2'>{String(displayError)}</p>}
                 <div className='text-center fw-bold col-md-9 mt-3'>
-                    <Link to={'/'} style={{ textDecoration: "none" }}>
+                    <Link to={'/forgot-password'} style={{ textDecoration: "none" }}>
                         Quên mật khẩu?
                     </Link>
                 </div>

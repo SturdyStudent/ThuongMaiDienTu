@@ -209,7 +209,33 @@ BEGIN
 	WHERE Email = @Email
 END
 go
-
+------------------Đổi mật khẩu---------------------------
+CREATE PROC [dbo].[DoiMatKhau](
+@email nvarchar(50),
+@matkhaucu varchar(MAX),
+@matkhaumoi varchar(MAX)
+)
+AS
+BEGIN
+	IF EXISTS (SELECT * FROM KhachHang WHERE Email = @email AND MatKhau = @matkhaucu)
+	BEGIN
+		UPDATE KhachHang
+		SET MatKhau = @matkhaumoi
+		WHERE Email = @email AND MatKhau = @matkhaucu
+	END
+END
+------------------Quên mật khẩu---------------------------
+CREATE PROC [dbo].[QuenMatKhau]
+@email nvarchar(50),
+@matkhau varchar(MAX)
+AS
+BEGIN
+	SET NOCOUNT ON;
+	UPDATE KhachHang
+	SET MatKhau = @matkhau
+	WHERE Email = @email
+END
+GO
 ------------------Xác nhận otp---------------------------
 CREATE PROCEDURE [dbo].[XacNhanOTP]
 @email nvarchar(50),
