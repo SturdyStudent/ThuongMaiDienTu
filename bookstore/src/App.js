@@ -10,6 +10,7 @@ import ForgetPassword from './pages/ForgetPassword';
 import BookCheckout from './pages/BookCheckout';
 import CouponPage from './pages/CouponPage';
 import ProductFAQ from './pages/ProductFAQ';
+import Category from './pages/Category';
 import OrderHistory from './pages/OrderHistory';
 import OrderView from './pages/OrderView';
 import VerifyOtpPage from './pages/VerifyOtpPage';
@@ -50,6 +51,17 @@ function App() {
           <Route path="/change-password" element={<ChangePassword />}></Route>
           <Route path='/coupons' element={<CouponPage />}></Route>
           <Route path='/faqs' element={<ProductFAQ />}></Route>
+          <Route path='/Categories'>
+              <Route path='van-hoc-viet-nam' element={<SearchResults category={1} />}></Route>
+              <Route path='van-hoc-nuoc-ngoai'element={<SearchResults category={2} />}></Route>
+              <Route path='thieu-nhi'element={<SearchResults category={3} />}></Route>
+              <Route path='kinh-te-chinh-tri' element={<SearchResults category={4} />}></Route>
+              <Route path='manga-light-novel' element={<SearchResults category={5} />}></Route>
+              <Route path='ngon-tinh-lang-man' element={<SearchResults category={6} />}></Route>
+              <Route path='tam-linh-huyen-bi' element={<SearchResults category={7} />}></Route>
+              <Route path='giao-khoa' element={<SearchResults category={8} />}></Route>
+              <Route path='kinh-di' element={<SearchResults category={9} />}></Route>
+          </Route>
           <Route path='/verify-otp' element={<VerifyOtpPage />}></Route>
         </Routes>
       </Router>

@@ -8,7 +8,6 @@ exports.publisherList = [
     function (req, res) {
         let publishers;
         try {
-            console.log("có vào nha");
             const waitPool = async () => {
                 let pool = await sql.connect(config);
                 publishers = await pool.request()
@@ -16,10 +15,8 @@ exports.publisherList = [
                 return publishers;
             }
             waitPool().then((result) => {
-                console.log("đúng");
                 return apiResponse.successResponseWithData(res, "Lấy danh sách nhà xuất bản thành công", result.recordsets[0]);
             }).catch(err => { 
-                console.log("sai", err);
                 return apiResponse.ErrorResponse(res, err) 
             });
         } catch (err) {

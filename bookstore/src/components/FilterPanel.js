@@ -6,7 +6,7 @@ import { baseUrl } from '../baseUrl'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFilter } from '@fortawesome/free-solid-svg-icons'
 
-function FilterPanel({authorFilter, publisherFilter ,categoryFilter, priceFilter, sortDirFilter}) {
+function FilterPanel({isCategoryPage, authorFilter, publisherFilter ,categoryFilter, priceFilter, sortDirFilter}) {
     const [authorOptions, setAuthorOptions] = useState([]);
     const [categoryOptions, setCategoryOptions] = useState([]);
     const [publishertions, setPublisherOptions] = useState([]);
@@ -101,7 +101,7 @@ function FilterPanel({authorFilter, publisherFilter ,categoryFilter, priceFilter
             setAuthorVal(item);
             }}  options={authorOptions} />
         <h6 className='text-start mt-3'>Chủ đề</h6>
-        <Select value={categoryVal} className='filter-select' onChange={item => {
+        <Select value={categoryVal} isDisabled={isCategoryPage} className='filter-select' onChange={item => {
             categoryFilter(item.value);
             setCategoryVal(item);
             }}  options={categoryOptions} />

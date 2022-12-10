@@ -210,19 +210,15 @@ BEGIN
 END
 go
 ------------------Đổi mật khẩu---------------------------
-CREATE PROC [dbo].[DoiMatKhau](
+ALTER PROC [dbo].[DoiMatKhau](
 @email nvarchar(50),
-@matkhaucu varchar(MAX),
 @matkhaumoi varchar(MAX)
 )
 AS
 BEGIN
-	IF EXISTS (SELECT * FROM KhachHang WHERE Email = @email AND MatKhau = @matkhaucu)
-	BEGIN
-		UPDATE KhachHang
-		SET MatKhau = @matkhaumoi
-		WHERE Email = @email AND MatKhau = @matkhaucu
-	END
+	UPDATE KhachHang
+	SET MatKhau = @matkhaumoi
+	WHERE Email = @email 
 END
 ------------------Quên mật khẩu---------------------------
 CREATE PROC [dbo].[QuenMatKhau]

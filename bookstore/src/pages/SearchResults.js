@@ -3,13 +3,14 @@ import Footer from '../components/Footer'
 import Header from '../components/Header'
 import { PaginatedItems } from '../components/ResultDisplay'
 import FilterPanel from '../components/FilterPanel'
+import bookPanel from '../assets/bookpanel.jpg'
 import { useSelector } from 'react-redux'
 import './SearchResult.css'
 import axios from 'axios'
 import { baseUrl } from '../baseUrl'
 
 
-function SearchResults() {
+function SearchResults({category}) {
     const [items, setItems] = useState([]);
     const [tempItems, setTempItems] = useState([]);
     const [authorFilter, setAuthorFilter] = useState();
@@ -17,6 +18,7 @@ function SearchResults() {
     const [publisherFilter, setPublisherFilter] = useState();
     const [sortDirFilter, setSortDirFilter] = useState();
     const [priceFilter, setPriceFilter] = useState();
+    const [categoryTitle, setCategoryTitle] = useState();
 
     const handleAuthorFilter = (authorVal) => {
         setAuthorFilter(authorVal);
@@ -34,15 +36,25 @@ function SearchResults() {
         setSortDirFilter(authorVal);
     }
 
+    console.log("current Category", categoryFilter);
+
     const searchTerm = useSelector(state => state.searchTerm);
     useEffect(() => {
+        if(category){
+            axios.get(`${baseUrl}/book/category/${category}`)
+                .then(result => {
+                    setItems(result.data.data);
+                    setTempItems(result.data.data);
+                })
+        }else{
             axios.post(`${baseUrl}/book/search`, {
                 "TuKhoa": searchTerm
             }).then(result => {
                 setItems(result.data.data);
                 setTempItems(result.data.data);
             })
-    }, [searchTerm]);
+        }
+    }, [searchTerm, category]);
 
     const filterAuthor = (array) => {
         if(authorFilter !== undefined){
@@ -61,6 +73,8 @@ function SearchResults() {
     const filterCategory = (array) => {
         if(categoryFilter !== undefined){
             return array.filter(item => item.MaChuDe === categoryFilter);
+        }else if(category !== null){
+            return array.filter(item => item.MaChuDe === category);
         }
         return array;
     }
@@ -86,6 +100,16 @@ function SearchResults() {
         });
 
     }
+
+    useEffect(() => {
+        if(category){
+            setCategoryFilter(category);
+            axios.get(`${baseUrl}/category/${category}`)
+                .then(result => {
+                    setCategoryTitle(result.data.data[0].TenChuDe);
+                })
+        }
+    }, [category])
 
     useEffect(() => {
         //tạo biến trữ lại cài search mà không thay đổi, xong load lại thì load lại cái 
@@ -118,13 +142,17 @@ function SearchResults() {
     return (
         <div>
             <Header />
+            {category ? <div className='card-overlay' style={{height:"50vh", width:"100vw",overflow:"hidden", position:"relative"}}>
+                <img src={bookPanel} style={{ position:"absolute", top:"-25vh", left:"-50vw", opacity:"0.6"}} />
+                <h3 className='vertical-center text-white'>{categoryTitle}</h3>
+            </div> : null}
             <div className='d-flex flex-row'>
                 <div>
-                    <FilterPanel authorState={authorFilter} publisherState={publisherFilter} categoryState={categoryFilter} sortDirState={sortDirFilter} authorFilter={handleAuthorFilter} publisherFilter={handlePublisherFilter} categoryFilter={handleCategoryFilter} priceFilter={handlePriceFilter} sortDirFilter={handleSortDirFilter} />
+                    <FilterPanel isCategoryPage={(category !== undefined)} authorState={authorFilter} publisherState={publisherFilter} categoryState={categoryFilter} sortDirState={sortDirFilter} authorFilter={handleAuthorFilter} publisherFilter={handlePublisherFilter} categoryFilter={handleCategoryFilter} priceFilter={handlePriceFilter} sortDirFilter={handleSortDirFilter} />
                 </div>
                 <div>
                     <h3 className='justify-content-left d-flex mt-3 ms-5' >
-                        Kết quả tìm kiếm cho '{searchTerm}'
+                        {category ? `Thể loại: ${categoryTitle}`: `Kết quả tìm kiếm cho ${searchTerm}` }
                     </h3>
                     <PaginatedItems itemsPerPage={12} items={tempItems} />
                 </div>

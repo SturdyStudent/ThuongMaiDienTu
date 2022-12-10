@@ -88,6 +88,7 @@ function Header() {
             <Link to={'/order/history'} style={{ "textDecoration": "none", color: "black" }}>
                 <div className='text-start nav-header-item ps-3 pe-3 pt-2 pb-2'>Đơn hàng của tôi</div>
             </Link>
+     
             <div className='text-start nav-header-item ps-3 pe-3 pt-2 pb-2'>Quản lí đổi trả</div>
             <div className='text-start nav-header-item ps-3 pe-3 pt-2 pb-2'>Tài khoản của tôi</div>
             <div className='text-start nav-header-item ps-3 pe-3 pt-2 pb-2'>Đánh giá sản phẩm</div>
@@ -171,15 +172,26 @@ function Header() {
                                         TRANG CHỦ
                                     </Link>
                                 </li>
-                                <div className="category">
-                                <li id="menu-item-963" className="nav-item menu-item menu-item-type-post_type menu-item-object-page menu-item-963">
-                                    <Link to={"/Categories"} className='nav-link'>
-                                        THỂ LOẠI
-                                    </Link>
-                           
+                               
+                                <li className="nav-item" >
+                                    <div className="dropdown">
+                                        <a className="nav-link dropdown-toggle" href="/#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                            THỂ LOẠI
+                                        </a>
+                                        <ul className="dropdown-menu p-0" aria-labelledby="dropdownMenuLink">
+                                            <li><a className="dropdown-item ps-3 pe-3 pb-2 pt-2" href="/categories/van-hoc-viet-nam">Văn học Việt Nam</a></li>
+                                            <li><a className="dropdown-item ps-3 pe-3 pb-2" href="/categories/van-hoc-nuoc-ngoai">Văn học nước ngoài</a></li>
+                                            <li><a className="dropdown-item ps-3 pe-3 pb-2" href="/categories/thieu-nhi">Thiếu nhi</a></li>
+                                            <li><a className="dropdown-item ps-3 pe-3 pb-2" href="/categories/kinh-te-chinh-tri">Kinh tế chính trị</a></li>
+                                            <li><a className="dropdown-item ps-3 pe-3 pb-2" href="/categories/manga-light-novel">Manga - Light Novel</a></li>
+                                            <li><a className="dropdown-item ps-3 pe-3 pb-2" href="/categories/ngon-tinh-lang-man">Ngôn tình lãng mạn</a></li>
+                                            <li><a className="dropdown-item ps-3 pe-3 pb-2" href="/categories/tam-linh-huyen-bi">Tâm linh huyền bí</a></li>
+                                            <li><a className="dropdown-item ps-3 pe-3 pb-2" href="/categories/giao-khoa">Giáo khoa</a></li>
+                                            <li><a className="dropdown-item ps-3 pe-3 pb-2" href="/categories/kinh-di">Kinh dị</a></li>
+                                        </ul>
+                                    </div>
                                 </li>
-                                </div>
-                                <li id="menu-item-40" className="nav-item menu-item menu-item-type-post_type menu-item-object-page menu-item-40">
+                                <li className="nav-item">
                                     <Link to={"/coupons"} className='nav-link'>
                                         MÃ GIẢM GIÁ
                                     </Link>

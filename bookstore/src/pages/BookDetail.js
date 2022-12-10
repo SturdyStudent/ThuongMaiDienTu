@@ -108,8 +108,6 @@ function BookDetail() {
         console.log("có bấm xóa khỏi");
         try {
             let oldItems = JSON.parse(localStorage.getItem("CART_ITEMS"));
-            console.log("cart", cartItem);
-            console.log("oldItems", oldItems);
 
             _.remove(oldItems, cartItem);
             localStorage.setItem("CART_ITEMS", JSON.stringify(oldItems));

@@ -21,6 +21,25 @@ exports.bookList = [
         }
     }
 ];
+exports.findBookByCategory = [
+    (req, res) => {
+        try {
+            let book;
+            const waitPool = async () => {
+                let pool = await sql.connect(config);
+                book = await pool.request()
+                    .input('MaCD', sql.Int, req.params.id)
+                    .execute('SelectAllSachByCategory');
+                return book;
+            }
+            waitPool().then((result) => {
+                return apiResponse.successResponseWithData(res, "Lấy sách thành công", result.recordsets[0]);
+            }).catch(err => { return apiResponse.ErrorResponse(res, err) });
+        } catch (err) {
+            return apiResponse.ErrorResponse(res, err);
+        }
+    }
+]
 
 exports.findBookBySearchTerm = [
     (req, res) => {
