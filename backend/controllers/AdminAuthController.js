@@ -39,8 +39,6 @@ exports.adminRegister = [
                         .input('Email', sql.NVarChar(100), req.body.Email)
                         .input('DiaChi', sql.NVarChar(200), req.body.DiaChi)
                         .input('DienThoai', sql.VarChar(50), req.body.DienThoai)
-                        .input('GioiTinh', sql.NVarChar(3), req.body.GioiTinh)
-                        .input('NgaySinh', sql.DateTime, req.body.NgaySinh)
                         .execute('InsertKhachHang')
                     return addedUser;
                 }
@@ -71,7 +69,7 @@ exports.adminLogin = [
                     addedUser = await pool.request()
                         .input('Email', sql.NVarChar(50), req.body.HoTen)
                         .input('MatKhau', sql.VarChar(50), req.body.TaiKhoan)
-                        .execute('DangNhapKhachHang')
+                        .execute('DangNhapNhanVien')
                     return addedUser;
                 }
                 waitPool().then((data) => {

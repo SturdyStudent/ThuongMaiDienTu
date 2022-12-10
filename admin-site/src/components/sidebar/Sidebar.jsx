@@ -17,12 +17,14 @@ import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import DiscountOutlinedIcon from '@mui/icons-material/DiscountOutlined';
 import Logo from '../../assets/images/logo.png'
+import auth from "../../auth";
 import { Link } from "react-router-dom";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
 
 const Sidebar = () => {
   const { dispatch } = useContext(DarkModeContext);
+
   return (
     <div className="sidebar">
       <div className="center">
@@ -114,7 +116,11 @@ const Sidebar = () => {
             <AccountCircleOutlinedIcon className="icon" />
             <span>Thông tin cá nhân</span>
           </li>
-          <li onClick={() => { localStorage.setItem("loggedIn", false); }}>
+          <li onClick={() => { auth.logout(() => {
+                  localStorage.setItem("loggedIn", false); 
+                  window.location.reload();
+                });
+            }}>
             <ExitToAppIcon className="icon" />
             <span>Đăng xuất</span>
           </li>

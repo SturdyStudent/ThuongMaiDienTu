@@ -5,13 +5,13 @@ import DelayLink from '../../helpers/delayLink';
 import '../login/PartnerLoginPage.css'
 import { HalfMalf } from 'react-spinner-animated';
 import 'react-spinner-animated/dist/index.css'
-import BaseUrl from '../../helpers/baseUrl';
+import {BaseUrl} from '../../helpers/baseUrl';
+import { Navigate } from 'react-router-dom';
 
 function Register() {
     const [adminName, setAdminName] = useState('');
     const [address, setAddress] = useState('');
     const [phoneNumber, setPhoneNumber] = useState(0);
-    const [brandName, setBrandName] = useState('');
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [confirmPassword, setConfirmPassword] = useState();
@@ -26,6 +26,7 @@ function Register() {
     const [wards, setWards] = useState();
     const [wardName, setWardName] = useState('');
     const [displayError, setDisplayError] = useState();
+    const [redirect, setRedirect] = useState(false);
 
 
     const getLocationUrl = "https://provinces.open-api.vn/api/"
@@ -37,6 +38,7 @@ function Register() {
     const changePassword = e => setPassword(e.target.value);
     const changeConfirmPass = e => setConfirmPassword(e.target.value);
     const changeProvinceId = e => setProvinceId(e.target.value);
+    const changeRole = e => setRole(e.target.value);
     const changeDistrictId = e => {
         setDistrictId(e.target.value);
     }
@@ -89,30 +91,31 @@ function Register() {
         }
     }, [provinceId, provinces]);
 
+    if(redirect){
+        return <Navigate to={'/login'}/>;
+    }
+
     const handleRegister = (e) => {
         setIsLoading(true);
-        axios.post(`${BaseUrl}/admin`, {
-            adminName: `${adminName}`,
-            address: `${address}${wardName} ${districtName} ${provinceName}`,
-            phoneNumber: `${phoneNumber}`,
-            brandName: `${brandName}`,
-            email: `${email}`,
-            password: `${password}`,
-            confirmPassword: `${confirmPassword}`,
-            role: `${role}`
+        axios.post(`${BaseUrl}/employee/create`, {
+            HoTenNV: adminName,
+            Email: email,
+            DiaChi: `${address}${wardName} ${districtName} ${provinceName}`,
+            Sdt: phoneNumber,
+            MatKhau: `${password}`,
+            XacNhanMatKhau: `${confirmPassword}`,
+            VaiTro: `${role}`
         }).then((res) => {
             localStorage.setItem('USER_LOGIN_INFORMATION', email);
-            console.log(res.data + " " + res.status);
             if (res.status === 200) {
-                // setTimeout(() => { setRedirect(true); setIsLoading(false) }, 800);
+                setTimeout(() => { setRedirect(true); setIsLoading(false) }, 800);
             }
+            console.log(res);
         }).catch((err) => {
             setIsLoading(false);
-            if ((String)(err.response.data.message) === "Lỗi xác thực") {
-                setDisplayError(err.response.data.data[0].msg);
-            } else {
-                setDisplayError(err.response.data.message);
-            }
+            setDisplayError(err.message);
+
+            console.log("sai mợ r", err);
         });
         e.preventDefault();
     }
@@ -126,8 +129,8 @@ function Register() {
                         <div className='justify-content-center mb-3 text-center'>
                             <img src={Logo} alt="..." height="80px"></img>
                         </div>
-                        <h5 class="card-title fw-bold">Tạo tài khoản Partner mới!</h5>
-                        <p class="card-text">Lên danh sách các khách hàng tại Powell's Book và để chúng tôi giúp bạn kết nối với hàng triệu người dùng!</p>
+                        <h5 class="card-title fw-bold">Tạo tài khoản nhân viên</h5>
+                        <p class="card-text">Hợp tác cùng PowerBook và làm việc trong một môi trường làm việc năng động, sáng tạo</p>
                         <form id='form' onSubmit={handleRegister}>
                             <p className='fw-bold'>Tên người dùng:</p>
                             <input type="text" name="user" value={adminName} onChange={e => changeAdminName(e)} className='col-md-12 p-2 mb-3' placeholder='Nhập tên người dùng' ></input>
@@ -166,7 +169,12 @@ function Register() {
                             <input type="password" name='pass' onChange={e => changePassword(e)} value={password} className='col-md-12 p-2 mb-3' placeholder='Nhập mật khẩu' ></input><br />
                             <p className='fw-bold'>Nhập lại mật khẩu</p>
                             <input type="password" name="rePass" value={confirmPassword} onChange={e => changeConfirmPass(e)} className='col-md-12 p-2 mb-3' placeholder='Nhập lại mật khẩu' ></input>
-                            <input type="submit" className='border-0 p-2 text-white col-md-12' value="Đăng kí" name='submit' style={{ "backgroundColor": "#FF5F1F" }} ></input>
+                            <p className='fw-bold'>Chọn vai trò</p>
+                            <select name="distric-select" id="district-select" onChange={e => changeRole(e)} className='p-1'>
+                                <option value={0}>Nhân viên quản trị</option>
+                                <option value={1}>Nhân viên giao hàng</option>
+                            </select>
+                            <input type="submit" className='border-0 p-2 mt-4 text-white col-md-12' value="Đăng kí" name='submit' style={{ "backgroundColor": "#FF5F1F" }} ></input>
                             {<p className='text-danger fw-bold mt-2'>{displayError}</p>}
                             <div className='text-center mt-3'> <b>Đã có tài khoản?</b> &nbsp;
                                 <DelayLink to={'/login'}>

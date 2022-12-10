@@ -25,7 +25,35 @@ exports.employeeList = [
     }
 ];
 
-
+exports.employeeLogin = [
+    body("Email").isLength({ min: 4 }).trim().withMessage("Email phải được định nghĩa rõ.")
+    .isEmail().withMessage("Email phải đúng định dạng.").normalizeEmail(),
+    body("MatKhau").isLength({ min: 8 }).trim().withMessage("Mật khẩu phải có ít nhất 8 kí tự."),
+    body("*").escape(),
+    (req, res) => {
+        try {
+            const errors = validationResult(req);
+            let addedUser;
+            if (!errors.isEmpty()) {
+                return apiResponse.unauthorizedResponse(res, "Sai tài khoản hoặc mật khẩu");
+            } else {
+                const waitPool = async () => {
+                    let pool = await sql.connect(config);
+                    addedUser = await pool.request()
+                         .input('Email', sql.NVarChar(50), req.body.Email)
+                        .input('MatKhau', sql.VarChar(50), req.body.MatKhau)
+                        .execute('DangNhapNhanVien')
+                    return addedUser;
+                }
+                waitPool().then((data) => {
+                    return apiResponse.successResponseWithData(res, "Đăng nhập thành công", data.recordsets[0]);
+                }).catch(err => apiResponse.ErrorResponse(res, err));
+            }
+        } catch (err) {
+            return apiResponse.ErrorResponse(res, err);
+        }
+    }
+]
 /* lấy nhân viên theo Id */
 exports.employeeItemId = [
     function (req, res) {
@@ -70,11 +98,19 @@ exports.employeeItemName = [
 
 /* Tạo nhân viên mới */
 exports.employeeCreate = [
+    body("Email").notEmpty().withMessage("Không được bỏ trống trường email"),    
     body("HoTenNV").notEmpty().withMessage("Không được bỏ trống trường họ tên nhân viên"),
-    body("NgaySinh").notEmpty().withMessage("Không được bỏ trống trường ngày sinh"),
-    body("GioiTinh").notEmpty().withMessage("Không được bỏ trống trường giới tính"),
     body("Sdt").notEmpty().withMessage("Không được bỏ trống trường số điện thoại"),
     body("DiaChi").notEmpty().withMessage("Không được bỏ trống trường địa chỉ"),
+    body("MatKhau").notEmpty().withMessage("Không được bỏ trống trường mật khẩu"),   
+    body("XacNhanMatKhau").notEmpty().withMessage("Không được bỏ trống xác nhận mật khẩu").
+    custom((value, { req }) => {
+                    if (value !== req.body.MatKhau) {
+                        throw new Error("Xác nhận mật khẩu không trùng khớp");
+                    }
+                    return true;
+                }), 
+    body("DiaChi").notEmpty().withMessage("Không được bỏ chọn vai trò"),
     sanitizeBody("*").escape(),
     (req, res) => {
         try {
@@ -87,10 +123,11 @@ exports.employeeCreate = [
                     let pool = await sql.connect(config);
                     addedEmployee = await pool.request()
                         .input('HoTenNV', sql.NVarChar(50), req.body.HoTenNV)
-                        .input('NgaySinh', sql.Date, req.body.NgaySinh)
-                        .input('GioiTinh', sql.NVarChar(3), req.body.GioiTinh)
+                        .input('Email', sql.NVarChar(50), req.body.Email)
                         .input('Sdt', sql.NVarChar(50), req.body.Sdt)
-                        .input('DiaChi', sql.NVarChar(50), req.body.Diachi)
+                        .input('DiaChi', sql.NVarChar(50), req.body.DiaChi)
+                        .input('MatKhau', sql.VarChar(50), req.body.MatKhau)
+                        .input('VaiTro', sql.NVarChar(50), req.body.VaiTro)
                         .execute('InsertNhanVien');
                     return addedEmployee;
                 }

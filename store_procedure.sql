@@ -197,7 +197,27 @@ AS
 	WHERE DonHang.MaDonHang = @MaDonHang
 GO
 GO
-
+-------------------Đăng nhập nhân viên-----------------------------
+CREATE PROC [dbo].[DangNhapNhanVien]
+@Email nvarchar(50),
+@MatKhau varchar(50)
+AS
+BEGIN
+	SET NOCOUNT ON;
+	IF EXISTS (	SELECT *
+	FROM NhanVien
+	WHERE Email = @Email AND MatKhau = @MatKhau)
+		BEGIN
+			SELECT * FROM NhanVien where Email = @Email
+		END
+	ELSE
+		BEGIN
+			declare @ErrMsg NVARCHAR(50)
+			set @ErrMsg = N'Tên đăng nhập hoặc mật khẩu không đúng'
+			raiserror(@ErrMsg, 16,1)
+		END
+END
+go
 -------------------Đăng nhập khách hàng-----------------------------
 CREATE PROC [dbo].[DangNhapKhachHang]
 @Email nvarchar(50)
@@ -325,6 +345,13 @@ CREATE PROCEDURE [dbo].[SelectAllSach]
 AS
 	Select *
 	From LoaiKH
+GO
+CREATE PROCEDURE [dbo].[SelectAllSachByCategory]
+@MaCD INT
+AS
+	Select *
+	From Sach
+	Where MaChuDe = @MaCD 
 GO
 CREATE PROCEDURE [dbo].[SelectAllSachByViews] @Limit int
 AS
@@ -1199,12 +1226,9 @@ exec InsertDonHangHaveVoucher @DaThanhToan = 0, @TinhTrangGiaoHang = 1, @NgayDat
 exec InsertDonHangHaveVoucher @DaThanhToan = 1, @TinhTrangGiaoHang = 1, @NgayDat = '12-12-2022', @MaKH = 5, @TenNguoiNhan = N'Dương Ngọc Long', @DienThoaiNguoiNhan = '0907454326', @DiaChiGiao = N'43 Phường 5 TP Vĩnh Long Tỉnh Vĩnh Long', @HinhThucThanhToan = N'Thanh toán bằng thẻ', @HinhThucGiaoHang =	N'Giao hàng thông thường', @IDVoucher = 1, @ThanhTien = 100000, @MaNV = 1
 exec InsertDonHangHaveVoucher @DaThanhToan = 1, @TinhTrangGiaoHang = 1, @NgayDat = '12-12-2022', @MaKH = 4, @TenNguoiNhan = N'Triệu Thái Nhi', @DienThoaiNguoiNhan = '0232080245', @DiaChiGiao = N'76 Xã Trị An Huyện Vĩnh Cửu Tỉnh Đồng Nai', @HinhThucThanhToan = N'Thanh toán bằng thẻ', @HinhThucGiaoHang =	N'Giao hàng thông thường', @IDVoucher = 1, @ThanhTien = 290000, @MaNV = 1
 
-exec InsertNhanVien @HoTenNV = N'Trần Thành Long', @sdt = '0339531453',@DiaChi = N'109 Trần Thiện Thuật Quận 5 TP HCM', @VaiTro = N'Nhân viên giao hàng', @Email = 'thanhdat5101@gmail.com', @MatKhau= 'khongco123'
-
-
 INSERT INTO Sach (TenSach, GiaBan, MoTa, AnhBia, NgayCapNhat, SoLuongTon, MaNXB, MaChuDe, MaTacGia, SoLuotXem, SoLuongBan) VALUES (N'Những người khốn khổ', '105000', N'Những người khốn khổ là tiểu thuyết của văn hào Pháp 1, được xuất bản năm 1862. Tác phẩm được đánh giá là một trong những tiểu thuyết nổi tiếng nhất của nền văn học thế giới thế kỷ 19.', 'nhungnguoikhonkho.jpg', '2022-10-24', '1000', '1', '2', '1', '10000', '123');
 INSERT INTO Sach (TenSach, GiaBan, MoTa, AnhBia, NgayCapNhat, SoLuongTon, MaNXB, MaChuDe, MaTacGia, SoLuotXem, SoLuongBan) VALUES (N'Nhà thờ Đức Bà Paris', '105000', N'Nhà thờ Đức Bà Paris là tiểu thuyết của văn hào Pháp 1. Tác phẩm ra đời xuất phát từ việc tác giả muốn viết một cuốn tiểu thuyết về ngôi nhà thờ nổi tiếng ở thủ đô Paris vào năm 1828', 'nhathoducba.jpg', '2022-10-24', '1200', '2', '2', '1', '10002', '124');
-INSERT INTO Sach (TenSach, GiaBan, MoTa, Anh Bia, NgayCapNhat, SoLuongTon, MaNXB, MaChuDe, MaTacGia, SoLuotXem, SoLuongBan) VALUES (N'Chiêm Ngưỡng', '105000', N'Được dịch từ tiếng Anh-Les Contemplations là một tuyển tập thơ của 1, xuất bản năm 1856. Nó bao gồm 156 bài thơ trong sáu cuốn sách. Hầu hết các bài thơ được viết từ năm 1841 đến năm 1855, mặc dù có niên đại lâu đời nhất từ ​​năm 1830.', 'chiemnguong.jpg', '2022-10-24', '900', '2', '2', '1', '10004', '125');
+INSERT INTO Sach (TenSach, GiaBan, MoTa, AnhBia, NgayCapNhat, SoLuongTon, MaNXB, MaChuDe, MaTacGia, SoLuotXem, SoLuongBan) VALUES (N'Chiêm Ngưỡng', '105000', N'Được dịch từ tiếng Anh-Les Contemplations là một tuyển tập thơ của 1, xuất bản năm 1856. Nó bao gồm 156 bài thơ trong sáu cuốn sách. Hầu hết các bài thơ được viết từ năm 1841 đến năm 1855, mặc dù có niên đại lâu đời nhất từ ​​năm 1830.', 'chiemnguong.jpg', '2022-10-24', '900', '2', '2', '1', '10004', '125');
 INSERT INTO Sach (TenSach, GiaBan, MoTa, AnhBia, NgayCapNhat, SoLuongTon, MaNXB, MaChuDe, MaTacGia, SoLuotXem, SoLuongBan) VALUES (N'“Ngày Cuối Cùng Của Một Tử Tù', '105000', N'Ngày cuối cùng của một người đàn ông bị kết án là một tiểu thuyết của 1 được xuất bản lần đầu tiên vào năm 1829. Nó kể lại những suy nghĩ của một người đàn ông bị kết án tử hình. 1 viết cuốn tiểu thuyết này để bày tỏ cảm xúc của mình rằng án tử hình nên được bãi bỏ', 'ngaycuoitutu.jpg', '2022-10-24', '850', '2', '1', '2', '20006', '126');
 INSERT INTO Sach (TenSach, GiaBan, MoTa, AnhBia, NgayCapNhat, SoLuongTon, MaNXB, MaChuDe, MaTacGia, SoLuotXem, SoLuongBan) VALUES (N'Người cười', '105000', N'The Man Who Laughs là một tiểu thuyết của 1, được xuất bản lần đầu vào tháng 4 năm 1869 với tựa đề tiếng Pháp là Homme qui rit. Nó diễn ra ở Anh bắt đầu từ năm 1690 và kéo dài đến đầu thế kỷ 18 trị vì của Nữ hoàng Anne.', 'nguoicuoi.jpg', '2022-10-24', '600', '1', '2', '3', '10008', '127');
 INSERT INTO Sach (TenSach, GiaBan, MoTa, AnhBia, NgayCapNhat, SoLuongTon, MaNXB, MaChuDe, MaTacGia, SoLuotXem, SoLuongBan) VALUES (N'Dế Mèn phiêu lưu ký', '105000', N'"Dế Mèn phiêu lưu ký là tác phẩm văn xuôi đặc sắc và nổi tiếng nhất của nhà văn Tô Hoài viết về loài vật, dành cho lứa tuổi thiếu nhi. Ban đầu truyện có tên là ""Con dế mèn"" do Nhà xuất bản Tân Dân, Hà Nội phát hành năm 1941. Sau đó, được sự ủng hộ nhiệt tình của nhân dân, Tô Hoài viết thêm truyện ""Dế Mèn phiêu lưu ký""."', 'demen.jpg', '2022-10-24', '420', '1', '3', '2', '10010', '128');
@@ -1303,9 +1327,10 @@ INSERT INTO Sach (TenSach, GiaBan, MoTa, AnhBia, NgayCapNhat, SoLuongTon, MaNXB,
 INSERT INTO Sach (TenSach, GiaBan, MoTa, AnhBia, NgayCapNhat, SoLuongTon, MaNXB, MaChuDe, MaTacGia, SoLuotXem, SoLuongBan) VALUES (N'Đối Thoại Với Thượng Đế', '160000', N'"Bước vào cuộc sống là từng ngày ta buông thả Tâm và Trí mình trôi theo dòng ""nhân duyên, sinh khởi"" để sau đó rước lấy sợ hãi, bám víu cái giả hư và quan niệm càng sai lầm về tự ngã. Ajahm Chah, bậc minh triết nổi tiếng Á Đông, đã nhấn mạnh ""giáo pháp tự nó phát khởi phù hợp với nhu cầu tức thời, nó phải sống trong hiện tại  mới đúng là chánh Pháp""."', 'doithoaivoi.png', '2022-10-24', '541', '3', '4', '27', '10196', '221');
 GO
 
-INSERT INTO NHANVIEN (HoTenNV, Sdt, DiaChi, VaiTro, Email, MatKhau) VALUES (N'Nguyễn Văn An', N'0903655478', N'Đang cập nhật', N'Admin', 'vana@gmail.com', 'matkhau');
-INSERT INTO NHANVIEN (HoTenNV, Sdt, DiaChi, VaiTro, Email, MatKhau) VALUES (N'Trần Trung Bình', N'0921652478', N'Đang cập nhật', N'GiaoHang','vana@gmail.com', 'matkhau');
-INSERT INTO NHANVIEN (HoTenNV, Sdt, DiaChi, VaiTro, Email, MatKhau) VALUES (N'Hồ Thị Nhàn', N'0303565458', N'Đang cập nhật', N'GiaoHang','vana@gmail.com', 'matkhau');
+exec InsertNhanVien @HoTenNV = N'Trần Thành Long', @sdt = '0339531453',@DiaChi = N'109 Trần Thiện Thuật Quận 5 TP HCM', @VaiTro = N'Nhân viên giao hàng', @Email = 'thanhdat5101@gmail.com', @MatKhau= 'Huflit123'
+INSERT INTO NHANVIEN (HoTenNV, Sdt, DiaChi, VaiTro, Email, MatKhau) VALUES (N'Nguyễn Văn An', N'0903655478', N'Đang cập nhật', N'Admin', 'vana@gmail.com', 'Huflit123');
+INSERT INTO NHANVIEN (HoTenNV, Sdt, DiaChi, VaiTro, Email, MatKhau) VALUES (N'Trần Trung Bình', N'0921652478', N'Đang cập nhật', N'GiaoHang','vana@gmail.com', 'Huflit123');
+INSERT INTO NHANVIEN (HoTenNV, Sdt, DiaChi, VaiTro, Email, MatKhau) VALUES (N'Hồ Thị Nhàn', N'0303565458', N'Đang cập nhật', N'GiaoHang','vana@gmail.com', 'Huflit123');
 GO
 
 INSERT INTO KhachHang (HoTen, TaiKhoan, MatKhau, Email, DiaChi, DienThoai, GioiTinh, NgaySinh)
@@ -1333,10 +1358,10 @@ EXEC InsertLoaiKhachHang 'Vàng', 1, 0, 0
 EXEC InsertLoaiKhachHang 'Bạch kim', 1, 1, 0
 EXEC InsertLoaiKhachHang 'Kim cương', 1, 1, 1
 go
-
-EXEC InsertNhanVien N'Nguyễn Văn A', '2001-12-23', N'Nam', N'0903655478', N'Đang cập nhật', N'Admin'
-EXEC InsertNhanVien N'Nguyễn Văn B', '2001-10-10', N'Nam', N'0921652478', N'Đang cập nhật', N'GiaoHang'
-EXEC InsertNhanVien N'Nguyễn Văn C', '2001-08-12', N'Nữ', N'0303565458', N'Đang cập nhật', N'GiaoHang'
+select * from NhanVien
+EXEC InsertNhanVien N'Trần Thành Long', '2001-12-23', N'Đang cập nhật', N'0903655478', N'Đang cập nhật', N'Nhân viên giao hàng'
+EXEC InsertNhanVien N'Trần Trung Bình', '2001-10-10', N'Đang cập nhật', N'0921652478', N'Đang cập nhật', N'Nhân viên giao hàng'
+EXEC InsertNhanVien N'Hồ Thị Nhàn', '2001-08-12', N'Đang cập nhật', N'0303565458', N'Đang cập nhật', N'Nhân viên quản trị'
 GO
 
 EXEC InsertKhachHang N'Nguyễn Văn D', 'userSix', 'passSix', 'email@gmail.com', N'Đang cập nhật', '013245789', N'Nam', '1994-03-23'
