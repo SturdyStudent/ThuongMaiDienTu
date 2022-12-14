@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import BookCover from '../assets/bookCover.png'
+import SoldOut from '../assets/sold-out.png'
 import { loadImageUrl, baseUrl } from '../baseUrl'
 import axios from 'axios'
 import './BookCard.css'
@@ -12,11 +13,14 @@ function BookCard({ spacingStyle, item }) {
             .then(result => setAuthorName(result.data.data[0].TenTacGia));
     }, [item.MaTacGia])
 
-    const spacing = spacingStyle ? spacingStyle : { "width": "25vh" };
+    const spacing = spacingStyle ? spacingStyle : { "width": "200px" };
 
     return (
         <div className="card border-0 d-flex justify-content-center " style={spacing} id="card-parent">
-            <div style={{ width: "130px", height: "180px", margin: "0px auto" }}>
+            {(Number(item.SoLuongTon) === 0) ? <div className='position-absolute sold-out'>
+                <img src={SoldOut} alt="..." style={{width:"100%", height:"100%"}} />
+            </div> : null}
+            <div style={{ width: "130px", height: "180px", marginTop:"15px", margin: "0px auto" }}>
                 <img src={item ? `${loadImageUrl}/${item.AnhBia}` : BookCover} alt="..." id='bookcard-img' />
             </div>
 
@@ -24,7 +28,7 @@ function BookCard({ spacingStyle, item }) {
                 <h5 className="card-title">{item && item.TenSach}</h5>
             </div>
             <ul className="list-group list-group-flush border-0">
-                <li className="list-group-item border-0" style={{ fontWeight: "500", minHeight: "60px", maxHeight: "60px" }}>{authorName}</li>
+                <li className="list-group-item border-0" style={{ fontWeight: "500", minHeight: "60px" }}>{authorName}</li>
                 <li className="list-group-item" style={{ "padding": "0px", fontWeight: "800" }}><b>{Number(item.GiaBan).toLocaleString()}VNĐ</b></li>
             </ul>
             <div className="card-body border-0">

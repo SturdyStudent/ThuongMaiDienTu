@@ -28,7 +28,6 @@ function Header() {
 
     const dispatch = useDispatch();
     let loginToken = localStorage.getItem("TOKEN");
-    console.log("token", loginToken)
 
     const isLoggedIn = loginState.auth;
     const userId = loginState.id;
@@ -39,7 +38,6 @@ function Header() {
     const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
-        console.log("load đê");
         if(loginToken){
             axios.get(`${baseUrl}/clientAuth/isAdminAuth`, {
                 headers: {

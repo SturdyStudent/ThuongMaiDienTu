@@ -51,8 +51,8 @@ const Edit = ({ title }) => {
     const [receiverAddress, setReceiverAddress] = useState('');
     const [orderDate, setOrderDate] = useState(format(new Date(), 'yyyy-MM-dd'));
     const [deliverDate, setDeliverDate] = useState(format(new Date(), 'yyyy-MM-dd'));
-    const [paymentMethod, setPaymentMethod] = useState("Thanh toán bằng thẻ");
-    const [voucher, setVoucher] = useState(0);
+    const [paymentMethod, setPaymentMethod] = useState('');
+    const [voucher, setVoucher] = useState('');
     const [isPaidStatus, setIsPaidState] = useState(0);
     const [deliveryState, setDeliveryState] = useState(1);
 
@@ -73,13 +73,12 @@ const Edit = ({ title }) => {
     const handleAddSelectedBooks = (book) => setOrderBooks([...orderBooks, book]);
 
     const options = [
-        { value: "Thanh toán bằng tiền", label: "Thanh toán bằng tiền mặt" },
+        { value: "Thanh toán bằng tiền mặt", label: "Thanh toán bằng tiền mặt" },
         { value: "Thanh toán bằng thẻ", label: "Thanh toán bằng thẻ" }
     ]
 
     const deliverStateOptions = [
         { value: 0, label: "Không giao/ hủy đơn" },
-        { value: 1, label: "Đặt hàng thành công"},
         { value: 2, label: "Đã duyệt đơn"},
         { value: 3, label: "Đang giao"},
         { value: 4, label: "Giao thành công"}
@@ -98,32 +97,8 @@ const Edit = ({ title }) => {
     }
 
     useEffect(() => {
-        setUserId(user.MaKH);
-    }, [receiverName, user.MaKH])
-
-    useEffect(() => {
-        if(orderId){
-            axios.get(`${BaseUrl}/book/orderedBooks/${orderId}`)
-                .then(results => {
-                    console.log(results.data.data);
-                    setOrderBooks(results.data.data);
-                })
-        }else if(id){
-            if(orderId){
-                axios.get(`${BaseUrl}/book/orderedBooks/${orderId}`)
-                    .then(results => {
-                        console.log(results.data.data);
-                        setOrderBooks(results.data.data);
-                    })
-            }
-        }
-    }, [orderId, id])
-
-    useEffect(() => {
         axios.get(`${BaseUrl}/voucher`)
                 .then(result => {
-                    console.log(result.data.data);
-                    console.log("voucher", voucher);
                     const resultVoucher = _.find(result.data.data, {IDVoucher: Number(voucher)});
                     setVoucherList({value: resultVoucher.IDVoucher, label: resultVoucher.CodeVoucher});
                 })
@@ -159,7 +134,6 @@ const Edit = ({ title }) => {
                         setReceiverPhone(obj.DienThoaiNguoiNhan);
                         setReceiverAddress(obj.DiaChiGiao);
                         setPaymentMethod(_.find(options, {value: obj.HinhThucThanhToan}));
-                        console.log("id voucher", obj.IDVoucher);
                         setVoucher(obj.IDVoucher);
                         setTotal(obj.ThanhTien);
                         setDeliveryBoiId(obj.MaNV);
@@ -202,59 +176,29 @@ const Edit = ({ title }) => {
             })
     }, [])
 
+    useEffect(() => {
+        setUserId(user.MaKH);
+    }, [receiverName, user.MaKH])
+
+    useEffect(() => {
+        if(id){
+            axios.get(`${BaseUrl}/book/orderedBooks/${orderId}`)
+                .then(results => {
+                    console.log(results.data.data);
+                    setOrderBooks(results.data.data);
+                })
+        }
+    }, [orderId, id])
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (id) {
-            handleUpdateOrder();
-        } else {
-            handleCreateOrder();
-        }
-    }
-
-    const handleCreateOrder = () => {
-        axios.post(`${BaseUrl}/order/create`, {
-            "DaThanhToan": isPaidStatus.value,
-            "TinhTrangGiaoHang": deliveryState.value,
-            "NgayDat": orderDate,
-            "NgayGiao": deliverDate,
-            "MaKH": userId,
-            "TenNguoiNhan": receiverName,
-            "DienThoaiNguoiNhan": receiverPhone,
-            "DiaChiGiao": receiverAddress,
-            "HinhThucThanhToan": paymentMethod.value,
-            "HinhThucGiaoHang": "Giao thông thường",
-            "IDVoucher": voucher.value,
-            "ThanhTien": total,
-            "MaNV": deliveryBoi.MaNV,
-            "ChitietDH": JSON.stringify(orderBooks)
-        }).then(result => {
-            console.log(result.data.data[0]);
-            setSuccessNotification(result.data.message);
-        }).catch(e =>
-            console.log(e)
-        )
+        handleUpdateOrder();
     }
     
     const handleUpdateOrder = () => {
-        axios.put(`${BaseUrl}/order/update/${id}`, {
-            "DaThanhToan": isPaidStatus.value,
-            "TinhTrangGiaoHang": deliveryState.value,
-            "NgayDat": orderDate,
-            "NgayGiao": deliverDate,
-            "MaKH": userId,
-            "TenNguoiNhan": receiverName,
-            "DienThoaiNguoiNhan": receiverPhone,
-            "DiaChiGiao": receiverAddress,
-            "HinhThucThanhToan": (paymentMethod.value === 0) ? 'Thanh toán bằng tiền mặt' : 'Thanh toán bằng thẻ',
-            "HinhThucGiaoHang": "Giao thông thường",
-            "IDVoucher": voucher.value,
-            "ThanhTien": total,
-            "MaNV": deliveryBoi.MaNV,
-            "ChitietDH": JSON.stringify(orderBooks)
-        }, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
+        axios.put(`${BaseUrl}/order/update/deliver-state/${id}`, {
+            "TinhTrangDonHang": deliveryState.value,
+            "NgayGiao": deliverDate
         }).then(
             result => {
                 setSuccessNotification(result.data.message);
@@ -276,13 +220,6 @@ const Edit = ({ title }) => {
                             </div>
                             <form onSubmit={e => handleSubmit(e)}>
                                 <div className="offset-md-2 shadow p-3 col-md-8 row" >
-                                    <div className="input-group mb-3" onClick={() => callbackSetOpenModal(true)}>
-                                        <input type="text" className="form-control" placeholder="Tìm kiếm Khách đặt hàng" aria-label="Recipient's username" aria-describedby="basic-addon2" />
-                                        <div className="input-group-append">
-                                            <span className="input-group-text bg-primary text-white" id="basic-addon2">Tìm kiếm</span>
-                                        </div>
-                                    </div>
-                                    <hr />
                                     <div className="blockquote-custom-icon bg-info shadow-sm"><i className="fa fa-quote-left text-white"></i></div>
                                     {
                                         user.MaKH ?
@@ -310,13 +247,6 @@ const Edit = ({ title }) => {
                                             </div> : null}
                                 </div>
                                 <div className="offset-md-2 shadow p-3 col-md-8 row" >
-                                    <div className="input-group mb-3" onClick={() => callbackSetOpenEmployeeModal(true)}>
-                                        <input type="text" className="form-control" placeholder="Tìm kiếm Nhân viên giao" aria-label="Recipient's username" aria-describedby="basic-addon2" />
-                                        <div className="input-group-append">
-                                            <span className="input-group-text bg-primary text-white" id="basic-addon2">Tìm kiếm</span>
-                                        </div>
-                                    </div>
-                                    <hr />
                                     <div className="blockquote-custom-icon bg-info shadow-sm"><i className="fa fa-quote-left text-white"></i></div>
                                     {
                                         deliveryBoi.MaNV ?
@@ -347,21 +277,21 @@ const Edit = ({ title }) => {
                                     <div className="d-flex flex-row ">
                                         <div className="CpnInp-code col-md-4  me-5" >
                                             <label><b>Tên người nhận</b></label><br />
-                                            <input placeholder="Nhập tên người nhận" value={receiverName} onChange={e => setReceiverName(e.target.value)} className="col-md-12 mb-3 p-1 mt-2" style={{ "border": "2px solid #D3D3D3" }}></input>
+                                            <input disabled={true} placeholder="Nhập tên người nhận" value={receiverName} onChange={e => setReceiverName(e.target.value)} className="col-md-12 mb-3 p-1 mt-2" style={{ "border": "2px solid #D3D3D3" }}></input>
                                         </div>
                                         <div className="CpnInp-code col-md-4" >
                                             <label><b>Số điện thoại người nhận</b></label><br />
-                                            <input placeholder="Nhập số điện thoại người nhận" value={receiverPhone} onChange={(e) => setReceiverPhone(e.target.value)} type={"number"} className="col-md-12 mb-3 p-1 mt-2" style={{ "border": "2px solid #D3D3D3" }}></input>
+                                            <input disabled={true} placeholder="Nhập số điện thoại người nhận" value={receiverPhone} onChange={(e) => setReceiverPhone(e.target.value)} type={"number"} className="col-md-12 mb-3 p-1 mt-2" style={{ "border": "2px solid #D3D3D3" }}></input>
                                         </div>
                                     </div>
                                     <div className="CpnInp-code mt-3" >
                                         <label><b>Địa chỉ người nhận</b></label><br />
-                                        <input placeholder="Nhập địa chỉ người nhận" value={receiverAddress} onChange={(e) => setReceiverAddress(e.target.value)} className="col-md-12 mb-3 p-1 mt-2" style={{ "border": "2px solid #D3D3D3" }}></input>
+                                        <input  disabled={true} placeholder="Nhập địa chỉ người nhận" value={receiverAddress} onChange={(e) => setReceiverAddress(e.target.value)} className="col-md-12 mb-3 p-1 mt-2" style={{ "border": "2px solid #D3D3D3" }}></input>
                                     </div>
                                     <div className="d-flex flex-row ">
                                         <div className="CpnInp-code mt-3 col-md-4 me-5" >
                                             <label><b>Ngày đặt hàng</b></label><br />
-                                            <input type={"date"} value={orderDate} onChange={(e) => setOrderDate(e.target.value)} className="col-md-12 mb-3 p-1 mt-2" style={{ "border": "2px solid #D3D3D3" }}></input>
+                                            <input disabled={true} type={"date"} value={orderDate} onChange={(e) => setOrderDate(e.target.value)} className="col-md-12 mb-3 p-1 mt-2" style={{ "border": "2px solid #D3D3D3" }}></input>
                                        </div>
                                         <div className="CpnInp-code mt-3 col-md-4 me-5" >
                                             <label><b>Ngày giao hàng</b></label><br />
@@ -371,7 +301,7 @@ const Edit = ({ title }) => {
                                     </div>
                                     <div className="CpnInp-code mt-3 col-md-5 me-5" >
                                             <label><b>Hình thức thanh toán</b></label><br />
-                                            <Select options={options} value={paymentMethod} onChange={e => { setPaymentMethod(e); }} className="mt-2" />
+                                            <Select isDisabled={true}  options={options} value={paymentMethod} onChange={e => { setPaymentMethod(e); }} className="mt-2" />
                                     </div>
                                     <div className="CpnInp-code mt-3 col-md-5 me-5" >
                                             <label><b>Tình trạng đơn hàng</b></label><br />
@@ -379,18 +309,10 @@ const Edit = ({ title }) => {
                                     </div>
                                     <div className="CpnInp-code mt-3 col-md-5 me-5" >
                                             <label><b>Tình trạng thanh toán</b></label><br />
-                                            <Select options={paidStateOptions} value={isPaidStatus} onChange={e => { setIsPaidState(e); }} className="mt-2" />
+                                            <Select isDisabled={true} options={paidStateOptions} value={isPaidStatus} onChange={e => { setIsPaidState(e); }} className="mt-2" />
                                     </div>
                                 </div>
-                                <div className="offset-md-2 mt-4 shadow p-3 col-md-8 row" >
-                                    <h5>Thêm sách</h5>
-                                    <div className="input-group mb-3">
-                                        <input type="text" className="form-control" onClick={() => callbackSetOpenBookModal(true)} placeholder="Nhập tên hoặc mã sách" aria-label="Recipient's username" aria-describedby="basic-addon2" />
-                                        <div className="input-group-append">
-                                            <span className="input-group-text bg-primary text-white" id="basic-addon2">Tìm kiếm</span>
-                                        </div>
-                                    </div>
-                                    <hr />
+                                <div className="offset-md-2 mt-4 shadow p-3 col-md-8 row" >                            
                                     <div className="blockquote-custom-icon bg-info shadow-sm"><i className="fa fa-quote-left text-white"></i></div>
                                     {
                                         (orderBooks[0] !== null) && (_.uniqBy(orderBooks, 'MaSach')).map((item, index) => {
@@ -404,7 +326,7 @@ const Edit = ({ title }) => {
                                                         </div>
                                                         <div className='col-md-7 text-start' >
                                                             <h6 className='mt-2 fw-bold'>{item.TenSach}</h6><br />
-                                                            <div className="d-flex flex-row">Số lượng: &nbsp;<span><input min={1} type={'number'} onChange={(e) => {
+                                                            <div className="d-flex flex-row">Số lượng: &nbsp;<span><input disabled={true} min={1} type={'number'} onChange={(e) => {
                                                                 const tempBooks = orderBooks;
                                                                 tempBooks[index].SoLuong = e.target.value;
                                                                 setOrderBooks([...tempBooks]);
@@ -413,7 +335,6 @@ const Edit = ({ title }) => {
                                                     
                                                             }
                                                             } value={orderBooks[index].SoLuong} style={{ width: "70px" }}></input></span>&nbsp; x {Number(item.GiaBan).toLocaleString()}đ</div><br />
-                                                            <div className="d-flex flex-row"><a href="/#" onClick={(e) => { e.preventDefault(); setOrderBooks(orderBooks.filter(book => book.MaSach !== item.MaSach)) }} style={{ textDecoration: "none" }}>Xóa khỏi đơn hàng</a></div>
                                                         </div>
                                                         <div className="col-md-3 text-end fw-bold">
                                                             {Number(item.GiaBan * orderBooks[index].SoLuong).toLocaleString()} VNĐ
@@ -430,7 +351,7 @@ const Edit = ({ title }) => {
                                         <div className="col-md-3">
                                             Mã giảm giá
                                         </div>
-                                        <Select className="col-md-7" value={voucherList} options={voucherOptions} onChange={e => {
+                                        <Select isDisabled={true} className="col-md-7" value={voucherList} options={voucherOptions} onChange={e => {
                                             setVoucher(e);
                                             setDiscountValue(e.TriGiaGiam);
                                             setVoucherType(e.LoaiVoucher);

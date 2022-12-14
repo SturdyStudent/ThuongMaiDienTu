@@ -31,7 +31,6 @@ app.use("/voucher/",voucherRouter);
 app.use("/employee", employeeRouter);
 app.use("/voucher/", voucherRouter);
 app.use("/employee/", employeeRouter);
-app.use("/orderDetail/", orderDetailRouter);
 // app.use("/rating/", ratingRouter);
 app.use("/utility", utilityRouter);
 app.use("/author/", authorRouter);

@@ -24,6 +24,9 @@ import { useContext } from "react";
 
 const Sidebar = () => {
   const { dispatch } = useContext(DarkModeContext);
+  const loginInfo = JSON.parse(localStorage.getItem("LOGIN_INFORMATION"));
+  const isDeliveryBoi = (String(loginInfo[0].VaiTro) === "Nhân viên giao hàng");
+  const isAdminEmployee = (String(loginInfo[0].VaiTro) === "Nhân viên quản trị");
 
   return (
     <div className="sidebar">
@@ -37,56 +40,64 @@ const Sidebar = () => {
             </li>
           </Link>
           <p className="title">DANH SÁCH</p>
-          <Link to="/users" style={{ textDecoration: "none" }}>
+          {(isDeliveryBoi === false) ?
+            <>
+              {(isAdminEmployee === false) ? 
+              <Link to="/users" style={{ textDecoration: "none" }}>
+                <li>
+                  <PersonOutlineIcon className="icon" />
+                  <span>Người dùng</span>
+                </li>
+              </Link> : null}
+              <Link to="/books" style={{ textDecoration: "none" }}>
+                <li>
+                  <BookIcon className="icon" />
+                  <span>Sách</span>
+                </li>
+              </Link>
+              {(isAdminEmployee === false) ? 
+              <Link to="/orders" style={{ textDecoration: "none" }}>
+                <li>
+                  <CreditCardIcon className="icon" />
+                  <span>Đơn hàng</span>
+                </li>
+              </Link> : null}
+              <Link to="/vouchers" style={{ textDecoration: "none" }}>
+                <li>
+                  <DiscountOutlinedIcon className="icon" />
+                  <span>Vouchers</span>
+                </li>
+              </Link>
+              <Link to="/ratings" style={{ textDecoration: "none" }}>
+                <li>
+                  <StarIcon className="icon" />
+                  <span>Đánh giá</span>
+                </li>
+              </Link>
+              <Link to="/categories" style={{ textDecoration: "none" }}>
+                <li>
+                  <CategoryIcon className="icon" />
+                  <span>Thể loại</span>
+                </li>
+              </Link>
+              <Link to="/authors" style={{ textDecoration: "none" }}>
+                <li>
+                  <Face5Icon className="icon" />
+                  <span>Tác giả</span>
+                </li>
+              </Link>
+              <Link to="/publishers" style={{ textDecoration: "none" }}>
+                <li>
+                  <AttributionIcon className="icon" />
+                  <span>Nhà xuất bản</span>
+                </li>
+              </Link>
+            </> : null
+          }
+          <Link to="/transports" style={{ textDecoration: "none" }}>
             <li>
-              <PersonOutlineIcon className="icon" />
-              <span>Người dùng</span>
-            </li>
-          </Link>
-          <Link to="/books" style={{ textDecoration: "none" }}>
-            <li>
-              <BookIcon className="icon" />
-              <span>Sách</span>
-            </li>
-          </Link>
-          <Link to="/orders" style={{ textDecoration: "none" }}>
-            <li>
-              <CreditCardIcon className="icon" />
-              <span>Đơn hàng</span>
-            </li>
-          </Link>
-          <li>
-            <LocalShippingIcon className="icon" />
-            <span>Vận chuyển</span>
-          </li>
-          <Link to="/vouchers" style={{ textDecoration: "none" }}>
-            <li>
-              <DiscountOutlinedIcon className="icon" />
-              <span>Vouchers</span>
-            </li>
-          </Link>
-          <Link to="/ratings" style={{ textDecoration: "none" }}>
-            <li>
-              <StarIcon className="icon" />
-              <span>Đánh giá</span>
-            </li>
-          </Link>
-          <Link to="/categories" style={{ textDecoration: "none" }}>
-            <li>
-              <CategoryIcon className="icon" />
-              <span>Thể loại</span>
-            </li>
-          </Link>
-          <Link to="/authors" style={{ textDecoration: "none" }}>
-            <li>
-              <Face5Icon className="icon" />
-              <span>Tác giả</span>
-            </li>
-          </Link>
-          <Link to="/publishers" style={{ textDecoration: "none" }}>
-            <li>
-              <AttributionIcon className="icon" />
-              <span>Nhà xuất bản</span>
+              <LocalShippingIcon className="icon" />
+              <span>Vận chuyển</span>
             </li>
           </Link>
           <p className="title">HỮU ÍCH</p>

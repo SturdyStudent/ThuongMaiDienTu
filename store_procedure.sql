@@ -218,6 +218,7 @@ BEGIN
 		END
 END
 go
+
 -------------------Đăng nhập khách hàng-----------------------------
 CREATE PROC [dbo].[DangNhapKhachHang]
 @Email nvarchar(50)
@@ -287,6 +288,17 @@ AS
 			raiserror(@ErrMsg, 16,1)
 		END
 GO
+
+---------------Duyệt đơn hàng-----------------
+CREATE PROCEDURE [dbo].[DuyetDonHang]
+@ChoPhepDuyet smallint,
+@MaDonHang INT
+AS
+	UPDATE DonHang
+	SET TinhTrangGiaoHang = @ChoPhepDuyet
+	WHERE MaDonHang = @MaDonHang
+GO
+
 ---------------select all-----------------
 CREATE PROCEDURE [dbo].[SelectAllCD]
 AS
@@ -325,6 +337,22 @@ CREATE PROCEDURE [dbo].[SelectAllDonHang]
 AS
 SELECT * FROM DonHang
 GO
+
+CREATE PROCEDURE [dbo].[SelectAllDonHangForTransport]
+@MaNV INT
+AS
+SELECT * FROM DonHang 
+WHERE MaNV = @MaNV AND TinhTrangGiaoHang != 1 
+GO
+CREATE PROCEDURE [dbo].[UpdateDeliveryState]
+@NgayGiao date,
+@TinhTrangDonHang smallint,
+@MaDonHang int
+AS
+	UPDATE DonHang
+	SET TinhTrangGiaoHang = @TinhTrangDonHang, NgayGiao = @NgayGiao
+	WHERE MaDonHang = @MaDonHang
+GO 
 CREATE PROCEDURE [dbo].[SelectAllKhachHang]
 AS
 SELECT * FROM KhachHang
@@ -359,11 +387,22 @@ AS
 	FROM Sach
 	ORDER BY SoLuotXem DESC  
 GO
+CREATE PROCEDURE [dbo].[SelectBookCoverByID] @bookId int
+AS
+	SELECT AnhBia FROM Sach WHERE MaSach = @bookId
+GO
 CREATE PROCEDURE [dbo].[SelectAllSachBySales] @Limit int
 AS
 	SELECT TOP (@Limit) *
 	FROM Sach
 	ORDER BY SoLuongBan DESC  
+GO
+
+CREATE PROCEDURE [dbo].[SelectAllDeliveredNhanVien]
+AS
+	SELECT * 
+	from NhanVien
+	where VaiTro = N'Nhân viên giao hàng'
 GO
 
 CREATE PROCEDURE [dbo].[SelectAllNhanVien]
@@ -378,12 +417,12 @@ AS
 	from NXB
 GO
 
-CREATE PROCEDURE [dbo].[SelectAllSach]
-AS
-	SELECT s.MaSach, s.TenSach, s.AnhBia, s.GiaBan, n.TenNXB, cd.TenChuDe ,t.TenTacGia, s.MoTa, s.NgayCapNhat, s.SoLuongBan, s.SoLuongTon, s.SoLuotXem 
-	from Sach s, NXB n, TacGia t, ChuDe cd
-	WHERE s.SoLuongTon >= 0 and s.MaNXB = n.MaNXB and s.MaTacGia = t.MaTacGia and s.MaChuDe = cd.MaChuDe
-GO
+--CREATE PROCEDURE [dbo].[SelectAllSach]
+--AS
+--	SELECT s.MaSach, s.TenSach, s.AnhBia, s.GiaBan, n.TenNXB, cd.TenChuDe ,t.TenTacGia, s.MoTa, s.NgayCapNhat, s.SoLuongBan, s.SoLuongTon, s.SoLuotXem 
+--	from Sach s, NXB n, TacGia t, ChuDe cd
+--	WHERE s.SoLuongTon >= 0 and s.MaNXB = n.MaNXB and s.MaTacGia = t.MaTacGia and s.MaChuDe = cd.MaChuDe
+--GO
 
 CREATE PROCEDURE [dbo].[SelectAllTacGia]
 AS
@@ -870,6 +909,57 @@ AS
 		ChiTietDonHang.SoLuong = @SoLuong,
 		DonGia = @DonGia
 	WHERE ChiTietDonHang.MaCTDH = @MaChiTietDonHang
+GO
+
+select * from NhanVien
+CREATE PROCEDURE [dbo].[UpdateDonHang](
+@MaDonHang int,
+@DaThanhToan bit,
+@TinhTrangGiaoHang smallint,
+@NgayDat date,
+@MaKH int,
+@TenNguoiNhan nvarchar(50),
+@DienThoaiNguoiNhan nvarchar(50),
+@DiaChiGiao nvarchar(MAX),
+@HinhThucThanhToan nvarchar(20),
+@HinhThucGiaoHang nvarchar(20),
+@IDVoucher int,
+@ThanhTien money,
+@MaNV int,
+@ChiTietDH Chitiet_donhang_type readonly
+)
+AS
+	Declare @NgayGiao date,
+	@SoLuong int
+	Set @NgayGiao = DATEADD(day, 7, @NgayDat)
+	BEGIN TRAN
+		SET XACT_ABORT ON;
+		
+		UPDATE DonHang
+		SET
+			DaThanhToan = @DaThanhToan,
+			TinhTrangGiaoHang = @TinhTrangGiaoHang,
+			NgayDat = @NgayDat,
+			NgayGiao = @NgayGiao,
+			MaKH = @MaKH,
+			TenNguoiNhan = @TenNguoiNhan,
+			DienThoaiNguoiNhan = @DienThoaiNguoiNhan,
+			DiaChiGiao = @DiaChiGiao,
+			HinhThucGiaoHang = @HinhThucGiaoHang,
+			IDVoucher = @IDVoucher,
+			ThanhTien = @ThanhTien,
+			MaNV = @MaNV
+		WHERE MaDonHang = @MaDonHang
+
+		DELETE FROM ChiTietDonHang
+		WHERE MaDonHang = @MaDonHang
+
+		INSERT INTO ChiTietDonHang(MaDonHang, MaSach, SoLuong, DonGia)
+		SELECT @MaDonHang, MaSach, SoLuong, DonGia
+		FROM @ChiTietDH
+
+		select * from DonHang where MaDonHang = @MaDonHang
+	COMMIT
 GO
 
 

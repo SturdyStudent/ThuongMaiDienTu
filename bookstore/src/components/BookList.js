@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import BookCard from './BookCard'
 import './BookList.css'
 import { SwiperSlide, Swiper } from 'swiper/react'
-import { FreeMode } from 'swiper'
+import { FreeMode, Pagination } from 'swiper'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
@@ -31,15 +31,15 @@ function BookList({ title }) {
     return (
         <div id="booklist-container">
             <div style={{ "textAlign": "left" }} id="list-title"><h3>{title}</h3></div>
-            <div id="list-container">
+            <div id="list-container" style={{minWidth:"76vw"}}>
                 <div className='chvron' >
                     <FontAwesomeIcon icon={faChevronLeft} size="2x" color='#ef4f3a' />
                 </div>
                 <Swiper
                     freeMode={true}
                     grabCursor={true}
-                    modules={{ FreeMode }}
-                    className="mySwiper"
+                    modules={[ FreeMode, Pagination ]}
+                    className="swiper"
                     slidesPerView={5}
                     slidebetween={30}
                 >

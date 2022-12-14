@@ -4,6 +4,7 @@ const EmployeeController = require("../controllers/EmployeeController");
 var router = express.Router();
 
 router.get("/", EmployeeController.employeeList);
+router.get("/deliver", EmployeeController.deliveredEmployeeList);
 router.get("/:id", EmployeeController.employeeItemId);
 // router.get("/:name", EmployeeController.employeeItemName);
 router.post('/login', EmployeeController.employeeLogin);

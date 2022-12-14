@@ -37,7 +37,6 @@ function BookDetail() {
         let fetchBook = async () => {
             let result = await axios.get(`${baseUrl}/book/${id}`);
             setItem(result.data.data[0]);
-            console.log(result.data);
         }
         fetchBook();
     }, [id])
@@ -85,6 +84,12 @@ function BookDetail() {
         }
     }, [item.MaChuDe]);
     const handleAddToCart = (cartItem) => {
+        if(item){
+            if(Number(item.SoLuongTon) === 0){
+                alert("Sách đã được bán hết");
+                return;
+            }
+        }
 
         try {
             let arr = [];

@@ -12,6 +12,8 @@ const OrderDatatable = () => {
     let addAction = <Link to="/orders/new" className="link" state>Thêm</Link>
     const [data, setData] = useState(dataRows);
 
+   
+
     useEffect(() => {
         axios.get(`${BaseUrl}/order/`)
             .then(data => {
@@ -36,6 +38,30 @@ const OrderDatatable = () => {
                 console.log(err);
             })
     };
+
+    const handleApprove = async (isApproved, id) => {
+        axios.post(`${BaseUrl}/order/approved/${id}`, {
+            ChoPhepDuyet: isApproved 
+        }).then(() => {
+            window.location.reload();
+        })
+    }
+    const approveColumn = [
+        {
+            field: "DaDuyet", 
+            headerName: "Đã duyệt", 
+            width: 150, 
+            renderCell: (params) => {
+              return (
+                <div>
+                  {(Number(params.row.TinhTrangGiaoHang) === 1) 
+                  ? <button className="btn btn-primary" onClick={() => handleApprove(2, params.row.id)}>Duyệt đơn</button> 
+                  : <button className="btn btn-danger" onClick={() => handleApprove(1, params.row.id)}>Bỏ duyệt đơn</button>}
+                </div>
+              );
+            },
+          },
+    ]
 
     const actionColumn = [
         {
@@ -66,7 +92,7 @@ const OrderDatatable = () => {
             <DataGrid
                 className="datagrid"
                 rows={data}
-                columns={dataColumns.concat(actionColumn)}
+                columns={dataColumns.concat(approveColumn).concat(actionColumn)}
                 pageSize={9}
                 rowsPerPageOptions={[9]}
                 checkboxSelection

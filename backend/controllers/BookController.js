@@ -21,6 +21,25 @@ exports.bookList = [
         }
     }
 ];
+exports.findBookCoverById = [
+    (req, res) => {
+        try {
+            let book;
+            const waitPool = async () => {
+                let pool = await sql.connect(config);
+                book = await pool.request()
+                    .input('bookId', sql.Int, req.params.id)
+                    .execute('SelectBookCoverByID');
+                return book;
+            }
+            waitPool().then((result) => {
+                return apiResponse.successResponseWithData(res, "Lấy ảnh bìa thành công", result.recordsets[0]);
+            }).catch(err => { return apiResponse.ErrorResponse(res, err) });
+        } catch (err) {
+            return apiResponse.ErrorResponse(res, err);
+        }
+    }
+]
 exports.findBookByCategory = [
     (req, res) => {
         try {

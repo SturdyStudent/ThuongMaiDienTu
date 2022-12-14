@@ -23,8 +23,12 @@ router.get("/time", function(req,res) {
     }
 });
 router.get("/:id", OrderController.orderItemId);
+router.get("/user/:id", OrderController.orderListByUser);
+router.get("/transport/:id", OrderController.orderListForTransport);
+router.post("/approved/:id", OrderController.sendOrderApproveState);
 router.post("/create", OrderController.orderCreate);
 router.put("/update/:id", OrderController.orderUpdate);
+router.put("/update/deliver-state/:id", OrderController.updateDeliveryState);
 router.delete("/delete/:id", OrderController.orderDelete);
 
 module.exports = router;

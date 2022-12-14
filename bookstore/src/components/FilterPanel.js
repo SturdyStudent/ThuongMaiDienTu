@@ -6,7 +6,7 @@ import { baseUrl } from '../baseUrl'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFilter } from '@fortawesome/free-solid-svg-icons'
 
-function FilterPanel({isCategoryPage, authorFilter, publisherFilter ,categoryFilter, priceFilter, sortDirFilter}) {
+function FilterPanel({handleDefaultState, isCategoryPage, authorFilter, publisherFilter ,categoryFilter, priceFilter, sortDirFilter}) {
     const [authorOptions, setAuthorOptions] = useState([]);
     const [categoryOptions, setCategoryOptions] = useState([]);
     const [publishertions, setPublisherOptions] = useState([]);
@@ -76,8 +76,6 @@ function FilterPanel({isCategoryPage, authorFilter, publisherFilter ,categoryFil
     }, []);
 
     const setAsDefault = () => {
-        // setAuthorOptions((currentOptions) => currentOptions.filter((currentOption) => !Array(authorVal).includes(currentOption.val)));
-        // authorFilter(undefined);
         setAuthorVal('');
         authorFilter(undefined);
         setPublisherVal('');
@@ -88,6 +86,7 @@ function FilterPanel({isCategoryPage, authorFilter, publisherFilter ,categoryFil
         sortDirFilter(undefined);
         priceFilter(undefined);
         setChecked(5);
+        handleDefaultState(new Date());
     }
 
   return (

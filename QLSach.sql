@@ -138,8 +138,8 @@ GO
 
 CREATE TABLE [dbo].[DonHang](
 	[MaDonHang] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
-	[DaThanhToan] [smallint] NULL,
-	[TinhTrangGiaoHang] [bit] NULL,
+	[DaThanhToan] [bit] NULL,
+	[TinhTrangGiaoHang] [smallint] NULL,
 	[NgayDat] [date] NULL,
 	[NgayGiao] [date] NULL,
 	[MaKH] [int] NULL,

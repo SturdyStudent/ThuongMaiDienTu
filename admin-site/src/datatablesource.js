@@ -1,5 +1,5 @@
-import Switch from "react-switch";
 import { format } from 'date-fns'
+import './common.css'
 
 export const userColumns = [
   { field: "id", headerName: "id", width: 170 },
@@ -53,8 +53,34 @@ export const orderColumns = [
   { field: "MaKH", headerName: "Mã khách hàng", width: 130 },
   { field: "NgayDat", headerName: "Ngày đặt hàng", width: 140 },
   { field: "ThanhTien", headerName: "Trị giá", width: 110 },
-  { field: "TinhTrangGiaoHang", headerName: "Tình trạng giao hàng", width: 170 },
-  { field: "DaThanhToan", headerName: "Đã thanh toán", width: 120 },
+  { field: "TinhTrangGiaoHang", headerName: "Tình trạng giao hàng", width: 170, renderCell: (params) => {
+    return (
+      <div className={`orderStatus status${String(params.row.TinhTrangGiaoHang)}`}>
+        {
+          (Number(params.row.TinhTrangGiaoHang) === 0 ) ? 
+          'Không giao/ hủy đơn' : 
+          (Number(params.row.TinhTrangGiaoHang) === 1 ) ? 
+          'Đặt hàng thành công' : 
+          (Number(params.row.TinhTrangGiaoHang) === 2 ) ? 
+          'Đã duyệt đơn' : 
+          (Number(params.row.TinhTrangGiaoHang) === 3 ) ?
+          'Đang giao' : 
+          (Number(params.row.TinhTrangGiaoHang) === 4 ) ?
+          'Giao thành công' : null
+        }
+      </div>
+    );
+  }},
+  { field: "DaThanhToan", headerName: "Đã thanh toán", width: 130, renderCell: function (params){
+    return (
+      <div className={`orderStatus payment${String(params.row.DaThanhToan)}`}>
+        {
+          (Number(params.row.DaThanhToan) === 0 ) ?
+          'Chưa thanh toán' : 'Đã thanh toán' 
+        }
+      </div>
+    )
+  }},
   { field: "NgayGiao", headerName: "Ngày giao hàng", width: 170 },
   { field: "TenNguoiNhan", headerName: "Tên người nhận", width: 170 },
   { field: "DiaChiGiao", headerName: "Địa chỉ nhận", width: 300 },
@@ -62,23 +88,43 @@ export const orderColumns = [
   { field: "HinhThucThanhToan", headerName: "Hình thức thanh toán", width: 170 },
   { field: "HinhThucGiaoHang", headerName: "Hình thức giao hàng", width: 170 },
   { field: "IDVoucher", headerName: "ID Voucher", width: 170 },
-  { field: "MaNV", headerName: "Nhân viên giao", width: 170 },
-  {
-    field: "DaDuyet", headerName: "Đã duyệt", width: 100, renderCell: (params) => {
-      return (
-        <div className={`cellWithStatus ${params.row.isApproved}`}>
-          {<Switch checked={params.row.isApproved} />}
-        </div>
-      );
-    },
-  },
+  { field: "MaNV", headerName: "Nhân viên giao", width: 170 }
+]
+
+export const transportColumns = [
+  { field: "id", headerName: "Mã đơn hàng", width: 100 },
+  { field: "MaKH", headerName: "Mã khách hàng", width: 130 },
+  { field: "NgayDat", headerName: "Ngày đặt hàng", width: 140 },
+  { field: "ThanhTien", headerName: "Trị giá", width: 110 },
+  { field: "TinhTrangGiaoHang", headerName: "Tình trạng giao hàng", width: 170, renderCell: (params) => {
+    return (
+      <div className={`orderStatus status${String(params.row.TinhTrangGiaoHang)}`}>
+        {
+          (Number(params.row.TinhTrangGiaoHang) === 0 ) ? 
+          'Không giao/ hủy đơn' : 
+          (Number(params.row.TinhTrangGiaoHang) === 2 ) ? 
+          'Đã duyệt đơn' : 
+          (Number(params.row.TinhTrangGiaoHang) === 3 ) ?
+          'Đang giao' : 
+          (Number(params.row.TinhTrangGiaoHang) === 4 ) ?
+          'Giao thành công' : null
+        }
+      </div>
+    );
+  }},
+  { field: "NgayGiao", headerName: "Ngày giao hàng", width: 170 },
+  { field: "TenNguoiNhan", headerName: "Tên người nhận", width: 170 },
+  { field: "DiaChiGiao", headerName: "Địa chỉ nhận", width: 300 },
+  { field: "DienThoaiNguoiNhan", headerName: "Điện thoại nhận", width: 170 },
+  { field: "HinhThucThanhToan", headerName: "Hình thức thanh toán", width: 170 },
+  { field: "HinhThucGiaoHang", headerName: "Hình thức giao hàng", width: 170 },
+  { field: "IDVoucher", headerName: "ID Voucher", width: 170 }
 ]
 
 export const bookColumns = [
   { field: "id", headerName: "Mã sách", width: 70 },
   { field: "TenSach", headerName: "Tên sách", width: 170 },
   { field: "GiaBan", headerName: "Giá bán", width: 100 },
-  // { field: "MoTa", headerName: "Mô tả Nội dung", width: 200 },
   {
     field: "AnhBia", headerName: "Ảnh bìa", width: 70,
     renderCell: (params) => {

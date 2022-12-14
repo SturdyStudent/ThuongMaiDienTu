@@ -25,6 +25,25 @@ exports.employeeList = [
     }
 ];
 
+exports.deliveredEmployeeList = [
+    function (req, res) {
+        let employees;
+        try {
+            const waitPool = async () => {
+                let pool = await sql.connect(config);
+                employees = await pool.request()
+                    .execute('SelectAllDeliveredNhanVien');
+                return employees;
+            }
+            waitPool().then((result) => {
+                return apiResponse.successResponseWithData(res, "Lấy danh sách nhân viên giao hàng thành công", result.recordsets[0]);
+            }).catch(err => { return apiResponse.ErrorResponse(res, err) });
+        } catch (err) {
+            return apiResponse.ErrorResponse(res, err);
+        }
+    }
+];
+
 exports.employeeLogin = [
     body("Email").isLength({ min: 4 }).trim().withMessage("Email phải được định nghĩa rõ.")
     .isEmail().withMessage("Email phải đúng định dạng.").normalizeEmail(),

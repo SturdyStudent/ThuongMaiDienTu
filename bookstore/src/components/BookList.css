@@ -2,7 +2,10 @@
     display: flex;
     justify-content: center;
 }
-
+.swiper{
+    min-width: 76vw;
+    position: relative;
+}
 .list-item {
     margin-left: 2vw;
     margin-right: 2vw;

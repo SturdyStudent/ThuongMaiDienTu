@@ -19,6 +19,7 @@ function SearchResults({category}) {
     const [sortDirFilter, setSortDirFilter] = useState();
     const [priceFilter, setPriceFilter] = useState();
     const [categoryTitle, setCategoryTitle] = useState();
+    const [defaultState, setDefaultState] = useState();
 
     const handleAuthorFilter = (authorVal) => {
         setAuthorFilter(authorVal);
@@ -35,8 +36,9 @@ function SearchResults({category}) {
     const handleSortDirFilter = (authorVal) => {
         setSortDirFilter(authorVal);
     }
-
-    console.log("current Category", categoryFilter);
+    const handleDefaultState = (val) => {
+        setDefaultState(val);
+    }
 
     const searchTerm = useSelector(state => state.searchTerm);
     useEffect(() => {
@@ -54,7 +56,7 @@ function SearchResults({category}) {
                 setTempItems(result.data.data);
             })
         }
-    }, [searchTerm, category]);
+    }, [searchTerm, category, defaultState]);
 
     const filterAuthor = (array) => {
         if(authorFilter !== undefined){
@@ -73,7 +75,8 @@ function SearchResults({category}) {
     const filterCategory = (array) => {
         if(categoryFilter !== undefined){
             return array.filter(item => item.MaChuDe === categoryFilter);
-        }else if(category !== null){
+        }else if(category !== undefined){
+            console.log(category);
             return array.filter(item => item.MaChuDe === category);
         }
         return array;
@@ -113,7 +116,6 @@ function SearchResults({category}) {
 
     useEffect(() => {
         //tạo biến trữ lại cài search mà không thay đổi, xong load lại thì load lại cái 
-        setTempItems(items);
         let filteredItems = items;
         filteredItems = filterAuthor(filteredItems);
         filteredItems = filterPublisher(filteredItems);
@@ -148,7 +150,7 @@ function SearchResults({category}) {
             </div> : null}
             <div className='d-flex flex-row'>
                 <div>
-                    <FilterPanel isCategoryPage={(category !== undefined)} authorState={authorFilter} publisherState={publisherFilter} categoryState={categoryFilter} sortDirState={sortDirFilter} authorFilter={handleAuthorFilter} publisherFilter={handlePublisherFilter} categoryFilter={handleCategoryFilter} priceFilter={handlePriceFilter} sortDirFilter={handleSortDirFilter} />
+                    <FilterPanel handleDefaultState={handleDefaultState} isCategoryPage={(category !== undefined)} authorState={authorFilter} publisherState={publisherFilter} categoryState={categoryFilter} sortDirState={sortDirFilter} authorFilter={handleAuthorFilter} publisherFilter={handlePublisherFilter} categoryFilter={handleCategoryFilter} priceFilter={handlePriceFilter} sortDirFilter={handleSortDirFilter} />
                 </div>
                 <div>
                     <h3 className='justify-content-left d-flex mt-3 ms-5' >

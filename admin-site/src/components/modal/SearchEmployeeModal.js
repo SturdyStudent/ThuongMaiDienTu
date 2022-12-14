@@ -22,7 +22,7 @@ export default function SearchEmployeeModal({ changeSelectedEmployee, callbackSe
     }
 
     useEffect(() => {
-        axios.get(`${BaseUrl}/employee`)
+        axios.get(`${BaseUrl}/employee/deliver`)
             .then(employees => {
                 setemployeeList(employees.data.data);
             })

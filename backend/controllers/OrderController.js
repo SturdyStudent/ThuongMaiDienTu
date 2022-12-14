@@ -23,7 +23,108 @@ exports.orderList = [
         }
     }
 ];
-
+exports.orderListByUser = [
+    function (req, res) {
+        let orders;
+        try {
+            const waitPool = async () => {
+                let pool = await sql.connect(config);
+                orders = await pool.request()
+                    .input('MaKH', sql.Int, req.params.id)
+                    .execute('SelectAllDonHangByUser');
+                return orders;
+            }
+            waitPool().then((result) => {
+                return apiResponse.successResponseWithData(res, "Lấy danh sách đơn hàng thành công", result.recordsets[0]);
+            }).catch(err => { return apiResponse.ErrorResponse(res, err) });
+        } catch (err) {
+            return apiResponse.ErrorResponse(res, err);
+        }
+    }
+];
+exports.updateDeliveryState = [
+    body("TinhTrangDonHang").notEmpty().withMessage("Không được bỏ trống tình trạng đơn hàng"),
+    body("NgayGiao").notEmpty().withMessage("Không được bỏ trống ngày giao"),
+    body("*").escape(),
+    (req, res) => {
+        try {
+            const errors = validationResult(req);
+            let addedUser;
+            if (!errors.isEmpty()) {
+                return apiResponse.validationErrorWithData(res, "Lỗi", errors.array());
+            } else {
+                const waitPool = async () => {
+                    let pool = await sql.connect(config);
+                    addedUser = await pool.request()
+                        .input('TinhTrangDonHang', sql.SmallInt, req.body.TinhTrangDonHang)
+                        .input('NgayGiao', sql.Date, req.body.NgayGiao)
+                        .input('MaDonHang', sql.Int, req.params.id)
+                        .execute('UpdateDeliveryState')
+                    return addedUser;
+                }
+                waitPool()
+                    .then((data) => {
+                    return apiResponse.successResponseWithData(res, "Cập nhật tình trạng giao hàng thành công", data.recordsets[0]);
+                }).catch(err => apiResponse.ErrorResponse(res, err));
+            }
+        } catch (err) {
+            return apiResponse.ErrorResponse(res, err);
+        }
+    }
+]
+exports.orderListForTransport = [
+    (req, res) => {
+        try {
+            const errors = validationResult(req);
+            let addedUser;
+            if (!errors.isEmpty()) {
+                return apiResponse.validationErrorWithData(res, "Lỗi", errors.array());
+            } else {
+                const waitPool = async () => {
+                    let pool = await sql.connect(config);
+                    addedUser = await pool.request()
+                        .input('MaNV', sql.Int, req.params.id)
+                        .execute('SelectAllDonHangForTransport')
+                    return addedUser;
+                }
+                waitPool()
+                    .then((data) => {
+                    return apiResponse.successResponseWithData(res, "Lấy danh sách đơn hàng cần giao thành công", data.recordsets[0]);
+                }).catch(err => apiResponse.ErrorResponse(res, err));
+            }
+        } catch (err) {
+            return apiResponse.ErrorResponse(res, err);
+        }
+    }
+]
+exports.sendOrderApproveState = [
+    body("ChoPhepDuyet").notEmpty().withMessage("Không được bỏ trống cho phép duyệt"),
+    body("*").escape(),
+    (req, res) => {
+        try {
+            const errors = validationResult(req);
+            let addedUser;
+            if (!errors.isEmpty()) {
+                return apiResponse.validationErrorWithData(res, "Lỗi", errors.array());
+            } else {
+                const waitPool = async () => {
+                    let pool = await sql.connect(config);
+                    addedUser = await pool.request()
+                        .input('ChoPhepDuyet', sql.SmallInt, req.body.ChoPhepDuyet)
+                        .input('MaDonHang', sql.Int, req.params.id)
+                        .execute('DuyetDonHang')
+                    return addedUser;
+                }
+                waitPool()
+                    .then((data) => {
+                    return apiResponse.successResponseWithData(res, "Duyệt đơn hàng thành công", data.recordsets[0]);
+                }).catch(err => apiResponse.ErrorResponse(res, err));
+            }
+        } catch (err) {
+            return apiResponse.ErrorResponse(res, err);
+        }
+    }
+]
 /* lấy đơn hàng theo Id */
 exports.orderItemId = [
     function (req, res) {
@@ -215,9 +316,24 @@ exports.orderUpdate = [
                     Chitiet_donhang_type.rows.add(item.MaSach, item.SoLuong, item.DonGia);
                 })
 
+                let Order = {
+                    DaThanhToan: req.body.DaThanhToan,
+                    TinhTrangGiaoHang: req.body.TinhTrangGiaoHang,
+                    NgayDat: req.body.NgayDat,
+                    MaKH: req.body.MaKH,
+                    TenNguoiNhan: req.body.TenNguoiNhan,
+                    DienThoaiNguoiNhan: req.body.DienThoaiNguoiNhan,
+                    DiaChiGiao: req.body.DiaChiGiao,
+                    HinhThucThanhToan: req.body.HinhThucThanhToan,
+                    HinhThucGiaoHang: req.body.HinhThucGiaoHang,
+                    IDVoucher: req.body.IDVoucher,
+                    ThanhTien: req.body.ThanhTien
+                }
+
                 const waitPool = async () => {
                     let pool = await sql.connect(config);
                     updatedOrder = await pool.request()
+                        .input('MaDonHang', sql.Int, req.params.id)
                         .input('DaThanhToan', sql.Bit, Order.DaThanhToan)
                         .input('TinhTrangGiaoHang', sql.SmallInt, Order.TinhTrangGiaoHang)
                         .input('NgayDat', sql.Date, Order.NgayDat)
@@ -229,16 +345,20 @@ exports.orderUpdate = [
                         .input('HinhThucGiaoHang', sql.NVarChar(50), Order.HinhThucGiaoHang)
                         .input('ThanhTien', sql.Money, Order.ThanhTien)
                         .input('MaNV', sql.Int, req.body.MaNV)
+                        .input('IDVoucher', sql.Int, req.body.IDVoucher)
                         .input('ChiTietDH', sql.TYPES.TVP, Chitiet_donhang_type)
                         .execute('UpdateDonHang');
                     return updatedOrder;
                 }
                 waitPool().then((data) => {
                     return apiResponse.successResponseWithData(res, "Sửa đơn hàng thành công", data.recordsets[0]);
-                }).catch(err => { return apiResponse.ErrorResponse(res, err) });
+                }).catch(err => { 
+                    console.log("detail", err);
+                    return apiResponse.ErrorResponse(res, err);
+                });
             }
         } catch (err) {
-            //throw error in json response with status 500. 
+            console.log("500", err);
             return apiResponse.ErrorResponse(res, err);
         }
     }

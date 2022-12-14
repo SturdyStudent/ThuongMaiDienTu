@@ -14,6 +14,7 @@ import NewCategory from './pages/Category/New'
 import UserEdit from "./pages/users/Edit";
 import VoucherEdit from './pages/vouchers/Edit'
 import RatingEdit from './pages/ratings/Edit'
+import TransportEdit from './pages/transport/Edit'
 import OrderEdit from './pages/order/Edit'
 import AuthorEdit from './pages/Author/Edit'
 import BookEdit from './pages/books/Edit'
@@ -22,6 +23,7 @@ import CategoryEdit from './pages/Category/Edit'
 import VoucherList from "./pages/list/voucherList";
 import RatingList from './pages/list/ratingList';
 import OrderList from './pages/list/orderList';
+import TransportList from './pages/list/transportList';
 import AuthorList from './pages/list/authorList'
 import BookList from './pages/list/bookList'
 import CategoryList from './pages/list/categoryList'
@@ -92,6 +94,13 @@ function App() {
                 <Route
                   path="edit"
                   element={<OrderEdit title="Sửa thông tin Đơn hàng" />}
+                />
+              </Route>
+              <Route path='transports'>
+                <Route index element={<TransportList />} />
+                <Route
+                  path="edit"
+                  element={<TransportEdit title="Cập nhật thông tin Đơn hàng" />}
                 />
               </Route>
               <Route path='authors'>

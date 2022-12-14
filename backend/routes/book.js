@@ -7,6 +7,7 @@ const router = express.Router();
 router.get('/', BookController.bookList);
 router.get('/:id', BookController.bookListById);
 router.get('/category/:id', BookController.findBookByCategory);
+router.get('/cover/:id', BookController.findBookCoverById);
 router.get('/orderedBooks/:orderId', BookController.bookListByOrderId);
 router.get('/bestseller/:limit', BookController.bookListBySales);
 router.get('/mostviewed/:limit', BookController.bookListByViews);

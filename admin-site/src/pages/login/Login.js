@@ -33,12 +33,16 @@ function PartnerLoginPage() {
       if (res.status === 200) {
         auth.login(() => {
           localStorage.setItem("loggedIn", true);
+          localStorage.setItem("LOGIN_INFORMATION", JSON.stringify(res.data.data));
           setRedirect(true);
         })
       } else {
         alert("Nhập sai tên đăng nhập hoặc mật khẩu");
       }
-    }).catch(() => setErrAlert('Tài khoản hoặc mật khẩu không trùng khớp'))
+    }).catch((err) => {
+      setErrAlert('Tài khoản hoặc mật khẩu không trùng khớp');
+      console.log(err);
+    })
 
     e.preventDefault();
   }
