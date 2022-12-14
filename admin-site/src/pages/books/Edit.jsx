@@ -47,7 +47,7 @@ const Edit = ({ title }) => {
         id = location.state.id;
     } catch (err) {
     }
-console.log(id);
+
     const focusField = useRef();
     useEffect(() => {
         focusField.current.focus();

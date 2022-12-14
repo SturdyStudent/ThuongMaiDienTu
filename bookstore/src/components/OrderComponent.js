@@ -47,7 +47,7 @@ function OrderComponent({orderItem, currentDeliveryState, handleEmptyOder}) {
                                 </div>
                                 <div className='col-md-3 text-end'>
                                     <h5>{Number(item.DonGia).toLocaleString()}đ</h5><br />
-                                    <Link to={'/order/view'} style={{ "textDecoration": "none" }}>
+                                    <Link to={'/order/view/'} state={{id: orderItem.MaDonHang}} style={{ "textDecoration": "none" }}>
                                         <button type='button' className=' border-0 btn btn-primary'>Xem chi tiết</button>
                                     </Link>
                                 </div>

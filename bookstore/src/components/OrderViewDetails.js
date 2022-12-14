@@ -13,6 +13,7 @@ import vi from 'date-fns/locale/vi'
 import axios from 'axios'
 import { baseUrl, loadImageUrl } from '../baseUrl'
 import format from 'date-fns/format'
+import { useLocation, useParams } from 'react-router-dom'
 
 function OrderViewDetails() {
     const stripe = useStripe();
@@ -25,7 +26,7 @@ function OrderViewDetails() {
     const [successNotification, setSuccessNotification] = useState(false);
     const [failureNotification, setFailureNotification] = useState(false);
 
-    const [receiverName, setReceiverName] = useState('');
+    const [receiverName, setReceiverName] = useState('Đang cập nhật');
     const [receiverAddress, setReceiverAddress] = useState('');
     const [receiverPhone, setReceiverPhone] = useState('');
     const [deliverMethod, setDeliverMethod] = useState('');
@@ -37,67 +38,81 @@ function OrderViewDetails() {
     useEffect(() => {
         if (!stripe) {
             return;
-        }
-
-        const clientSecret = new URLSearchParams(window.location.search).get(
-            "payment_intent_client_secret"
-        );
-        localStorage.setItem("secrets", clientSecret);
-        if (!clientSecret) {
-            return;
-        }
-
-        stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
-            switch (paymentIntent.status) {
-                case "succeeded":
-                    setSuccessNotification(true);
-                    dispatch(actOrderSetState({
-                        TenNguoiNhan: null,
-                        DienThoaiNguoiNhan: null,
-                        DiaChiGiao: null
-                    }));
-                    setOrderId(localStorage.getItem('ORDER_ID'))
-                    localStorage.setItem("CART_ITEMS", []);
-                    break;
-                case "requires_payment_method":
-                    setFailureNotification(true);
-                    dispatch(actOrderSetState({
-                        TenNguoiNhan: null,
-                        DienThoaiNguoiNhan: null,
-                        DiaChiGiao: null
-                    }));
-                    break;
-                default:
-                    setFailureNotification(true);
-                    dispatch(actOrderSetState({
-                        TenNguoiNhan: null,
-                        DienThoaiNguoiNhan: null,
-                        DiaChiGiao: null
-                    }));
-                    break;
+        }else if(stripe){
+            const clientSecret = new URLSearchParams(window.location.search).get(
+                "payment_intent_client_secret"
+            );
+            localStorage.setItem("secrets", clientSecret);
+            if (!clientSecret) {
+                return;
             }
-        });
+    
+            stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
+                switch (paymentIntent.status) {
+                    case "succeeded":
+                        setSuccessNotification(true);
+                        dispatch(actOrderSetState({
+                            TenNguoiNhan: null,
+                            DienThoaiNguoiNhan: null,
+                            DiaChiGiao: null
+                        }));
+                        setOrderId(localStorage.getItem('ORDER_ID'))
+                        localStorage.setItem("CART_ITEMS", []);
+                        break;
+                    case "requires_payment_method":
+                        setFailureNotification(true);
+                        dispatch(actOrderSetState({
+                            TenNguoiNhan: null,
+                            DienThoaiNguoiNhan: null,
+                            DiaChiGiao: null
+                        }));
+                        break;
+                    default:
+                        setFailureNotification(true);
+                        dispatch(actOrderSetState({
+                            TenNguoiNhan: null,
+                            DienThoaiNguoiNhan: null,
+                            DiaChiGiao: null
+                        }));
+                        break;
+                }
+            });
+        }
     }, [stripe, dispatch]);
+
+    const location = useLocation();
+    let id = null;
+    try {
+        id = location.state.id;
+    } catch (err) {
+    }
+
+    useEffect(() => {
+        if(id){
+            setOrderId(id);
+        }
+    }, [id])
 
     useEffect(() => {
         axios.get(`${baseUrl}/order/${orderId}`)
             .then(result => {
                 const orderData = result.data.data[0];
-                setReceiverName(orderData.TenNguoiNhan);
-                setReceiverAddress(orderData.DiaChiGiao);
-                setReceiverPhone(orderData.DienThoaiNguoiNhan);
-                setPaymentMethod(orderData.HinhThucThanhToan);
-                setDeliverMethod(orderData.HinhThucGiaoHang);
-                setDeliverDate(format(new Date(orderData.NgayGiao), "iii, dd 'Tháng' MM yyyy",{
-                    locale: vi
-                }));
-                setTotal(orderData.ThanhTien)
+                if(orderData){
+                    setReceiverName(orderData.TenNguoiNhan);
+                    setReceiverAddress(orderData.DiaChiGiao);
+                    setReceiverPhone(orderData.DienThoaiNguoiNhan);
+                    setPaymentMethod(orderData.HinhThucThanhToan);
+                    setDeliverMethod(orderData.HinhThucGiaoHang);
+                    setDeliverDate(format(new Date(orderData.NgayGiao), "iii, dd 'Tháng' MM yyyy",{
+                        locale: vi
+                    }));
+                    setTotal(orderData.ThanhTien)
+                }
             })
 
         axios.get(`${baseUrl}/orderDetail/${orderId}`)
             .then(result => {
                 const orderDetailData = result.data.data;
-                console.log(orderDetailData);
                 setBookId(orderDetailData.MaSach);
                 setOrderDetails(orderDetailData);
             })
@@ -161,9 +176,9 @@ function OrderViewDetails() {
                         </div>
                         <div className="blockquote-custom-icon bg-info shadow-sm"><i className="fa fa-quote-left text-white"></i></div>
                         <div className=" pt-4 mt-4 border-top">
-                        {(Array(orderDetails).length !== 0) ? orderDetails.map(item => {
+                        {(Array(orderDetails).length !== 0) ? orderDetails.map((item, index) => {
                             return (
-                                <>
+                                <div key={index}>
                                      <div className='row'>
                                         <div className='col-md-2 d-flex justify-content-center' >
                                             <div className='book-detail-cover-view'>
@@ -188,7 +203,7 @@ function OrderViewDetails() {
                                             <h6>{Number(item.DonGia).toLocaleString()}đ</h6><br />
                                         </div>
                                     </div>
-                                </>
+                                </div>
                             )
                         }) : null}
                            

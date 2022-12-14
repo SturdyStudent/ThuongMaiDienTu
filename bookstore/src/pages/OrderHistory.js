@@ -52,10 +52,12 @@ function OrderHistory() {
     }, [loginToken])
 
     useEffect(() => {
-        axios.get(`${baseUrl}/order/user/${userId}`)
+        if(userId !== undefined){
+            axios.get(`${baseUrl}/order/user/${userId}`)
             .then((result) => {
                 setOrders(result.data.data);
             })
+        }
     }, [userId])
 
     return (

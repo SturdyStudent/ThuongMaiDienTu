@@ -46,7 +46,7 @@ function Header() {
             }).then((res) => {
                 if (res.data.auth === true) {
                     dispatch(actLogin(res.data.id));
-                    auth.login();
+                    auth.login(() => {});
                 }
             })
         }
