@@ -16,6 +16,22 @@ Các phần đang hoàn thiện:
 * Mã khuyến mãi khách hàng.
 * Chat online với khách hàng.
 ### SCREEN SHOTS CỦA DỰ ÁN
+***Trang chủ***
+
+![image](https://user-images.githubusercontent.com/99642423/220072447-2a4c8f1c-7855-4a03-9a62-f929808b080b.png)
+
+***Trang chi tiết sản phẩm***
+
+![image](https://user-images.githubusercontent.com/99642423/220073230-fb612634-b093-444e-abbf-62c789e19ec1.png)
+
+***Trang tìm kiếm sản phẩm***
+
+![image](https://user-images.githubusercontent.com/99642423/220073301-91a7243f-f4e5-4237-b1c9-2f019455f28e.png)
+
+***Trang đơn hàng đã mua***
+
+![image](https://user-images.githubusercontent.com/99642423/220073411-3826d56a-cf7d-40ea-a607-27486ea1a20d.png)
+
 ### HƯỚNG DẪN SETUP VÀ CÀI ĐẶT
 Đầu tiên clone repository này về máy bằng git, sau đó vào thư mục chứa file bằng visual studio code.
 Cài đặt:
