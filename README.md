@@ -33,7 +33,11 @@ Các phần đang hoàn thiện:
 ![image](https://user-images.githubusercontent.com/99642423/220073411-3826d56a-cf7d-40ea-a607-27486ea1a20d.png)
 
 ### HƯỚNG DẪN SETUP VÀ CÀI ĐẶT
-Đầu tiên clone repository này về máy bằng git, sau đó vào thư mục chứa file bằng visual studio code.
+Đầu tiên clone repository này về máy bằng lệnh:
+```
+git clone -branch Hosting_v1.0 https://github.com/SturdyStudent/ThuongMaiDienTu.git
+```
+Vào thư mục chứa file bằng visual studio code.
 Cài đặt:
 1/ Đầu tiên cài đặt backend node trước để chạy dự án, vào bằng lệnh
 ```
