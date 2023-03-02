@@ -35,7 +35,7 @@ Các phần đang hoàn thiện:
 ### HƯỚNG DẪN SETUP VÀ CÀI ĐẶT
 Đầu tiên clone repository này về máy bằng lệnh:
 ```
-git clone -branch Hosting_v1.0 https://github.com/SturdyStudent/ThuongMaiDienTu.git
+git clone -b Hosting_v1.0 https://github.com/SturdyStudent/ThuongMaiDienTu.git
 ```
 Vào thư mục chứa file bằng visual studio code.
 Cài đặt:
