@@ -15,6 +15,8 @@ Dự án hiện vẫn đang trong giai đoạn phát triển, các tính năng c
 Các phần đang hoàn thiện:
 * Mã khuyến mãi khách hàng.
 * Chat online với khách hàng.
+### TÀI KHOẢN TEST
+* Email/pass: thanhdat5101@gmail.com/Huflit123
 ### SCREEN SHOTS CỦA DỰ ÁN
 ***Trang chủ***
 
